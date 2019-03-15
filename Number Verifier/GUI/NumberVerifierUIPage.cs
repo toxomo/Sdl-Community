@@ -1,18 +1,17 @@
-﻿using Sdl.Community.NumberVerifier.Interfaces;
-using Sdl.Core.Settings;
+﻿using Sdl.Core.Settings;
 
 using Sdl.Verification.Api;
 
 namespace Sdl.Community.NumberVerifier
 {
-    /// <summary>
-    /// This is the extension class that displays and controls the plug-in user interface,
-    /// in which the verification setting(s) can be specified. This class is responsible for
-    /// e.g. saving the setting(s) configured in the UI, for resetting the values to their defaults,
-    /// and for properly disposing of the UI control.
-    /// </summary>
-    #region "Declaration"
-    [GlobalVerifierSettingsPage(
+	/// <summary>
+	/// This is the extension class that displays and controls the plug-in user interface,
+	/// in which the verification setting(s) can be specified. This class is responsible for
+	/// e.g. saving the setting(s) configured in the UI, for resetting the values to their defaults,
+	/// and for properly disposing of the UI control.
+	/// </summary>
+	#region "Declaration"
+	[GlobalVerifierSettingsPage(
     Id = "Number Settings Definition ID",
     Name = "Number Verifier Settings",
     Description = "The settings for the number verifier.",
@@ -98,6 +97,7 @@ namespace Sdl.Community.NumberVerifier
             _Control.GetSourceDecimalCustomSeparator= _ControlSettings.GetSourceDecimalCustomSeparator;
             _Control.GetTargetDecimalCustomSeparator= _ControlSettings.GetTargetDecimalCustomSeparator;
 			_Control.GetAlphanumericsCustomSeparator = _ControlSettings.GetAlphanumericsCustomSeparator;
+			_Control.TargetFileSettings = _ControlSettings.TargetFileSettings;
 		}
 
         #endregion
@@ -203,7 +203,8 @@ namespace Sdl.Community.NumberVerifier
             _ControlSettings.Reset("GetTargetDecimalCustomSeparator");
 			_Control.GetAlphanumericsCustomSeparator = _ControlSettings.GetAlphanumericsCustomSeparator;
 			_ControlSettings.Reset("GetAlphanumericsCustomSeparator");
-
+			_Control.TargetFileSettings = _ControlSettings.TargetFileSettings;
+			_ControlSettings.Reset("TargetFileSettings");
 		}
 		#endregion
 
@@ -271,7 +272,7 @@ namespace Sdl.Community.NumberVerifier
             _ControlSettings.GetSourceDecimalCustomSeparator = _Control.GetSourceDecimalCustomSeparator;
             _ControlSettings.GetTargetDecimalCustomSeparator = _Control.GetTargetDecimalCustomSeparator;
 			_ControlSettings.GetAlphanumericsCustomSeparator = _Control.GetAlphanumericsCustomSeparator;
-
+			_ControlSettings.TargetFileSettings = _Control.TargetFileSettings;
 		}
 
 		#endregion
@@ -328,6 +329,7 @@ namespace Sdl.Community.NumberVerifier
 			_ControlSettings.GetTargetDecimalCustomSeparator = _Control.GetTargetDecimalCustomSeparator;
 			_ControlSettings.GetAlphanumericsCustomSeparator = _Control.GetAlphanumericsCustomSeparator;
 			_ControlSettings.HindiNumberVerification = _Control.HindiNumberVerification;
+			_ControlSettings.TargetFileSettings = _Control.TargetFileSettings;
 		}
 
 		// Call EndEdit after all changes have been saved in the Save() call.

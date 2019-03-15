@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,6 +15,7 @@ using Sdl.Core.Globalization;
 using Sdl.Core.Settings;
 using Sdl.FileTypeSupport.Framework.BilingualApi;
 using Sdl.FileTypeSupport.Framework.NativeApi;
+using Sdl.ProjectAutomation.FileBased;
 using Sdl.TranslationStudioAutomation.IntegrationApi;
 using Sdl.Verification.Api;
 
@@ -34,7 +36,7 @@ namespace Sdl.Community.NumberVerifier
 		private bool _omitLeadingZero;
 		private INumberVerifierSettings _verificationSettings;
 		private string _language;
-
+		private string _fileName;
 		#endregion
 
 		public NumberVerifierMain() : this(null)
@@ -212,11 +214,19 @@ namespace Sdl.Community.NumberVerifier
 		private string _targetThousandSeparators = string.Empty;
 		private string _targetDecimalSeparators = string.Empty;
 		private string _alphanumericsCustomSeparators = string.Empty;
+		private TargetFileSetting _targetFileSettings = new TargetFileSetting();
 
 		private bool _isSource;
 
 		public void Initialize(IDocumentProperties documentInfo)
 		{
+			_fileName = Path.GetFileName(documentInfo.LastOpenedAsPath);
+			var projectController = GetProjectController();
+			if (projectController != null)
+			{
+				//SetSettingsGroups(projectController.CurrentProject);
+			}
+
 			_sourceMatchingThousandSeparators = string.Concat(VerificationSettings.GetSourceThousandSeparators());
 			_targetMatchingThousandSeparators = string.Concat(VerificationSettings.GetTargetThousandSeparators());
 			_sourceMatchingDecimalSeparators = string.Concat(VerificationSettings.GetSourceDecimalSeparators());
@@ -227,7 +237,6 @@ namespace Sdl.Community.NumberVerifier
 			_targetMatchingDecimalSeparators += VerificationSettings.TargetDecimalCustomSeparator
 				? VerificationSettings.GetTargetDecimalCustomSeparator
 				: string.Empty;
-
 
 			//used in NoSeparator method, we need the character chosed not the code.
 			_sourceThousandSeparators += VerificationSettings.SourceThousandsSpace ? " " : string.Empty;
@@ -264,7 +273,6 @@ namespace Sdl.Community.NumberVerifier
 			   ? VerificationSettings.GetAlphanumericsCustomSeparator
 			   : string.Empty;
 		}
-
 		#endregion
 
 		#region "process"
@@ -504,10 +512,10 @@ namespace Sdl.Community.NumberVerifier
 			var numberResults = new NumberResults(VerificationSettings,
 				sourceNumberList,
 				targetNumberList, sourceText, targetText);
-			
+
 			var numberErrorComposer = new NumberErrorComposer();
 			var verifyProcessor = numberErrorComposer.Compose();
-						
+
 			return verifyProcessor.Verify(numberResults);
 		}
 
@@ -530,11 +538,11 @@ namespace Sdl.Community.NumberVerifier
 			if (_verificationSettings.HindiNumberVerification)
 			{
 				var _projectController = GetProjectController();
-				if(_projectController.CurrentProject != null)
+				if (_projectController.CurrentProject != null)
 				{
 					var projectInfo = _projectController.CurrentProject.GetProjectInfo();
 					var sourceLanguage = projectInfo.SourceLanguage.DisplayName;
-					if(sourceLanguage == "Hindi (India)" || projectInfo.TargetLanguages.Any(l=>l.DisplayName == "Hindi (India)"))
+					if (sourceLanguage == "Hindi (India)" || projectInfo.TargetLanguages.Any(l => l.DisplayName == "Hindi (India)"))
 					{
 						var result = GetTargetFromHindiNumbers(sourceText, targetText);
 
@@ -548,7 +556,7 @@ namespace Sdl.Community.NumberVerifier
 					{
 						errorsListFromNormalizedNumbers = CheckNumbers(sourceText, targetText);
 					}
-				}			
+				}
 			}
 			else
 			{
@@ -558,9 +566,9 @@ namespace Sdl.Community.NumberVerifier
 			foreach (var error in errorsListFromAlphanumerics)
 			{
 				error.SourceNumberIssues = sourceText;
-				error.TargetNumberIssues = targetText;	
+				error.TargetNumberIssues = targetText;
 				errorListAlphanumericsResult.Add(error);
-			}			
+			}
 
 			errorList.AddRange(errorListAlphanumericsResult);
 			errorList.AddRange(errorsListFromNormalizedNumbers);
@@ -756,14 +764,14 @@ namespace Sdl.Community.NumberVerifier
 			ICollection<string> normalizedNumberCollection, string thousandSeparators, string decimalSeparators,
 			bool noSeparator, bool omitLeadingZero)
 		{
-			string[] shortFormats = {"d/M/yy", "dd/MM/yy", "d.M.yy", "dd.MM.yy", "dd/M/yy", "dd.M.yy"};
+			string[] shortFormats = { "d/M/yy", "dd/MM/yy", "d.M.yy", "dd.MM.yy", "dd/M/yy", "dd.M.yy" };
 
 			string[] longFormats = {"M/d/yyyy h:mm:ss tt", "M/d/yyyy h:mm tt",
 				   "MM/dd/yyyy hh:mm:ss", "M/d/yyyy h:mm:ss",
 				   "M/d/yyyy hh:mm tt", "M/d/yyyy hh tt",
 				   "M/d/yyyy h:mm", "M/d/yyyy h:mm",
 				   "MM/dd/yyyy hh:mm", "M/dd/yyyy hh:mm",
-				   
+
 				   "d/M/yyyy h:mm:ss tt", "d/M/yyyy h:mm tt",
 				   "dd/MM/yyyy hh:mm:ss", "d/M/yyyy h:mm:ss",
 				   "d/M/yyyy hh:mm tt", "d/M/yyyy hh tt",
@@ -777,7 +785,7 @@ namespace Sdl.Community.NumberVerifier
 				   "d.M.yyyy hh:mm tt", "d.M.yyyy hh tt",
 				   "d.M.yyyy h:mm", "d.M.yyyy h:mm"};
 
-			DateTime dateValue;			
+			DateTime dateValue;
 			if (DateTime.TryParseExact(text, shortFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateValue))
 			{
 				text = dateValue.ToString("dd/MM/yy");
@@ -1009,7 +1017,7 @@ namespace Sdl.Community.NumberVerifier
 					}
 					else
 					{
-						decimal.TryParse(numberElements[0].Normalize(NormalizationForm.FormKC), out thousandNumber);	
+						decimal.TryParse(numberElements[0].Normalize(NormalizationForm.FormKC), out thousandNumber);
 					}
 
 					//number must be >= 1000 to run no separator option
@@ -1116,14 +1124,14 @@ namespace Sdl.Community.NumberVerifier
 						var charIndex = w.IndexOf('<');
 						var wordReplace = w.Insert(charIndex, " ");
 						wRes = Regex.Split(wordReplace, @"\s");
-						
+
 					}
 					if (w.Contains('>'))
 					{
 						var charIndex = w.IndexOf('>');
 						var wordReplace = w.Insert(charIndex + 1, " ");
 						wRes = Regex.Split(wordReplace, @"\s");
-						
+
 					}
 					foreach (var r in wRes)
 					{
@@ -1260,7 +1268,7 @@ namespace Sdl.Community.NumberVerifier
 			return result;
 		}
 
-		private Dictionary<string,string> GetHindiNumbers()
+		private Dictionary<string, string> GetHindiNumbers()
 		{
 			Dictionary<string, string> hindiDictionary = new Dictionary<string, string>();
 			hindiDictionary.Add("0", "٠");
@@ -1337,6 +1345,44 @@ namespace Sdl.Community.NumberVerifier
 			}
 			return result;
 		}
+
+		/// <summary>
+		/// Set TargetFileSettings settings group to store the file name and last date time on which the Number Verification has been run.
+		/// </summary>
+		/// <param name="currentProject">current project</param>
+		private void SetSettingsGroups(FileBasedProject currentProject)
+		{
+			var targetFileSettingsResult = new List<TargetFileSetting>();
+			var settings = _sharedObjects.GetSharedObject<ISettingsBundle>("SettingsBundle");
+			var numberVerifierSettings = settings.GetSettingsGroup<NumberVerifierSettings>();
+
+			if (numberVerifierSettings.TargetFileSettings == null)
+			{
+				numberVerifierSettings.TargetFileSettings = new List<TargetFileSetting>();
+			}
+			else
+			{
+				targetFileSettingsResult = numberVerifierSettings.TargetFileSettings;
+				var fileSettings = targetFileSettingsResult.FirstOrDefault(f => f.FileName.Equals(_fileName));
+				if (fileSettings != null)
+				{
+					// Remove the old file settings
+					targetFileSettingsResult.Remove(fileSettings);
+					numberVerifierSettings.TargetFileSettings = new List<TargetFileSetting>();
+				}
+			}
+			var targetFileSetting = new TargetFileSetting
+			{
+				FileName = _fileName,
+				ExecutedDateTime = DateTime.UtcNow.ToString().ToString()
+			};
+			targetFileSettingsResult.Add(targetFileSetting);
+
+			numberVerifierSettings.TargetFileSettings = targetFileSettingsResult;
+			currentProject.UpdateSettings(settings);
+			currentProject.Save();
+		}
+
 		#endregion
 	}
 }

@@ -1,8 +1,10 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+using Sdl.Community.NumberVerifier.Model;
 
 namespace Sdl.Community.NumberVerifier
 {
-    public partial class NumberVerifierUI : UserControl
+	public partial class NumberVerifierUI : UserControl
     {
 
         public bool ReportAddedNumbers
@@ -303,8 +305,9 @@ namespace Sdl.Community.NumberVerifier
             this.VScroll = true;
         }
 
-       
-        private void rb_PreventLocalizations_CheckedChanged(object sender, System.EventArgs e)
+		public List<TargetFileSetting> TargetFileSettings { get; set; }
+
+		private void rb_PreventLocalizations_CheckedChanged(object sender, System.EventArgs e)
         {
            
 
