@@ -2,14 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Xml;
-using Newtonsoft.Json;
 using Sdl.Community.SignoffVerifySettings.Helpers;
 using Sdl.Community.SignoffVerifySettings.Model;
 using Sdl.Community.Toolkit.Core;
 using Sdl.ProjectAutomation.Core;
 using Sdl.ProjectAutomation.FileBased;
 using Sdl.TranslationStudioAutomation.IntegrationApi;
-using static System.Environment;
 
 namespace Sdl.Community.SignoffVerifySettings.Service
 {
