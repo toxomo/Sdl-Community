@@ -1353,16 +1353,11 @@ namespace Sdl.Community.NumberVerifier
 		/// <param name="currentProject">current project</param>
 		private void SetSettingsGroups(Language targetLanguage, FileBasedProject currentProject)
 		{
-			// To Do: fix the issue with overriding the added targetfile in .sdlproj
 			var targetFileSettingsResult = new List<TargetFileSetting>();
 			var settings = _sharedObjects.GetSharedObject<ISettingsBundle>("SettingsBundle");
 			var numberVerifierSettings = settings.GetSettingsGroup<NumberVerifierSettings>();
 
-			if (numberVerifierSettings.TargetFileSettings.Value == null)
-			{
-				numberVerifierSettings.TargetFileSettings.Value = new List<TargetFileSetting>();
-			}
-			else
+			if (numberVerifierSettings.TargetFileSettings.Value != null)
 			{
 				targetFileSettingsResult = numberVerifierSettings.TargetFileSettings.Value;
 				var fileSettings = targetFileSettingsResult.FirstOrDefault(f => f.FileName.Equals(_fileName));
