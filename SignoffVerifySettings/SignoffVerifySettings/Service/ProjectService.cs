@@ -27,8 +27,11 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		public ProjectService()
 		{
 			_utils = new Utils();
-			_projectsController = GetProjectController();			
-			_document = _utils.LoadXmlDocument(_projectsController != null ? _projectsController.CurrentProject != null? _projectsController.CurrentProject.FilePath : null : null);
+			_projectsController = GetProjectController();
+			_document = _utils.LoadXmlDocument(_projectsController != null ? _projectsController.CurrentProject != null
+										? _projectsController.CurrentProject.FilePath
+										: null
+										: null);
 		}
 		#endregion
 
@@ -270,18 +273,69 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		private List<NumberVerifierSettingsModel> GetNumberVerifierSettings()
 		{
 			var numberVerifierModels = new List<NumberVerifierSettingsModel>();
-			var numberVerifierSettingsNode = _document.SelectSingleNode($"//SettingsGroup[@Id='NumberVerifierSettings']");
-			if (numberVerifierSettingsNode != null)
+			var languageDirections = GetLanguageDirections();
+			foreach(var targetFile in _targetFiles)
 			{
-				var targetFileSettingsNode = numberVerifierSettingsNode.SelectSingleNode($"//Setting[@Id='TargetFileSettings']");
-				if(targetFileSettingsNode != null)
+				var fileLanguageDirection = languageDirections.Where(l => l.TargetLanguage.Equals(targetFile.LanguageCode)).FirstOrDefault();
+
+				if (fileLanguageDirection != null)
 				{
-					//var arrayOfTargetSettingNode = 
+					var settingsBundleNode = _document.SelectSingleNode($"//SettingsBundle[@Guid='{fileLanguageDirection.SettingsBundleGuid}']");
+					if (settingsBundleNode != null)
+					{
+						var numberVerSettingsGroupNode = settingsBundleNode.SelectSingleNode($"//SettingsGroup[@Id='NumberVerifierSettings']");
+						if (numberVerSettingsGroupNode != null)
+						{
+							var targetFileSettingsNode = numberVerSettingsGroupNode.SelectSingleNode($"//Setting[@Id='TargetFileSettings']");
+							if (targetFileSettingsNode != null)
+							{
+								//the FirstChild("ArrayOfTargetFileSetting") is taken because it always will exist only one child node on the TargetFileSettings node
+								if (targetFileSettingsNode.FirstChild != null)
+								{
+									foreach (XmlElement targetFileChildNode in targetFileSettingsNode.FirstChild.ChildNodes)
+									{
+										if (targetFileChildNode.ChildNodes != null)
+										{
+											// get the values from the ChildNodes only for the target file on which the batch task is running
+											if (targetFile.FileName.Equals(targetFileChildNode.ChildNodes[1].InnerXml))
+											{
+												// take the values by index, because the Node structure will not change(this is how is defined in NumberVerifier app) 
+												var numberVeriferModel = new NumberVerifierSettingsModel
+												{
+													ExecutedDateTime = targetFileChildNode.ChildNodes[0].InnerXml,
+													FileName = targetFileChildNode.ChildNodes[1].InnerXml,
+													TargetLanguageCode = fileLanguageDirection.TargetLanguage
+												};
+												numberVerifierModels.Add(numberVeriferModel);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}
-				// To Do: get the information from NumberVerifierSettings group ->TargetFileSetting node for each file which exists in there and add it to numberVerifierModels list 
-				// Note: the developement is currently stopped on this Studio 2017 version, because of the GS connection issues
 			}
 			return numberVerifierModels;
+		}
+
+		private List<LanguageDirectionModel> GetLanguageDirections()
+		{
+			var languageDirections = new List<LanguageDirectionModel>();
+			var languageDirectionsNodes = _document.SelectSingleNode($"//LanguageDirections");
+			if (languageDirectionsNodes != null)
+			{
+				foreach (XmlNode childNode in languageDirectionsNodes.ChildNodes)
+				{
+					var languageDirectionModel = new LanguageDirectionModel
+					{
+						SettingsBundleGuid = childNode.Attributes["SettingsBundleGuid"].Value,
+						TargetLanguage = childNode.Attributes["TargetLanguageCode"].Value
+					};
+					languageDirections.Add(languageDirectionModel);
+				}
+			}
+			return languageDirections;
 		}
 		#endregion
 	}
