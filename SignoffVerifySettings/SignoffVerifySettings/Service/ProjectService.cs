@@ -317,6 +317,10 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 			return numberVerifierModels;
 		}
 
+		/// <summary>
+		/// Get the language directions used to get the neccessary information for the NumberVerifierSettings groups
+		/// </summary>
+		/// <returns>list of LanguageDirectionModel</returns>
 		private List<LanguageDirectionModel> GetLanguageDirections()
 		{
 			var languageDirections = new List<LanguageDirectionModel>();
