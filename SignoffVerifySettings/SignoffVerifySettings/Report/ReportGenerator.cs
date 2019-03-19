@@ -1,12 +1,15 @@
-﻿namespace Sdl.Community.SignoffVerifySettings.Report
+﻿using Sdl.Community.SignoffVerifySettings.Model;
+
+namespace Sdl.Community.SignoffVerifySettings.Report
 {
 	public static class ReportGenerator
 	{
-		public static string GenerateReport()
+		public static string CreateReport(ProjectInfoReportModel projectInfoReportModel)
 		{
 			var builder = new ReportBuilder();
-			//To do: to be impelemented
-			return string.Empty;
+			builder.BuildTotalTable(projectInfoReportModel);
+
+			return builder.GetReport();
 		}
 	}
 }

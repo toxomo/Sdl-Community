@@ -32,7 +32,7 @@ namespace Sdl.Community.SignoffVerifySettings
 		{
 			base.TaskComplete();
 
-			var report = ReportGenerator.GenerateReport();
+			var report = ReportGenerator.CreateReport(_projectInfoReportModel);
 			CreateReport(Constants.ReportName, "Verification statistics", report);
 		} 
 	}

@@ -1,10 +1,28 @@
-﻿namespace Sdl.Community.SignoffVerifySettings.Report
+﻿using System.Xml.Linq;
+using Sdl.Community.SignoffVerifySettings.Model;
+
+namespace Sdl.Community.SignoffVerifySettings.Report
 {
 	public class ReportBuilder
 	{
-		public void BuildTotalTable()
+		private readonly XElement root = new XElement("Report");
+
+		public string GetReport()
 		{
-			//To do: to be impelemented
+			return root.ToString();
+		}
+
+		public void BuildTotalTable(ProjectInfoReportModel projectInfoReportModel)
+		{
+			var parent = new XElement("ProjectInformation");
+			BuildTable(parent, projectInfoReportModel);
+
+			root.Add(parent);
+		}
+
+		private void BuildTable(XElement parent, ProjectInfoReportModel projectInfoReportModel)
+		{
+
 		}
 	}
 }
