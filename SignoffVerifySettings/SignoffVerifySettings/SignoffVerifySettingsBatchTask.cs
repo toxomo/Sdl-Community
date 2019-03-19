@@ -8,7 +8,7 @@ using Sdl.ProjectAutomation.Core;
 
 namespace Sdl.Community.SignoffVerifySettings
 {
-	[AutomaticTask("SignoffVerifySettingsID", "Signoff Verify Settings", "Signoff Verify Settings", GeneratedFileType = AutomaticTaskFileType.BilingualTarget)]
+	[AutomaticTask("SignoffVerifySettings", "Signoff Verify Settings", "Signoff Verify Settings", GeneratedFileType = AutomaticTaskFileType.BilingualTarget)]
 	[AutomaticTaskSupportedFileType(AutomaticTaskFileType.BilingualTarget)]
 	[RequiresSettings(typeof(SignoffVerifySettings), typeof(SignoffVerifySettingsPage))]
 	class SignoffVerifySettingsBatchTask : AbstractFileContentProcessingAutomaticTask
@@ -22,6 +22,7 @@ namespace Sdl.Community.SignoffVerifySettings
 				_projectInfoReportModel = projectService.GetCurrentProjectInformation(TaskFiles);
 			}
 		}
+
 		protected override void ConfigureConverter(ProjectFile projectFile, IMultiFileConverter multiFileConverter)
 		{
 			var fileConverter = new FileConverter();

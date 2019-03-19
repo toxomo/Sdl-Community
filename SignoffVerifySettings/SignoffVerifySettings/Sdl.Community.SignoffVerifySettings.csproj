@@ -131,7 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="pluginpackage.manifest.xml" />
-    <Content Include="Report\SignoffVerifySettings.xslt" />
+    <EmbeddedResource Include="Report\SignoffVerifySettings.xsl" />
   </ItemGroup>
   <PropertyGroup>
     <CreatePluginPackage>true</CreatePluginPackage>
