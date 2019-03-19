@@ -6,8 +6,7 @@
 				</style>
 				
 				<body>
-							<p>Project: <xsl:value-of select="//ProjectInformation/@Project" /></p>						
-			
+							<p>Project: <xsl:value-of select="//ProjectInformation/@Project" /></p>	
 				</body>
 			 </html>
     </xsl:template>
