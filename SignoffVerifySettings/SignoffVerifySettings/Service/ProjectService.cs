@@ -38,14 +38,14 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		/// Get current project information which will be displayed in the Signoff Verify Settings report based on the selected files
 		/// </summary>
 		/// <param name="taskFiles">selected files from the project based on which the batch task is running</param>
-		public void GetCurrentProjectInformation(ProjectFile[] taskFiles)
+		public ProjectInfoReportModel GetCurrentProjectInformation(ProjectFile[] taskFiles)
 		{			
 			// Studio version
 			var studioVersion = GetStudioVersion();
 			var currentProject = GetProjectController().CurrentProject;
+			var projectInfoReportModel = new ProjectInfoReportModel();
 			if (currentProject != null)
 			{
-				var projectInfoReportModel = new ProjectInfoReportModel();
 				var projectInfo = currentProject.GetProjectInfo();
 				if (projectInfo != null)
 				{
@@ -66,6 +66,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 				projectInfoReportModel.QAVerificationSettingsModels = GetQASettings();
 				projectInfoReportModel.NumberVerifierSettingsModels = GetNumberVerifierSettings();
 			}
+			return projectInfoReportModel;
 		}
 		#endregion
 

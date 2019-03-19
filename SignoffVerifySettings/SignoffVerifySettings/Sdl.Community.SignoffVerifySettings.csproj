@@ -109,6 +109,8 @@
     <Compile Include="Model\PhaseXmlNodeModel.cs" />
     <Compile Include="Model\ProjectInfoReportModel.cs" />
     <Compile Include="Model\QAVerificationSettingsModel.cs" />
+    <Compile Include="Report\ReportBuilder.cs" />
+    <Compile Include="Report\ReportGenerator.cs" />
     <Compile Include="Service\ProjectService.cs" />
     <Compile Include="SignoffVerifySettingsBatchTask.cs" />
     <Compile Include="SignoffVerifySettings.cs" />
@@ -129,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="pluginpackage.manifest.xml" />
+    <Content Include="Report\SignoffVerifySettings.xslt" />
   </ItemGroup>
   <PropertyGroup>
     <CreatePluginPackage>true</CreatePluginPackage>
