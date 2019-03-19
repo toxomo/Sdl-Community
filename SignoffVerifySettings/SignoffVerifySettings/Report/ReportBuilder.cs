@@ -22,7 +22,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 
 		private void BuildTable(XElement parent, ProjectInfoReportModel projectInfoReportModel)
 		{
-
+			parent.Add(new XElement("Project", projectInfoReportModel.ProjectName));
 		}
 	}
 }
