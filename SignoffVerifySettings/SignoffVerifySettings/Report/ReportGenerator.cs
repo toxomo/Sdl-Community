@@ -7,7 +7,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 		public static string CreateReport(ProjectInfoReportModel projectInfoReportModel)
 		{
 			var builder = new ReportBuilder();
-			builder.BuildTotalTable(projectInfoReportModel);
+			builder.BuildTotalReport(projectInfoReportModel);
 
 			return builder.GetReport();
 		}

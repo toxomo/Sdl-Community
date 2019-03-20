@@ -24,7 +24,7 @@
 					<br></br>
 				</xsl:for-each>
 				
-				<b><xsl:text>RunAt: </xsl:text></b>	<xsl:value-of select="//ProjectInformation/RunAt"/>
+				<b><xsl:text>RunAt (project level): </xsl:text></b>	<xsl:value-of select="//ProjectInformation/RunAt"/>
 				<br></br>
 
 				<xsl:for-each select="//ProjectInformation/TranslationMemories/TranslationMemory">
