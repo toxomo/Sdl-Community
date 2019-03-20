@@ -12,12 +12,17 @@
 			<head>
 				<p class="Title">Signoff Verify Settings</p>
 			</head>
-      <body>				
-				<p>
-					<b><xsl:text>Project: </xsl:text></b>
-					<xsl:value-of select="//ProjectInformation/Project/@Name"/>
-				</p>
-      </body>
+      <body>
+				<b><xsl:text>Project: </xsl:text></b>	<xsl:value-of select="//ProjectInformation/Project/@Name"/>
+				<br></br>
+				<b><xsl:text>Source Language: </xsl:text>	</b> <xsl:value-of select="//ProjectInformation/SourceLanguage/@DisplayName"/>
+				<br></br>
+				<xsl:for-each select="//ProjectInformation/TargetLanguages/TargetLanguage">
+					<b><xsl:text>Target Language: </xsl:text></b> <xsl:value-of select="DisplayName"/>
+					<br></br>
+				</xsl:for-each>
+				<br></br>
+			</body>
     </html>
   </xsl:template>
 </xsl:stylesheet>
