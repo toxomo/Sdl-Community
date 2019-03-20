@@ -3,15 +3,16 @@
   <xsl:template match="/">
     <html>
 			<style>
-				.h1{
-				font-family: Verdana, sans-serif;
-				color: #5D6E7F;
+				.Title{
+				font-family:verdana;
+				color: #6E7E82;
+				font-size:130%;
 				}
 			</style>
 			<head>
-				<h1>Signoff Verify Settings</h1>
+				<p class="Title">Signoff Verify Settings</p>
 			</head>
-      <body>
+      <body>				
 				<p>
 					<b><xsl:text>Project: </xsl:text></b>
 					<xsl:value-of select="//ProjectInformation/Project/@Name"/>
