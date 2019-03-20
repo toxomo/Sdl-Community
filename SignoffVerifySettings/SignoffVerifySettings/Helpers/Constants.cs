@@ -33,6 +33,8 @@
 		public static readonly string AssignedPhase = "AssignedPhase";
 		public static readonly string IsCurrentAssignment = "IsCurrentAssignment";
 		public static readonly string AssigneesNumber = "AssigneesNumber";
+		public static readonly string Phases = "Phases";
+		public static readonly string Phase = "Phase";
 
 		// Report messages
 		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was executed.";

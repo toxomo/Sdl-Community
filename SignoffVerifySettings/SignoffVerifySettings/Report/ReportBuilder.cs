@@ -97,29 +97,36 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			parent.Add(languageFiles);
 			foreach (var file in projectInfoReportModel.LanguageFileXmlNodeModels)
 			{
-				var assignedPahse = Constants.NoPhaseAssigned;
-				var isCurrentAssignment = Constants.False;
-				var assigneesNumber = Constants.NoUserAssigned;
-
-				// To Do: for each phase which is assigned or has info on the target file, display information in the report
-				// (it might exists 2 or more phases defined on the same file, and only one can be assigned)
-				var phasesInfo = projectInfoReportModel.PhaseXmlNodeModels.Where(p => p.TargetFileGuid.Equals(file.LanguageFileGUID)).ToList();
-				foreach(var phaseInfo in phasesInfo)
-				{
-					assignedPahse = phaseInfo.PhaseName;
-					isCurrentAssignment = phaseInfo.IsCurrentAssignment;
-					assigneesNumber = phaseInfo.AssigneesNumber.ToString();
-				}				
-				
 				var targetLanguage = new Language(file.LanguageCode).DisplayName;
 				var runAtValue = !string.IsNullOrEmpty(file.RunAt) ? file.RunAt : Constants.NoVerificationRun;
-				languageFiles.Add(new XElement(Constants.LanguageFile),
+				var languageFile = new XElement(Constants.LanguageFile);
+				languageFiles.Add(languageFile,
 									new XAttribute(Constants.Name, file.FileName),
 									new XAttribute(Constants.TargetLanguage, targetLanguage),
-									new XAttribute(Constants.RunAt, runAtValue),
-									new XAttribute(Constants.AssignedPhase, assignedPahse),
-									new XAttribute(Constants.IsCurrentAssignment, isCurrentAssignment),
-									new XAttribute(Constants.AssigneesNumber, assigneesNumber));
+									new XAttribute(Constants.RunAt, runAtValue));
+							
+				// For each phase which exists set on the target file, display information in the report
+				// (it might exists 2 or more phases defined on the same file, and only one can be assigned)
+				var phasesInfo = projectInfoReportModel.PhaseXmlNodeModels.Where(p => p.TargetFileGuid.Equals(file.LanguageFileGUID)).ToList();
+				var phases = new XElement(Constants.Phases);
+				languageFile.Add(phases);
+				if (phasesInfo.Any())
+				{
+					foreach (var phaseInfo in phasesInfo)
+					{
+						phases.Add(new XElement(Constants.Phase),
+									 new XAttribute(Constants.AssignedPhase, phaseInfo.PhaseName),
+									 new XAttribute(Constants.IsCurrentAssignment, phaseInfo.IsCurrentAssignment),
+									 new XAttribute(Constants.AssigneesNumber, phaseInfo.AssigneesNumber.ToString()));
+					}
+				}
+				else
+				{
+					phases.Add(new XElement(Constants.Phase),
+						new XAttribute(Constants.AssignedPhase, Constants.NoPhaseAssigned),
+						new XAttribute(Constants.IsCurrentAssignment, Constants.False),
+						new XAttribute(Constants.AssigneesNumber, Constants.NoUserAssigned));
+				}
 			}
 		}
 	}
