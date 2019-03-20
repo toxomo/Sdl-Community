@@ -32,7 +32,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 		/// <summary>
 		/// Generate the xml for the .xsl report which contains the project information
 		/// </summary>
-		/// <param name="parent">'ProjectInformation' node</param>
+		/// <param name="parent">'ProjectInformation' element</param>
 		/// <param name="projectInfoReportModel">projectInfoReportModel which contains info from .sdlproj</param>
 		private void BuildProjectInfoPart(XElement parent, ProjectInfoReportModel projectInfoReportModel)
 		{
@@ -89,7 +89,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 		/// <summary>
 		/// Generate the xml for the .xsl report which contains information for each target file
 		/// </summary>
-		/// <param name="parent">'ProjectInformation' node</param>
+		/// <param name="parent">'ProjectInformation' element</param>
 		/// <param name="projectInfoReportModel">projectInfoReportModel which contains info from .sdlproj</param>
 		private void BuildFileInfoPart(XElement parent, ProjectInfoReportModel projectInfoReportModel)
 		{
@@ -97,6 +97,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			parent.Add(languageFiles);
 			foreach (var file in projectInfoReportModel.LanguageFileXmlNodeModels)
 			{
+				// set xml info for basic file information
 				var targetLanguage = new Language(file.LanguageCode).DisplayName;
 				var runAtValue = !string.IsNullOrEmpty(file.RunAt) ? file.RunAt : Constants.NoVerificationRun;
 				var languageFile = new XElement(Constants.LanguageFile);
@@ -104,7 +105,8 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 									new XAttribute(Constants.Name, file.FileName),
 									new XAttribute(Constants.TargetLanguage, targetLanguage),
 									new XAttribute(Constants.RunAt, runAtValue));
-							
+				
+				// Set xml info for file phases
 				// For each phase which exists set on the target file, display information in the report
 				// (it might exists 2 or more phases defined on the same file, and only one can be assigned)
 				var phasesInfo = projectInfoReportModel.PhaseXmlNodeModels.Where(p => p.TargetFileGuid.Equals(file.LanguageFileGUID)).ToList();
@@ -126,6 +128,21 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 						new XAttribute(Constants.AssignedPhase, Constants.NoPhaseAssigned),
 						new XAttribute(Constants.IsCurrentAssignment, Constants.False),
 						new XAttribute(Constants.AssigneesNumber, Constants.NoUserAssigned));
+				}
+
+				// set xml info for file Number Verifier execution
+				var numberVerifier = new XElement(Constants.NumberVerifier);
+				var numberVerifierInfo = projectInfoReportModel.NumberVerifierSettingsModels
+					.Where(n => n.FileName.Equals(file.FileName) && n.TargetLanguageCode.Equals(file.LanguageCode)).FirstOrDefault();
+				if(numberVerifierInfo != null)
+				{
+					languageFile.Add(numberVerifier,
+						new XAttribute("ExecutedDate", numberVerifierInfo.ExecutedDateTime));
+				}
+				else
+				{
+					languageFile.Add(numberVerifier,
+						new XAttribute("ExecutedDate", Constants.NoNumberVerifierExecuted));
 				}
 			}
 		}

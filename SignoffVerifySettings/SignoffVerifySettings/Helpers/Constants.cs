@@ -35,6 +35,7 @@
 		public static readonly string AssigneesNumber = "AssigneesNumber";
 		public static readonly string Phases = "Phases";
 		public static readonly string Phase = "Phase";
+		public static readonly string NumberVerifier = "NumberVerifier";
 
 		// Report messages
 		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was executed.";
@@ -48,5 +49,6 @@
 		public static readonly string NoUserAssigned = "No user(s) assigned";
 		public static readonly string False = "False";
 		public static readonly string True = "True";
+		public static readonly string NoNumberVerifierExecuted = "Number Verifier did not executed";
 	}
 }
