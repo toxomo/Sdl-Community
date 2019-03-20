@@ -15,5 +15,9 @@
 
 		public static readonly string ReportName = "SignoffVerifySettings";
 
+		// Report messages
+		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was executed.";
+		public static readonly string NoTranslationMemory = "No translation memory set";
+
 	}
 }

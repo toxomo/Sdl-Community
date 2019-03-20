@@ -17,11 +17,22 @@
 				<br></br>
 				<b><xsl:text>Source Language: </xsl:text>	</b> <xsl:value-of select="//ProjectInformation/SourceLanguage/@DisplayName"/>
 				<br></br>
+				
 				<xsl:for-each select="//ProjectInformation/TargetLanguages/TargetLanguage">
 					<b><xsl:text>Target Language: </xsl:text></b> <xsl:value-of select="DisplayName"/>
 					<br></br>
 				</xsl:for-each>
+				
+				<b><xsl:text>RunAt: </xsl:text></b>	<xsl:value-of select="//ProjectInformation/RunAt"/>
 				<br></br>
+
+				<xsl:for-each select="//ProjectInformation/TranslationMemories/TranslationMemory">
+					<b><xsl:text>Translation Memory: </xsl:text></b> <xsl:value-of select="Name"/>
+					<br></br>
+				</xsl:for-each>
+				<br></br>
+				
+				
 			</body>
     </html>
   </xsl:template>

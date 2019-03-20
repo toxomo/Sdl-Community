@@ -201,7 +201,9 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 			}
 
 			// get "RunAt" info from the last "Verify Files" report which is generated after running the "Verify Files" batch task on all files
-			var allReportFilesInfo = directoryInfo.GetFiles().OrderByDescending(f => f.LastWriteTime).FirstOrDefault(n => n.Name.StartsWith("Verify Files ("));
+			var allReportFilesInfo = directoryInfo.GetFiles()
+				.OrderByDescending(f => f.LastWriteTime)
+				.FirstOrDefault(n => n.Name.StartsWith("Verify Files (") || n.Name.StartsWith("Verify Files"));
 			if (allReportFilesInfo != null)
 			{
 				var reportPath = allReportFilesInfo.FullName;
