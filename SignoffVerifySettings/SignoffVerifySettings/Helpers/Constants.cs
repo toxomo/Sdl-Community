@@ -13,7 +13,7 @@
 		public static readonly string NumberVerifier2017CommunityPath = @"SDL Community\Number Verifier\Number Verifier 2017";
 		public static readonly string NumberVerifierSettingsJson = "NumberVerifierSettings.json";
 
-		public static readonly string ReportName = "Signoff Verify Settings";
+		public static readonly string ReportName = "SignoffVerifySettings";
 
 	}
 }

@@ -14,6 +14,7 @@ namespace Sdl.Community.SignoffVerifySettings
 	class SignoffVerifySettingsBatchTask : AbstractFileContentProcessingAutomaticTask
 	{
 		private ProjectInfoReportModel _projectInfoReportModel = new ProjectInfoReportModel();
+
 		protected override void OnInitializeTask()
 		{
 			if (TaskFiles.Length > 0)
