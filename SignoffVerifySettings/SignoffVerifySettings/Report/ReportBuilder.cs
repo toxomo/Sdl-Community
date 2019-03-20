@@ -112,7 +112,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 				var phasesInfo = projectInfoReportModel.PhaseXmlNodeModels.Where(p => p.TargetFileGuid.Equals(file.LanguageFileGUID)).ToList();
 				var phases = new XElement(Constants.Phases);
 				languageFile.Add(phases);
-				if (phasesInfo.Count > 0)
+				if (phasesInfo.Any())
 				{
 					foreach (var phaseInfo in phasesInfo)
 					{
