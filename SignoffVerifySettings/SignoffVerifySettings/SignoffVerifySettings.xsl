@@ -15,6 +15,7 @@
       <body>
 				<b><xsl:text>Project: </xsl:text></b>	<xsl:value-of select="//ProjectInformation/Project/@Name"/>
 				<br></br>
+				
 				<b><xsl:text>Source Language: </xsl:text>	</b> <xsl:value-of select="//ProjectInformation/SourceLanguage/@DisplayName"/>
 				<br></br>
 				
@@ -30,9 +31,19 @@
 					<b><xsl:text>Translation Memory: </xsl:text></b> <xsl:value-of select="Name"/>
 					<br></br>
 				</xsl:for-each>
+
+				<xsl:for-each select="//ProjectInformation/Termbases/Termbase">
+					<b><xsl:text>Termbase: </xsl:text></b> <xsl:value-of select="Name"/>
+					<br></br>
+				</xsl:for-each>
+
+				<b><xsl:text>RegEx rules: </xsl:text></b> <xsl:value-of select="//ProjectInformation/RegExRules"/>
 				<br></br>
-				
-				
+				<b><xsl:text>Check RegEx: </xsl:text></b> <xsl:value-of select="//ProjectInformation/CheckRegEx"/>
+				<br></br>
+
+				<b><xsl:text>QA Checker: </xsl:text></b>	<xsl:value-of select="//ProjectInformation/QAChecker"/>
+				<br></br>
 			</body>
     </html>
   </xsl:template>

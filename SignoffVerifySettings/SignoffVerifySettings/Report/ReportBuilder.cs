@@ -51,6 +51,27 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 					translationMemories.Add(new XElement("TranslationMemory", new XElement("Name", fileName)));
 				}
 			}
+
+			var termbases = new XElement("Termbases");
+			parent.Add(termbases);
+			if (projectInfoReportModel.Termbases.Count == 0)
+			{
+				termbases.Add(new XElement("Termbase", new XElement("Name", Constants.NoTermbase)));
+			}
+			else
+			{
+				foreach (var termbase in projectInfoReportModel.Termbases)
+				{
+					translationMemories.Add(new XElement("Termbase", new XElement("Name", termbase.Name)));
+				}
+			}
+
+			var regExRulesValue = !string.IsNullOrEmpty(projectInfoReportModel.RegexRules) ? Constants.RegExRulesApplied : Constants.NoRegExRules;
+			parent.Add(new XElement("RegExRules", regExRulesValue));
+			var checkRegExValue = !string.IsNullOrEmpty(projectInfoReportModel.CheckRegexRules) ? "true" : "false";
+			parent.Add(new XElement("CheckRegEx", checkRegExValue));
+			
+			parent.Add(new XElement("QAChecker", projectInfoReportModel.QACheckerRanResult));
 		}
 	}
 }

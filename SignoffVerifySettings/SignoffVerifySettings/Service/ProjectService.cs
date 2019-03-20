@@ -240,8 +240,8 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 
 			// the below value represent the QA Checker if has been run or not (if has been run, then the 'Verification Report' exists in .sdlproj)
 			projectInfoReportModel.QACheckerRanResult = _document.SelectSingleNode($"//Reports/Report[@Name='Verification Report']") != null
-				? "QA Checker had executed"
-				: "QA Checker did not executed";
+				? Constants.QAChekerExecuted
+				: Constants.NoQAChekerExecuted;
 		}
 
 		/// <summary>

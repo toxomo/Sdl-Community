@@ -18,6 +18,10 @@
 		// Report messages
 		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was executed.";
 		public static readonly string NoTranslationMemory = "No translation memory set";
-
+		public static readonly string NoTermbase = "No termbase set";
+		public static readonly string RegExRulesApplied = "RegEx rules were applied";
+		public static readonly string NoRegExRules = "No RegEx rules were applied";
+		public static readonly string QAChekerExecuted = "QA Checker had executed";
+		public static readonly string NoQAChekerExecuted = "QA Checker did not executed";
 	}
 }
