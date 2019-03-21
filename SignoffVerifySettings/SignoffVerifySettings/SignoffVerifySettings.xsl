@@ -8,16 +8,21 @@
 				color: #6E7E82;
 				font-size: 130%;
 				}
+				.filesTile{
+				font-family: Verdana;
+				color: #6E7E82;
+				font-size: 100%;
+				}
 				
 				#files{
 				 font-family: Verdana, Helvetica, sans-serif;
 				 border-collapse: collapse;
-				 width: 100%;
-				 font-size: 80%;
+				 width: 100%;				 
 				}
-			  #files td, #customers th {
+			  #files td {
 				border: 1px solid #ddd;
 				padding: 8px;
+				font-size: 80%;
 				}
 				#files tr:nth-child(even){background-color: #f2f2f2;}
 				#files tr:hover {background-color: #ddd;}
@@ -28,7 +33,7 @@
 				  text-align: left;
 				  background-color: #5e899e;
 				  color: white;
-					font-size: 90%;
+					font-size: 85%;
 				}
 			
 			</style>
@@ -68,7 +73,7 @@
 				<b><xsl:text>QA Checker: </xsl:text></b>	<xsl:value-of select="//ProjectInformation/QAChecker"/>
 				<br></br><br></br><br></br><br></br>
 		
-			 <b><xsl:text>Language Files </xsl:text></b>
+			 <b class="filesTile"><xsl:text>Language Files </xsl:text></b>
 			 <br></br>
 			 <br></br>				
 				<div style="overflow-x:auto;">
