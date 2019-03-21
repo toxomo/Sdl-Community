@@ -51,12 +51,11 @@
   		 <table>
           <tr>
             <th>Name</th>
-            <th>Target Language</th>
+            <th>Target language</th>
             <th>Run at</th>
-            <th>Executed Date</th>
-            <th>Phase name</th>
+            <th>Phase</th>
             <th>Is current assigned</th>
-            <th>Assignees Number</th>
+            <th>Assignees number</th>
             <th>Number Verifier</th>
           </tr>
           <xsl:for-each select="//ProjectInformation/LanguageFiles/LanguageFile">
