@@ -16,8 +16,8 @@
 				}
 				.proj {
 					position: relative;
-				  width: auto;
-				  height: auto;
+				  width: 500px;
+				  height: 100px;
 				}
 				.projectInfo {
 				   overflow-x:auto;
