@@ -14,7 +14,7 @@
 				  color: #6E7E82;
 				  font-size: 100%;
 				}
-				.proj {
+				<!--.proj {
 					position: relative;
 				  width: 500px;
 				  height: 100px;
@@ -25,12 +25,15 @@
 				   position: relative;
 				   bottom: 20px;
            left: 300px;
-				}				
-				.table {
+				}-->		
+				.proj{
+				 color: #383838;
+				}
+				<!--.table {
 				 position: relative;
 				 top:350px;
 				 padding-bottom:20px;
-				}
+				}-->
 				
 				#files {
 				  font-family: Verdana, Helvetica, sans-serif;
@@ -60,38 +63,37 @@
 			</head>
       <body>
 				<div class="proj">
-					<b><xsl:text>Project: </xsl:text></b>
-					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/Project/@Name"/></div>
-						
-					<b><xsl:text>Source Language: </xsl:text>	</b> 
-					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/SourceLanguage/@DisplayName"/></div>	
-						
+					<b><xsl:text disable-output-escaping="yes">Project: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/Project/@Name"/>
+					<br></br>
+					
+					<b><xsl:text disable-output-escaping="yes">Source Language: <![CDATA[&nbsp;]]> </xsl:text>	</b><xsl:value-of select="//ProjectInformation/SourceLanguage/@DisplayName"/>	
+					<br></br>	
+					
 					<xsl:for-each select="//ProjectInformation/TargetLanguages/TargetLanguage">
-						<b><xsl:text>Target Language:  </xsl:text></b>
-						<div class="projectInfo"> <xsl:value-of select="DisplayName"/></div>				
+						<b><xsl:text disable-output-escaping="yes">Target Language: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="DisplayName"/>				
+						<br></br>	
 					</xsl:for-each>				
-						
-					<b><xsl:text>Run at (project level): </xsl:text></b>
-					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/RunAt"/></div>	
-						
+					
+					<b><xsl:text disable-output-escaping="yes">Run at (project level): <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/RunAt"/>
+					<br></br>	
+					
 					<xsl:for-each select="//ProjectInformation/TranslationMemories/TranslationMemory">
-						<b><xsl:text>Translation Memory: </xsl:text></b>
-						<div class="projectInfo"><xsl:value-of select="Name"/></div>					
+						<b><xsl:text disable-output-escaping="yes">Translation Memory: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="Name"/>
+					<br></br>
 					</xsl:for-each>
-						
+					
 					<xsl:for-each select="//ProjectInformation/Termbases/Termbase">
-						<b><xsl:text>Termbase: </xsl:text></b>
-						<div class="projectInfo"><xsl:value-of select="Name"/></div>				
+						<b><xsl:text disable-output-escaping="yes">Termbase: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="Name"/>			
+					<br></br>	
 					</xsl:for-each>
-						
-					<b><xsl:text>RegEx rules: </xsl:text></b>
-					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/RegExRules"/></div>				
-				
-						<b><xsl:text>Check RegEx: </xsl:text></b> 
-					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/CheckRegEx"/></div>		
-				
-						<b><xsl:text>QA Checker: </xsl:text></b>
-					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/QAChecker"/></div>
+					
+					<b><xsl:text disable-output-escaping="yes">RegEx rules: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/RegExRules"/>				
+				  <br></br>
+					
+					<b><xsl:text disable-output-escaping="yes">Check RegEx: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/CheckRegEx"/>		
+				  <br></br>
+					
+					<b><xsl:text disable-output-escaping="yes">QA Checker: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/QAChecker"/>
 					<br></br><br></br><br></br><br></br>
 			</div>
 				
