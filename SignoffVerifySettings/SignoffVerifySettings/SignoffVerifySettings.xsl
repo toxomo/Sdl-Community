@@ -16,10 +16,11 @@
 				}
 				.proj {
 					position: relative;
-				  width: 500px;
-				  height: 100px;
+				  width: auto;
+				  height: auto;
 				}
 				.projectInfo {
+				   overflow-x:auto;
 				   color: #999999;
 				   position: relative;
 				   bottom: 20px;
@@ -28,6 +29,7 @@
 				.table {
 				 position: relative;
 				 top:350px;
+				 padding-bottom:20px;
 				}
 				
 				#files {
