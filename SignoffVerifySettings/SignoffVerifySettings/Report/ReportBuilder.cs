@@ -127,17 +127,16 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 
 				// set xml info for file Number Verifier execution
 				var numberVerifier = new XElement(Constants.NumberVerifier);
+				languageFile.Add(numberVerifier);
 				var numberVerifierInfo = projectInfoReportModel.NumberVerifierSettingsModels
 					.Where(n => n.FileName.Equals(file.FileName) && n.TargetLanguageCode.Equals(file.LanguageCode)).FirstOrDefault();
 				if(numberVerifierInfo != null)
 				{
-					languageFile.Add(numberVerifier,
-						new XAttribute("ExecutedDate", numberVerifierInfo.ExecutedDateTime));
+					numberVerifier.Add(new XAttribute(Constants.ExecutedDate, numberVerifierInfo.ExecutedDateTime));
 				}
 				else
 				{
-					languageFile.Add(numberVerifier,
-						new XAttribute("ExecutedDate", Constants.NoNumberVerifierExecuted));
+					numberVerifier.Add(new XAttribute(Constants.ExecutedDate, Constants.NoNumberVerifierExecuted));
 				}
 			}
 		}

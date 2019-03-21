@@ -43,7 +43,35 @@
 				<br></br>
 
 				<b><xsl:text>QA Checker: </xsl:text></b>	<xsl:value-of select="//ProjectInformation/QAChecker"/>
-				<br></br>
+				<br></br><br></br><br></br>
+		
+			 <b><xsl:text>Language Files </xsl:text></b>
+			 <br></br>
+			 <br></br>
+  		 <table>
+          <tr>
+            <th>Name</th>
+            <th>Target Language</th>
+            <th>Run at</th>
+            <th>Executed Date</th>
+            <th>Phase name</th>
+            <th>Is current assigned</th>
+            <th>Assignees Number</th>
+            <th>Number Verifier</th>
+          </tr>
+          <xsl:for-each select="//ProjectInformation/LanguageFiles/LanguageFile">
+            <tr>
+              <td><xsl:value-of select="@Name"/></td>
+              <td><xsl:value-of select="@TargetLanguage"/></td>
+              <td><xsl:value-of select="@RunAt"/></td>
+              <td><xsl:value-of select="Phase/@AssignedPhase"/></td>
+              <td><xsl:value-of select="Phase/@IsCurrentAssignment"/></td>
+              <td><xsl:value-of select="Phase/@AssigneesNumber"/></td>
+              <td><xsl:value-of select="NumberVerifier/@ExecutedDate"/></td>
+            </tr>
+          </xsl:for-each>
+        </table>
+				
 			</body>
     </html>
   </xsl:template>

@@ -36,6 +36,7 @@
 		public static readonly string Phases = "Phases";
 		public static readonly string Phase = "Phase";
 		public static readonly string NumberVerifier = "NumberVerifier";
+		public static readonly string ExecutedDate = "ExecutedDate";
 
 		// Report messages
 		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was executed.";
