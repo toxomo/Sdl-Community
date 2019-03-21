@@ -3,26 +3,42 @@
   <xsl:template match="/">
     <html>
 			<style>
-				.title{
-				font-family: Verdana;
-				color: #6E7E82;
-				font-size: 130%;
+				.title {
+				  font-family: Verdana;
+				  color: #6E7E82;
+				  font-size: 130%;
+					padding-bottom:20px;
 				}
-				.filesTile{
-				font-family: Verdana;
-				color: #6E7E82;
-				font-size: 100%;
+				.filesTile {
+				  font-family: Verdana;
+				  color: #6E7E82;
+				  font-size: 100%;
+				}
+				.proj {
+					position: relative;
+				  width: 500px;
+				  height: 100px;
+				}
+				.projectInfo {
+				   color: #999999;
+				   position: relative;
+				   bottom: 20px;
+           left: 300px;
+				}				
+				.table {
+				 position: relative;
+				 top:350px;
 				}
 				
-				#files{
-				 font-family: Verdana, Helvetica, sans-serif;
-				 border-collapse: collapse;
-				 width: 100%;				 
+				#files {
+				  font-family: Verdana, Helvetica, sans-serif;
+				  border-collapse: collapse;
+				  width: 100%;				 
 				}
 			  #files td {
-				border: 1px solid #ddd;
-				padding: 8px;
-				font-size: 80%;
+				  border: 1px solid #ddd;
+				  padding: 8px;
+				  font-size: 80%;
 				}
 				#files tr:nth-child(even){background-color: #f2f2f2;}
 				#files tr:hover {background-color: #ddd;}
@@ -31,7 +47,7 @@
 				  padding-top: 12px;
 				  padding-bottom: 12px;
 				  text-align: left;
-				  background-color: #5e899e;
+				  background-color: #476878;
 				  color: white;
 					font-size: 85%;
 				}
@@ -41,38 +57,43 @@
 				<p class="title">Signoff Verify Settings</p>
 			</head>
       <body>
-				<b><xsl:text>Project: </xsl:text></b>	<xsl:value-of select="//ProjectInformation/Project/@Name"/>
-				<br></br>
+				<div class="proj">
+					<b><xsl:text>Project: </xsl:text></b>
+					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/Project/@Name"/></div>
+						
+					<b><xsl:text>Source Language: </xsl:text>	</b> 
+					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/SourceLanguage/@DisplayName"/></div>	
+						
+					<xsl:for-each select="//ProjectInformation/TargetLanguages/TargetLanguage">
+						<b><xsl:text>Target Language:  </xsl:text></b>
+						<div class="projectInfo"> <xsl:value-of select="DisplayName"/></div>				
+					</xsl:for-each>				
+						
+					<b><xsl:text>Run at (project level): </xsl:text></b>
+					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/RunAt"/></div>	
+						
+					<xsl:for-each select="//ProjectInformation/TranslationMemories/TranslationMemory">
+						<b><xsl:text>Translation Memory: </xsl:text></b>
+						<div class="projectInfo"><xsl:value-of select="Name"/></div>					
+					</xsl:for-each>
+						
+					<xsl:for-each select="//ProjectInformation/Termbases/Termbase">
+						<b><xsl:text>Termbase: </xsl:text></b>
+						<div class="projectInfo"><xsl:value-of select="Name"/></div>				
+					</xsl:for-each>
+						
+					<b><xsl:text>RegEx rules: </xsl:text></b>
+					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/RegExRules"/></div>				
 				
-				<b><xsl:text>Source Language: </xsl:text>	</b> <xsl:value-of select="//ProjectInformation/SourceLanguage/@DisplayName"/>
-				<br></br>
+						<b><xsl:text>Check RegEx: </xsl:text></b> 
+					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/CheckRegEx"/></div>		
 				
-				<xsl:for-each select="//ProjectInformation/TargetLanguages/TargetLanguage">
-					<b><xsl:text>Target Language: </xsl:text></b> <xsl:value-of select="DisplayName"/>
-					<br></br>
-				</xsl:for-each>
+						<b><xsl:text>QA Checker: </xsl:text></b>
+					<div class="projectInfo"><xsl:value-of select="//ProjectInformation/QAChecker"/></div>
+					<br></br><br></br><br></br><br></br>
+			</div>
 				
-				<b><xsl:text>Run at (project level): </xsl:text></b>	<xsl:value-of select="//ProjectInformation/RunAt"/>
-				<br></br>
-
-				<xsl:for-each select="//ProjectInformation/TranslationMemories/TranslationMemory">
-					<b><xsl:text>Translation Memory: </xsl:text></b> <xsl:value-of select="Name"/>
-					<br></br>
-				</xsl:for-each>
-
-				<xsl:for-each select="//ProjectInformation/Termbases/Termbase">
-					<b><xsl:text>Termbase: </xsl:text></b> <xsl:value-of select="Name"/>
-					<br></br>
-				</xsl:for-each>
-
-				<b><xsl:text>RegEx rules: </xsl:text></b> <xsl:value-of select="//ProjectInformation/RegExRules"/>
-				<br></br>
-				<b><xsl:text>Check RegEx: </xsl:text></b> <xsl:value-of select="//ProjectInformation/CheckRegEx"/>
-				<br></br>
-
-				<b><xsl:text>QA Checker: </xsl:text></b>	<xsl:value-of select="//ProjectInformation/QAChecker"/>
-				<br></br><br></br><br></br><br></br>
-		
+			<div class="table">
 			 <b class="filesTile"><xsl:text>Language Files </xsl:text></b>
 			 <br></br>
 			 <br></br>				
@@ -114,7 +135,7 @@
 						</xsl:for-each>
 					</table>
 				</div>
-			
+			</div>
 			</body>
     </html>
   </xsl:template>
