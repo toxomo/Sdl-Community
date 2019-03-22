@@ -7,7 +7,7 @@
 				  font-family: Verdana;
 				  color: #6E7E82;
 				  font-size: 130%;
-					padding-bottom:20px;
+					padding-bottom: 5px;
 				}
 				.filesTile {
 				  font-family: Verdana;
@@ -89,7 +89,7 @@
 				  <br></br>
 					
 					<b><xsl:text disable-output-escaping="yes">QA Checker: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/QAChecker"/>
-					<br></br><br></br><br></br><br></br>
+					<br></br><br></br>
 			</div>
 				
 			<div>
