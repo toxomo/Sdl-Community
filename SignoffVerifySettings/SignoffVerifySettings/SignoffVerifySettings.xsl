@@ -12,7 +12,7 @@
 				.filesTile {
 				  font-family: Verdana;
 				  color: #6E7E82;
-				  font-size: 100%;
+				  font-size: 120%;
 				}		
 				.proj{
 				 color: #383838;
@@ -93,9 +93,7 @@
 			</div>
 				
 			<div>
-			 <b class="filesTile"><xsl:text>Language Files </xsl:text></b>
-			 <br></br>
-			 <br></br>				
+				<p class="filesTile"><xsl:text>Language Files </xsl:text></p>
 				<div style="overflow-x:auto;">
 					<table id="files">
 						<tr>
