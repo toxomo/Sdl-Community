@@ -13,27 +13,16 @@
 				  font-family: Verdana;
 				  color: #6E7E82;
 				  font-size: 100%;
-				}
-				<!--.proj {
-					position: relative;
-				  width: 500px;
-				  height: 100px;
-				}
-				.projectInfo {
-				   overflow-x:auto;
-				   color: #999999;
-				   position: relative;
-				   bottom: 20px;
-           left: 300px;
-				}-->		
+				}		
 				.proj{
 				 color: #383838;
 				}
-				<!--.table {
-				 position: relative;
-				 top:350px;
-				 padding-bottom:20px;
-				}-->
+				
+				.logo{
+				position: fixed;
+				right: 15px;
+				top: 10px;
+				}
 				
 				#files {
 				  font-family: Verdana, Helvetica, sans-serif;
@@ -62,6 +51,12 @@
 				<p class="title">Signoff Verify Settings</p>
 			</head>
       <body>
+				<img class="logo">
+						<xsl:attribute name="src">
+							<xsl:value-of select="//ProjectInformation/Project/@Image"/>/StudioPower.jpg
+						</xsl:attribute>
+				</img>
+				
 				<div class="proj">
 					<b><xsl:text disable-output-escaping="yes">Project: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/Project/@Name"/>
 					<br></br>
@@ -97,7 +92,7 @@
 					<br></br><br></br><br></br><br></br>
 			</div>
 				
-			<div class="table">
+			<div>
 			 <b class="filesTile"><xsl:text>Language Files </xsl:text></b>
 			 <br></br>
 			 <br></br>				

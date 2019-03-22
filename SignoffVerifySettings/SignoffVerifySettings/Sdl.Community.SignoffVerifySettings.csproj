@@ -133,6 +133,7 @@
     <Content Include="pluginpackage.manifest.xml" />
     <EmbeddedResource Include="SignoffVerifySettings.xsl" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <CreatePluginPackage>true</CreatePluginPackage>
   </PropertyGroup>

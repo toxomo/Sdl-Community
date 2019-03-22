@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using Sdl.Community.SignoffVerifySettings.Model;
+using Sdl.Community.Toolkit.Core;
 
 namespace Sdl.Community.SignoffVerifySettings.Helpers
 {
@@ -75,6 +77,29 @@ namespace Sdl.Community.SignoffVerifySettings.Helpers
 			doc.Load(filePath);
 
 			return doc;
+		}
+
+		/// <summary>
+		/// Get the opened Studio version
+		/// </summary>
+		/// <returns></returns>
+		public string GetStudioVersion()
+		{
+			var studioVersion = new Studio().GetStudioVersion();
+			return studioVersion != null ? studioVersion.Version : string.Empty;
+		}
+
+		public string GetImagesUrl()
+		{
+			var studioVer = new Studio().GetStudioVersion();
+			var path = studioVer != null ? studioVer.InstallPath : string.Empty;
+
+			if (!string.IsNullOrEmpty(path))
+			{
+				var resourceReportFolder = Path.Combine(Path.GetDirectoryName(path), "ReportResources", "images");
+				return "file:///" + resourceReportFolder;
+			}
+			return string.Empty;
 		}
 	}
 }

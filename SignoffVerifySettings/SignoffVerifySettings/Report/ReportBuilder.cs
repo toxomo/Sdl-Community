@@ -10,6 +10,12 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 	public class ReportBuilder
 	{
 		private readonly XElement _root = new XElement("Report");
+		private readonly Utils _utils;
+
+		public ReportBuilder()
+		{
+			_utils = new Utils();
+		}
 
 		public string GetReport()
 		{
@@ -36,7 +42,9 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 		/// <param name="projectInfoReportModel">projectInfoReportModel which contains info from .sdlproj</param>
 		private void BuildProjectInfoPart(XElement parent, ProjectInfoReportModel projectInfoReportModel)
 		{
-			parent.Add(new XElement(Constants.Project, new XAttribute(Constants.Name, projectInfoReportModel.ProjectName)));
+			parent.Add(new XElement(Constants.Project,
+				new XAttribute("Image", _utils.GetImagesUrl()),
+				new XAttribute(Constants.Name, projectInfoReportModel.ProjectName)));
 			parent.Add(new XElement(Constants.SourceLanguage, new XAttribute(Constants.DisplayName, projectInfoReportModel.SourceLanguage.DisplayName)));
 
 			var targetLanguages = new XElement(Constants.TargetLanguages);

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Xml;
 using Sdl.Community.SignoffVerifySettings.Helpers;
 using Sdl.Community.SignoffVerifySettings.Model;
-using Sdl.Community.Toolkit.Core;
 using Sdl.ProjectAutomation.Core;
 using Sdl.ProjectAutomation.FileBased;
 using Sdl.TranslationStudioAutomation.IntegrationApi;
@@ -41,7 +40,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		public ProjectInfoReportModel GetCurrentProjectInformation(ProjectFile[] taskFiles)
 		{			
 			// Studio version
-			var studioVersion = GetStudioVersion();
+			var studioVersion = _utils.GetStudioVersion();
 			var currentProject = GetProjectController().CurrentProject;
 			var projectInfoReportModel = new ProjectInfoReportModel();
 			if (currentProject != null)
@@ -78,16 +77,6 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		private ProjectsController GetProjectController()
 		{
 			return SdlTradosStudio.Application.GetController<ProjectsController>();
-		}
-
-		/// <summary>
-		/// Get the opened Studio version
-		/// </summary>
-		/// <returns></returns>
-		private string GetStudioVersion()
-		{
-			var studioVersion = new Studio().GetStudioVersion();
-			return studioVersion != null ? studioVersion.Version : string.Empty;
 		}
 
 		/// <summary>
