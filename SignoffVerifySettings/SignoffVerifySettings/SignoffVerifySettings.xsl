@@ -101,8 +101,8 @@
 							<th>Target language</th>
 							<th>Run at</th>
 							<th>Phase</th>
-							<th>Is current assigned</th>
-							<th>Assignees number</th>
+							<th>Is phase currently assigned</th>
+							<th>Number of assignees</th>
 							<th>Number Verifier</th>
 						</tr>
 						<xsl:for-each select="//ProjectInformation/LanguageFiles/LanguageFile">
