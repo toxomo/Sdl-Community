@@ -31,6 +31,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			var parent = new XElement(Constants.ProjectInformation);
 			BuildProjectInfoPart(parent, projectInfoReportModel);
 			BuildFileInfoPart(parent, projectInfoReportModel);
+			BuildQAVerificationSettings(parent, projectInfoReportModel);
 
 			_root.Add(parent);
 		}
@@ -146,6 +147,29 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 				{
 					numberVerifier.Add(new XAttribute(Constants.ExecutedDate, Constants.NoNumberVerifierExecuted));
 				}
+			}
+		}
+
+		/// <summary>
+		/// Set xml info for the QA Verification Settings which are enabled
+		/// </summary>
+		/// <param name="parent">'ProjectInformation' element</param>
+		/// <param name="projectInfoReportModel">projectInfoReportModel which contains info from .sdlproj</param>
+		private void BuildQAVerificationSettings(XElement parent, ProjectInfoReportModel projectInfoReportModel)
+		{
+			var qaVerSettingsElement = new XElement(Constants.VerificationSettings);
+			parent.Add(qaVerSettingsElement);
+
+			var qaVerificationSettings = projectInfoReportModel.QAVerificationSettingsModels.Where(q => q.Value.Equals(Constants.False)).ToList();
+			foreach (var qaVerificationSetting in qaVerificationSettings)
+			{
+				var targetLanguage = new Language(qaVerificationSetting.LanguageCode).DisplayName;
+				var qaVerSettingElement = new XElement(Constants.VerificationSetting);
+				qaVerSettingElement.Add(new XAttribute(Constants.QASettingName, qaVerificationSetting.Name),
+					new XAttribute(Constants.Name, qaVerificationSetting.FileName),
+					new XAttribute(Constants.TargetLanguage, targetLanguage));
+
+				qaVerSettingsElement.Add(qaVerSettingElement);
 			}
 		}
 	}

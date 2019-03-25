@@ -294,7 +294,9 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 								var qaVerificationSettingsModel = new QAVerificationSettingsModel
 								{
 									Name = qaVerificationSetting.Attributes.Count > 0 ? qaVerificationSetting.Attributes["Id"].Value : string.Empty,
-									Value = qaVerificationSetting.FirstChild != null ? qaVerificationSetting.FirstChild.Value : string.Empty
+									Value = qaVerificationSetting.FirstChild != null ? qaVerificationSetting.FirstChild.Value : string.Empty,
+									FileName = targetFile.FileName,
+									LanguageCode = fileLanguageDirection.TargetLanguage
 								};
 								qaVerificationSettingsModels.Add(qaVerificationSettingsModel);
 							}

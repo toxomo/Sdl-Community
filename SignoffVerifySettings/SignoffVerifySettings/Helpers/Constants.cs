@@ -16,6 +16,7 @@
 		public static readonly string ProjectInformation = "ProjectInformation";
 		public static readonly string Project = "Project";
 		public static readonly string Name = "Name";
+		public static readonly string QASettingName = "QASettingName";
 		public static readonly string SourceLanguage = "SourceLanguage";
 		public static readonly string DisplayName = "DisplayName";
 		public static readonly string TargetLanguages = "TargetLanguages";
@@ -37,6 +38,9 @@
 		public static readonly string Phase = "Phase";
 		public static readonly string NumberVerifier = "NumberVerifier";
 		public static readonly string ExecutedDate = "ExecutedDate";
+		public static readonly string VerificationSettings = "VerificationSettings";
+		public static readonly string VerificationSetting = "VerificationSetting";
+
 
 		// Report messages
 		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was run.";
