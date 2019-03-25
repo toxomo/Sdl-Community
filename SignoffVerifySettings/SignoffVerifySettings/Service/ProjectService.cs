@@ -289,6 +289,9 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 						var qaVerificationSettings = settingsBundleNodes.SelectSingleNode("SettingsGroup[@Id='QAVerificationSettings']");
 						if (qaVerificationSettings != null)
 						{
+							var sourceLanguage = projectInfoReportModel.SourceLanguage.DisplayName;
+							var targetLanguage = fileLanguageDirection.TargetLanguage;
+
 							foreach (XmlNode qaVerificationSetting in qaVerificationSettings)
 							{
 								var qaVerificationSettingsModel = new QAVerificationSettingsModel
@@ -296,7 +299,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 									Name = qaVerificationSetting.Attributes.Count > 0 ? qaVerificationSetting.Attributes["Id"].Value : string.Empty,
 									Value = qaVerificationSetting.FirstChild != null ? qaVerificationSetting.FirstChild.Value : string.Empty,
 									FileName = targetFile.FileName,
-									LanguageCode = fileLanguageDirection.TargetLanguage
+									LanguagePair = $"{sourceLanguage}-{targetLanguage}"
 								};
 								qaVerificationSettingsModels.Add(qaVerificationSettingsModel);
 							}
@@ -308,7 +311,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		}
 
 		/// <summary>
-		/// Get the language directions used to get the neccessary information for the NumberVerifierSettings groups
+		/// Get the language directions used to get the neccessary information for the NumberVerifierSettings and QAVerificationSettings groups
 		/// </summary>
 		/// <returns>list of LanguageDirectionModel</returns>
 		private List<LanguageDirectionModel> GetLanguageDirections()
@@ -322,7 +325,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 					var languageDirectionModel = new LanguageDirectionModel
 					{
 						SettingsBundleGuid = childNode.Attributes["SettingsBundleGuid"].Value,
-						TargetLanguage = childNode.Attributes["TargetLanguageCode"].Value
+						TargetLanguage = childNode.Attributes["TargetLanguageCode"].Value,
 					};
 					languageDirections.Add(languageDirectionModel);
 				}

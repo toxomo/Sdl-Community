@@ -16,6 +16,7 @@
 		public static readonly string ProjectInformation = "ProjectInformation";
 		public static readonly string Project = "Project";
 		public static readonly string Name = "Name";
+		public static readonly string Zero = "0";
 		public static readonly string QASettingName = "QASettingName";
 		public static readonly string SourceLanguage = "SourceLanguage";
 		public static readonly string DisplayName = "DisplayName";
@@ -31,6 +32,7 @@
 		public static readonly string QAChecker = "QAChecker";
 		public static readonly string LanguageFiles = "LanguageFiles";
 		public static readonly string LanguageFile = "LanguageFile";
+		public static readonly string LanguagePair = "LanguagePair";
 		public static readonly string AssignedPhase = "AssignedPhase";
 		public static readonly string IsCurrentAssignment = "IsCurrentAssignment";
 		public static readonly string AssigneesNumber = "AssigneesNumber";

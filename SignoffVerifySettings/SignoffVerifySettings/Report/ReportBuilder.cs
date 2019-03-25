@@ -160,17 +160,25 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			var qaVerSettingsElement = new XElement(Constants.VerificationSettings);
 			parent.Add(qaVerSettingsElement);
 
-			var qaVerificationSettings = projectInfoReportModel.QAVerificationSettingsModels.Where(q => q.Value.Equals(Constants.False)).ToList();
+			var qaVerificationSettings = projectInfoReportModel
+				.QAVerificationSettingsModels.Where(q => !q.Value.Equals(Constants.False) && !q.Value.Equals(Constants.Zero))
+				.ToList();
 			foreach (var qaVerificationSetting in qaVerificationSettings)
 			{
-				var targetLanguage = new Language(qaVerificationSetting.LanguageCode).DisplayName;
 				var qaVerSettingElement = new XElement(Constants.VerificationSetting);
-				qaVerSettingElement.Add(new XAttribute(Constants.QASettingName, qaVerificationSetting.Name),
-					new XAttribute(Constants.Name, qaVerificationSetting.FileName),
-					new XAttribute(Constants.TargetLanguage, targetLanguage));
+				qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, qaVerificationSetting.LanguagePair),
+     				new XAttribute(Constants.Name, qaVerificationSetting.FileName),
+					new XAttribute(Constants.QASettingName, qaVerificationSetting.Name));
 
 				qaVerSettingsElement.Add(qaVerSettingElement);
 			}
+
+			//To do: update above logic to put the values with ; into qaVerificationSetting.Name and return something like:
+			// <VerificationSettings>
+			//	<Verification Setting LanguagePair="English-Romania" FileName="", Name="Rule1; Rule 2; Rule 3">
+			//	<Verification Setting LanguagePair="English-German" FileName="", Name="Rule1; Rule 2;">
+			//	</Verification Setting>
+			//</Verification Settings>
 		}
 	}
 }

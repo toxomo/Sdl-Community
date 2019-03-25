@@ -70,8 +70,8 @@
 					</xsl:for-each>				
 					
 					<b><xsl:text disable-output-escaping="yes">Run at (project level): <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/RunAt"/>
-					<br></br>	
-					
+					<br></br>
+
 					<xsl:for-each select="//ProjectInformation/TranslationMemories/TranslationMemory">
 						<b><xsl:text disable-output-escaping="yes">Translation Memory: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="Name"/>
 					<br></br>
@@ -91,8 +91,13 @@
 					<b><xsl:text disable-output-escaping="yes">QA Checker: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/QAChecker"/>
 					<br></br><br></br>
 			</div>
+
+				<div>
+					<p class="filesTile"><xsl:text>QA Verification Settings</xsl:text></p>
 				
-			<div>
+				</div>
+
+				<div>
 				<p class="filesTile"><xsl:text>Language Files </xsl:text></p>
 				<div style="overflow-x:auto;">
 					<table id="files">
