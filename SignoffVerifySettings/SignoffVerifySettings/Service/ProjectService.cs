@@ -62,8 +62,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 				projectInfoReportModel.LanguageFileXmlNodeModels = _targetFiles;
 				projectInfoReportModel.RunAt = runAt;
 				GetMaterialsInfo(currentProject, projectInfoReportModel);
-				projectInfoReportModel.QAVerificationSettingsModels = GetQASettings();
-				projectInfoReportModel.NumberVerifierSettingsModels = GetNumberVerifierSettings();
+				GetVerificationSettings(projectInfoReportModel);
 			}
 			return projectInfoReportModel;
 		}
@@ -232,37 +231,16 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 				? Constants.QAChekerExecuted
 				: Constants.NoQAChekerExecuted;
 		}
-
+		
 		/// <summary>
-		/// Get all the QA Settings applied
+		/// Get the Number Verifier settings (file name and the executed date time of Number Verifier app)
+		/// Get the QA Verification settings applied to Language Pair level
 		/// </summary>
-		/// <returns>list of QA settings which are applied to project</returns>
-		private List<QAVerificationSettingsModel> GetQASettings()
-		{
-			var qaVerificationSettingsModels = new List<QAVerificationSettingsModel>();
-			var qaVerificationSettings = _document.SelectSingleNode($"//SettingsGroup[@Id='QAVerificationSettings']");
-			if (qaVerificationSettings != null)
-			{
-				foreach (XmlNode qaVerificationSetting in qaVerificationSettings)
-				{
-					var qaVerificationSettingsModel = new QAVerificationSettingsModel
-					{
-						Name = qaVerificationSetting.Attributes.Count > 0 ? qaVerificationSetting.Attributes["Id"].Value : string.Empty,
-						Value = qaVerificationSetting.FirstChild != null ? qaVerificationSetting.FirstChild.Value : string.Empty
-					};
-					qaVerificationSettingsModels.Add(qaVerificationSettingsModel);
-				}
-			}
-			return qaVerificationSettingsModels;
-		}
-
-		/// <summary>
-		/// Get information related to date and file on which NumberVerifier had been executed
-		/// </summary>
-		/// <returns>list of NumberVerifierSettingsModel</returns>
-		private List<NumberVerifierSettingsModel> GetNumberVerifierSettings()
+		private void GetVerificationSettings(ProjectInfoReportModel projectInfoReportModel)
 		{
 			var numberVerifierModels = new List<NumberVerifierSettingsModel>();
+			var qaVerificationSettingsModels = new List<QAVerificationSettingsModel>();
+
 			var languageDirections = GetLanguageDirections();
 			foreach(var targetFile in _targetFiles)
 			{
@@ -273,10 +251,12 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 					var settingsBundleNode = _document.SelectSingleNode($"//SettingsBundle[@Guid='{fileLanguageDirection.SettingsBundleGuid}']");
 					if (settingsBundleNode != null)
 					{
-						var numberVerSettingsGroupNode = settingsBundleNode.SelectSingleNode($"//SettingsGroup[@Id='NumberVerifierSettings']");
+						var settingsBundleNodes = settingsBundleNode["SettingsBundle"];				
+						// Get the Number Verifier Settings
+						var numberVerSettingsGroupNode = settingsBundleNodes != null ? settingsBundleNodes.SelectSingleNode("SettingsGroup[@Id='NumberVerifierSettings']") : null;
 						if (numberVerSettingsGroupNode != null)
 						{
-							var targetFileSettingsNode = numberVerSettingsGroupNode.SelectSingleNode($"//Setting[@Id='TargetFileSettings']");
+							var targetFileSettingsNode = numberVerSettingsGroupNode.SelectSingleNode("Setting[@Id='TargetFileSettings']");
 							if (targetFileSettingsNode != null)
 							{
 								//the FirstChild("ArrayOfTargetFileSetting") is taken because it always will exist only one child node on the TargetFileSettings node
@@ -300,13 +280,29 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 											}
 										}
 									}
+									projectInfoReportModel.NumberVerifierSettingsModels = numberVerifierModels;
 								}
 							}
+						}
+
+						// Get the QA Verification Settings
+						var qaVerificationSettings = settingsBundleNodes.SelectSingleNode("SettingsGroup[@Id='QAVerificationSettings']");
+						if (qaVerificationSettings != null)
+						{
+							foreach (XmlNode qaVerificationSetting in qaVerificationSettings)
+							{
+								var qaVerificationSettingsModel = new QAVerificationSettingsModel
+								{
+									Name = qaVerificationSetting.Attributes.Count > 0 ? qaVerificationSetting.Attributes["Id"].Value : string.Empty,
+									Value = qaVerificationSetting.FirstChild != null ? qaVerificationSetting.FirstChild.Value : string.Empty
+								};
+								qaVerificationSettingsModels.Add(qaVerificationSettingsModel);
+							}
+							projectInfoReportModel.QAVerificationSettingsModels = qaVerificationSettingsModels;
 						}
 					}
 				}
 			}
-			return numberVerifierModels;
 		}
 
 		/// <summary>
