@@ -82,7 +82,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			{
 				foreach (var termbase in projectInfoReportModel.Termbases)
 				{
-					translationMemories.Add(new XElement(Constants.Termbase, new XElement(Constants.Name, termbase.Name)));
+					termbases.Add(new XElement(Constants.Termbase, new XElement(Constants.Name, termbase.Name)));
 				}
 			}
 

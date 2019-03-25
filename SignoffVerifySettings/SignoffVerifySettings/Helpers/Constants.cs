@@ -39,7 +39,7 @@
 		public static readonly string ExecutedDate = "ExecutedDate";
 
 		// Report messages
-		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was executed.";
+		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was run.";
 		public static readonly string NoTranslationMemory = "No translation memory set";
 		public static readonly string NoTermbase = "No termbase set";
 		public static readonly string RegExRulesApplied = "RegEx rules were applied";
