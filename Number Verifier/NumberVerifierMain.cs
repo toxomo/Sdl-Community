@@ -5,8 +5,10 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Sdl.Community.Extended.MessageUI;
 using Sdl.Community.NumberVerifier.Composers;
 using Sdl.Community.NumberVerifier.Interfaces;
@@ -1354,8 +1356,19 @@ namespace Sdl.Community.NumberVerifier
 		private void SetSettingsGroups(Language targetLanguage, FileBasedProject currentProject)
 		{
 			var targetFileSettingsResult = new List<TargetFileSetting>();
+			var applicationVersion = string.Empty;
 			var settings = _sharedObjects.GetSharedObject<ISettingsBundle>("SettingsBundle");
 			var numberVerifierSettings = settings.GetSettingsGroup<NumberVerifierSettings>();
+			var manifestFileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "pluginpackage.manifest.xml");
+			var document = XElement.Load(manifestFileName);
+			var versionElement = document.Descendants()
+				.Where(v => v.Name.LocalName.Equals("Version"))
+				.FirstOrDefault();
+
+			if(versionElement != null)
+			{
+				applicationVersion = versionElement.FirstNode != null ? versionElement.FirstNode.ToString() : string.Empty;
+			}
 
 			if (numberVerifierSettings.TargetFileSettings.Value != null)
 			{
@@ -1371,7 +1384,8 @@ namespace Sdl.Community.NumberVerifier
 			var targetFileSetting = new TargetFileSetting
 			{
 				FileName = _fileName,
-				ExecutedDateTime = DateTime.UtcNow.ToString().ToString()
+				ExecutedDateTime = DateTime.UtcNow.ToString().ToString(),
+				ApplicationVersion = applicationVersion
 			};
 			targetFileSettingsResult.Add(targetFileSetting);
 
