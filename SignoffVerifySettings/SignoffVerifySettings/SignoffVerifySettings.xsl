@@ -9,7 +9,7 @@
 				  font-size: 130%;
 					padding-bottom: 5px;
 				}
-				.filesTile {
+				.text {
 				  font-family: Verdana;
 				  color: #6E7E82;
 				  font-size: 120%;
@@ -95,13 +95,18 @@
 					<br></br><br></br>
 			</div>
 
-				<div>
-					<p class="filesTile"><xsl:text>QA Verification Settings</xsl:text></p>
-				
+				<div class="proj">
+					<p class="text"><xsl:text>QA Verification Settings</xsl:text></p>
+					<xsl:for-each select="//ProjectInformation/VerificationSettings/VerificationSetting">
+						<b><xsl:text disable-output-escaping="yes">Language Pair: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="@LanguagePair"/>
+						<br></br>
+						<b><xsl:text disable-output-escaping="yes">QA Verification Settings rules: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="@QASettingName"/>
+					<br></br><br></br>
+					</xsl:for-each>				
 				</div>
 
 				<div>
-				<p class="filesTile"><xsl:text>Language Files </xsl:text></p>
+				<p class="text"><xsl:text>Language Files </xsl:text></p>
 				<div style="overflow-x:auto;">
 					<table id="files">
 						<tr>

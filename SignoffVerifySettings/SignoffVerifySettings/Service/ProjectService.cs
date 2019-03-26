@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using Sdl.Community.SignoffVerifySettings.Helpers;
 using Sdl.Community.SignoffVerifySettings.Model;
+using Sdl.Core.Globalization;
 using Sdl.ProjectAutomation.Core;
 using Sdl.ProjectAutomation.FileBased;
 using Sdl.TranslationStudioAutomation.IntegrationApi;
@@ -243,7 +244,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 			var languageDirections = GetLanguageDirections();
 			foreach(var targetFile in _targetFiles)
 			{
-				var fileLanguageDirection = languageDirections.Where(l => l.TargetLanguage.Equals(targetFile.LanguageCode)).FirstOrDefault();
+				var fileLanguageDirection = languageDirections.Where(l => l.TargetLanguageCode.Equals(targetFile.LanguageCode)).FirstOrDefault();
 
 				if (fileLanguageDirection != null)
 				{
@@ -273,7 +274,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 												{
 													ExecutedDateTime = targetFileChildNode.ChildNodes[0].InnerXml,
 													FileName = targetFileChildNode.ChildNodes[1].InnerXml,
-													TargetLanguageCode = fileLanguageDirection.TargetLanguage
+													TargetLanguageCode = fileLanguageDirection.TargetLanguageCode
 												};
 												numberVerifierModels.Add(numberVeriferModel);
 											}
@@ -289,7 +290,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 						if (qaVerificationSettings != null)
 						{
 							var sourceLanguage = projectInfoReportModel.SourceLanguage.DisplayName;
-							var targetLanguage = fileLanguageDirection.TargetLanguage;
+							var targetLanguage = new Language(fileLanguageDirection.TargetLanguageCode).DisplayName;
 
 							foreach (XmlNode qaVerificationSetting in qaVerificationSettings)
 							{
@@ -324,7 +325,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 					var languageDirectionModel = new LanguageDirectionModel
 					{
 						SettingsBundleGuid = childNode.Attributes["SettingsBundleGuid"].Value,
-						TargetLanguage = childNode.Attributes["TargetLanguageCode"].Value,
+						TargetLanguageCode = childNode.Attributes["TargetLanguageCode"].Value,
 					};
 					languageDirections.Add(languageDirectionModel);
 				}

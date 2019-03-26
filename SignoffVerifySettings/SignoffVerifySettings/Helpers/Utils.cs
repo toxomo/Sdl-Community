@@ -86,7 +86,7 @@ namespace Sdl.Community.SignoffVerifySettings.Helpers
 		public string GetStudioVersion()
 		{
 			var studioVersion = new Studio().GetStudioVersion();
-			return studioVersion != null ? studioVersion.Version : string.Empty;
+			return studioVersion != null ? $"{ studioVersion.PublicVersion} - {studioVersion.ExecutableVersion.ToString()}" : string.Empty;
 		}
 
 		public string GetImagesUrl()
