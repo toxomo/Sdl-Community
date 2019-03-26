@@ -191,19 +191,25 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 				}
 				else
 				{
-					var qaVerSettingElement = new XElement(Constants.VerificationSetting);
-					qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, string.Empty));
-					qaVerSettingElement.Add(new XAttribute(Constants.QASettingName, Constants.NoQAVerificationSettings));
-					qaVerSettingsElement.Add(qaVerSettingElement);
+					SetNoQAVerificationSettings(qaVerSettingsElement);
 				}
 			}
 			else
 			{
-				var qaVerSettingElement = new XElement(Constants.VerificationSetting);
-				qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, string.Empty));
-				qaVerSettingElement.Add(new XAttribute(Constants.QASettingName, Constants.NoQAVerificationSettings));
-				qaVerSettingsElement.Add(qaVerSettingElement);
+				SetNoQAVerificationSettings(qaVerSettingsElement);
 			}
+		}
+
+		/// <summary>
+		/// Set the XML element when no QA Verification Settings are found
+		/// </summary>
+		/// <param name="qaVerSettingsElement"></param>
+		private void SetNoQAVerificationSettings(XElement qaVerSettingsElement)
+		{
+			var qaVerSettingElement = new XElement(Constants.VerificationSetting);
+			qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, string.Empty));
+			qaVerSettingElement.Add(new XAttribute(Constants.QASettingName, Constants.NoQAVerificationSettings));
+			qaVerSettingsElement.Add(qaVerSettingElement);
 		}
 	}
 }

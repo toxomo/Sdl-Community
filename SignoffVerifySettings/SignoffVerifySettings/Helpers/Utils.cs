@@ -89,6 +89,10 @@ namespace Sdl.Community.SignoffVerifySettings.Helpers
 			return studioVersion != null ? $"{ studioVersion.PublicVersion} - {studioVersion.ExecutableVersion.ToString()}" : string.Empty;
 		}
 
+		/// <summary>
+		/// Get the images URL from Studio 'ReportResources' folder
+		/// </summary>
+		/// <returns>images URL</returns>
 		public string GetImagesUrl()
 		{
 			var studioVer = new Studio().GetStudioVersion();

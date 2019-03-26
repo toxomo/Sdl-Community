@@ -96,7 +96,7 @@
 					<p class="text"><xsl:text>QA Verification Settings</xsl:text></p>
 					<xsl:for-each select="//ProjectInformation/VerificationSettings/VerificationSetting">
 						<xsl:if test = "@LanguagePair != ''">
-							<b><xsl:text disable-output-escaping="yes">Language Pair: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="@LanguagePair"/>
+							<b><xsl:text disable-output-escaping="yes">Language Pair: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="@LanguagePair"/><br></br>
 							<b><xsl:text disable-output-escaping="yes">QA Verification Settings rules: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="@QASettingName"/>
 							<br></br>
 						</xsl:if>
