@@ -61,6 +61,9 @@
 					<b><xsl:text disable-output-escaping="yes">Project: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/Project/@Name"/>
 					<br></br>
 					
+					<b><xsl:text disable-output-escaping="yes">Studio version: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/Project/@StudioVersion"/>
+					<br></br>
+					
 					<b><xsl:text disable-output-escaping="yes">Source Language: <![CDATA[&nbsp;]]> </xsl:text>	</b><xsl:value-of select="//ProjectInformation/SourceLanguage/@DisplayName"/>	
 					<br></br>	
 					

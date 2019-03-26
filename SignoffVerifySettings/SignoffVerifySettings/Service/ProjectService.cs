@@ -38,11 +38,9 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		/// </summary>
 		/// <param name="taskFiles">selected files from the project based on which the batch task is running</param>
 		public ProjectInfoReportModel GetCurrentProjectInformation(ProjectFile[] taskFiles)
-		{			
-			// Studio version
-			var studioVersion = _utils.GetStudioVersion();
-			var currentProject = GetProjectController().CurrentProject;
+		{
 			var projectInfoReportModel = new ProjectInfoReportModel();
+			var currentProject = GetProjectController().CurrentProject;
 			if (currentProject != null)
 			{
 				var projectInfo = currentProject.GetProjectInfo();
@@ -58,6 +56,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 				GetSettingsBundleInformation(currentProject);
 				var runAt = GetQAVerificationInfo(projectInfo);
 
+				projectInfoReportModel.StudioVersion = _utils.GetStudioVersion();
 				projectInfoReportModel.PhaseXmlNodeModels = _phaseXmlNodeModels;
 				projectInfoReportModel.LanguageFileXmlNodeModels = _targetFiles;
 				projectInfoReportModel.RunAt = runAt;

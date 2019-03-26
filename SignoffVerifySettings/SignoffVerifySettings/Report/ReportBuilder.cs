@@ -45,7 +45,8 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 		{
 			parent.Add(new XElement(Constants.Project,
 				new XAttribute("Image", _utils.GetImagesUrl()),
-				new XAttribute(Constants.Name, projectInfoReportModel.ProjectName)));
+				new XAttribute(Constants.Name, projectInfoReportModel.ProjectName),
+				new XAttribute(Constants.StudioVersion, projectInfoReportModel.StudioVersion)));
 			parent.Add(new XElement(Constants.SourceLanguage, new XAttribute(Constants.DisplayName, projectInfoReportModel.SourceLanguage.DisplayName)));
 
 			var targetLanguages = new XElement(Constants.TargetLanguages);
@@ -161,24 +162,26 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			parent.Add(qaVerSettingsElement);
 
 			var qaVerificationSettings = projectInfoReportModel
-				.QAVerificationSettingsModels.Where(q => !q.Value.Equals(Constants.False) && !q.Value.Equals(Constants.Zero))
+				.QAVerificationSettingsModels.Where(q => q.Value == Constants.True || q.Value == Constants.Zero)
 				.ToList();
-			foreach (var qaVerificationSetting in qaVerificationSettings)
+			if (qaVerificationSettings.Any())
 			{
-				var qaVerSettingElement = new XElement(Constants.VerificationSetting);
-				qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, qaVerificationSetting.LanguagePair),
-     				new XAttribute(Constants.Name, qaVerificationSetting.FileName),
-					new XAttribute(Constants.QASettingName, qaVerificationSetting.Name));
+				var results = qaVerificationSettings.GroupBy(q => q.LanguagePair).ToList();
 
-				qaVerSettingsElement.Add(qaVerSettingElement);
-			}
+				foreach (var result in results)
+				{
+					var qaRules = string.Empty;
 
-			//To do: update above logic to put the values with ; into qaVerificationSetting.Name and return something like:
-			// <VerificationSettings>
-			//	<Verification Setting LanguagePair="English-Romania" FileName="", Name="Rule1; Rule 2; Rule 3">
-			//	<Verification Setting LanguagePair="English-German" FileName="", Name="Rule1; Rule 2;">
-			//	</Verification Setting>
-			//</Verification Settings>
+					foreach (var res in result)
+					{
+						qaRules += $"{res.Name}; ";
+					}
+					var qaVerSettingElement = new XElement(Constants.VerificationSetting);
+					qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, result.Key),
+											new XAttribute(Constants.QASettingName, qaRules.TrimEnd(' ').TrimEnd(';')));
+					qaVerSettingsElement.Add(qaVerSettingElement);					
+				}
+			}			
 		}
 	}
 }

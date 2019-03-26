@@ -8,6 +8,8 @@ namespace Sdl.Community.SignoffVerifySettings.Model
 	{
 		public string ProjectName { get; set; }
 
+		public string StudioVersion { get; set; }
+
 		// used to display the RunAt value from the "Verify Files .xml" report generated for all project files
 		public string RunAt{ get; set; }
 

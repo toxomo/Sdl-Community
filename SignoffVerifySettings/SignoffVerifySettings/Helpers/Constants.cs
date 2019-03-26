@@ -16,6 +16,7 @@
 		public static readonly string ProjectInformation = "ProjectInformation";
 		public static readonly string Project = "Project";
 		public static readonly string Name = "Name";
+		public static readonly string StudioVersion = "StudioVersion";
 		public static readonly string Zero = "0";
 		public static readonly string QASettingName = "QASettingName";
 		public static readonly string SourceLanguage = "SourceLanguage";
