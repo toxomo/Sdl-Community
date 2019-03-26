@@ -4,48 +4,48 @@
     <html>
 			<style>
 				.title {
-				  font-family: Verdana;
-				  color: #6E7E82;
-				  font-size: 130%;
-					padding-bottom: 5px;
+				font-family: Verdana;
+				color: #6E7E82;
+				font-size: 130%;
+				padding-bottom: 5px;
 				}
 				.text {
-				  font-family: Verdana;
-				  color: #6E7E82;
-				  font-size: 120%;
-				}		
-				.proj{
-				 color: #383838;
+				font-family: Verdana;
+				color: #6E7E82;
+				font-size: 120%;
 				}
-				
+				.proj{
+				color: #383838;
+				}
+
 				.logo{
 				position: fixed;
 				right: 15px;
 				top: 10px;
 				}
-				
+
 				#files {
-				  font-family: Verdana, Helvetica, sans-serif;
-				  border-collapse: collapse;
-				  width: 100%;				 
+				font-family: Verdana, Helvetica, sans-serif;
+				border-collapse: collapse;
+				width: 100%;
 				}
-			  #files td {
-				  border: 1px solid #ddd;
-				  padding: 8px;
-				  font-size: 80%;
+				#files td {
+				border: 1px solid #ddd;
+				padding: 8px;
+				font-size: 80%;
 				}
 				#files tr:nth-child(even){background-color: #f2f2f2;}
 				#files tr:hover {background-color: #ddd;}
-				
+
 				#files th {
-				  padding-top: 12px;
-				  padding-bottom: 12px;
-				  text-align: left;
-				  background-color: #476878;
-				  color: white;
-					font-size: 85%;
+				padding-top: 12px;
+				padding-bottom: 12px;
+				text-align: left;
+				background-color: #476878;
+				color: white;
+				font-size: 85%;
 				}
-			
+
 			</style>
 			<head>
 				<p class="title">Signoff Verify Settings</p>
@@ -95,15 +95,21 @@
 					<br></br><br></br>
 			</div>
 
-				<div class="proj">
+			<div class="proj">
 					<p class="text"><xsl:text>QA Verification Settings</xsl:text></p>
 					<xsl:for-each select="//ProjectInformation/VerificationSettings/VerificationSetting">
-						<b><xsl:text disable-output-escaping="yes">Language Pair: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="@LanguagePair"/>
+						<xsl:if test = "@LanguagePair != ''">
+							<b><xsl:text disable-output-escaping="yes">Language Pair: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="@LanguagePair"/>
+							<b><xsl:text disable-output-escaping="yes">QA Verification Settings rules: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="@QASettingName"/>
+							<br></br>
+						</xsl:if>
+						<xsl:if test = "@LanguagePair = ''">
+							<p><xsl:value-of select="@QASettingName"/></p>
+						</xsl:if>
 						<br></br>
-						<b><xsl:text disable-output-escaping="yes">QA Verification Settings rules: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="@QASettingName"/>
-					<br></br><br></br>
-					</xsl:for-each>				
-				</div>
+					</xsl:for-each>
+				<br></br>
+			</div>
 
 				<div>
 				<p class="text"><xsl:text>Language Files </xsl:text></p>

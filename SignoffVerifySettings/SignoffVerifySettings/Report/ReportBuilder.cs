@@ -138,11 +138,18 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 				// set xml info for file Number Verifier execution
 				var numberVerifier = new XElement(Constants.NumberVerifier);
 				languageFile.Add(numberVerifier);
-				var numberVerifierInfo = projectInfoReportModel.NumberVerifierSettingsModels
-					.Where(n => n.FileName.Equals(file.FileName) && n.TargetLanguageCode.Equals(file.LanguageCode)).FirstOrDefault();
-				if(numberVerifierInfo != null)
+				if (projectInfoReportModel.NumberVerifierSettingsModels != null)
 				{
-					numberVerifier.Add(new XAttribute(Constants.ExecutedDate, numberVerifierInfo.ExecutedDateTime));
+					var numberVerifierInfo = projectInfoReportModel.NumberVerifierSettingsModels
+						.Where(n => n.FileName.Equals(file.FileName) && n.TargetLanguageCode.Equals(file.LanguageCode)).FirstOrDefault();
+					if (numberVerifierInfo != null)
+					{
+						numberVerifier.Add(new XAttribute(Constants.ExecutedDate, numberVerifierInfo.ExecutedDateTime));
+					}
+					else
+					{
+						numberVerifier.Add(new XAttribute(Constants.ExecutedDate, Constants.NoNumberVerifierExecuted));
+					}
 				}
 				else
 				{
@@ -161,27 +168,44 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			var qaVerSettingsElement = new XElement(Constants.VerificationSettings);
 			parent.Add(qaVerSettingsElement);
 
-			var qaVerificationSettings = projectInfoReportModel
-				.QAVerificationSettingsModels.Where(q => q.Value == Constants.True || q.Value == Constants.Zero)
-				.ToList();
-			if (qaVerificationSettings.Any())
+			if (projectInfoReportModel.QAVerificationSettingsModels != null)
 			{
-				var results = qaVerificationSettings.GroupBy(q => q.LanguagePair).ToList();
-
-				foreach (var result in results)
+				var qaVerificationSettings = projectInfoReportModel
+					.QAVerificationSettingsModels.Where(q => q.Value == Constants.True || q.Value == Constants.Zero)
+					.ToList();
+				if (qaVerificationSettings.Any())
 				{
-					var qaRules = string.Empty;
+					var results = qaVerificationSettings.GroupBy(q => q.LanguagePair).ToList();
 
-					foreach (var res in result)
+					foreach (var result in results)
 					{
-						qaRules += $"{res.Name}; ";
+						var qaRules = string.Empty;
+
+						foreach (var res in result)
+						{
+							qaRules += $"{res.Name}; ";
+						}
+						var qaVerSettingElement = new XElement(Constants.VerificationSetting);
+						qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, result.Key),
+												new XAttribute(Constants.QASettingName, qaRules.TrimEnd(' ').TrimEnd(';')));
+						qaVerSettingsElement.Add(qaVerSettingElement);
 					}
-					var qaVerSettingElement = new XElement(Constants.VerificationSetting);
-					qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, result.Key),
-											new XAttribute(Constants.QASettingName, qaRules.TrimEnd(' ').TrimEnd(';')));
-					qaVerSettingsElement.Add(qaVerSettingElement);					
 				}
-			}			
+				else
+				{
+					var qaVerSettingElement = new XElement(Constants.VerificationSetting);
+					qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, string.Empty));
+					qaVerSettingElement.Add(new XAttribute(Constants.QASettingName, Constants.NoQAVerificationSettings));
+					qaVerSettingsElement.Add(qaVerSettingElement);
+				}
+			}
+			else
+			{
+				var qaVerSettingElement = new XElement(Constants.VerificationSetting);
+				qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, string.Empty));
+				qaVerSettingElement.Add(new XAttribute(Constants.QASettingName, Constants.NoQAVerificationSettings));
+				qaVerSettingsElement.Add(qaVerSettingElement);
+			}
 		}
 	}
 }

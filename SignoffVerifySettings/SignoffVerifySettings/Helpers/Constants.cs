@@ -53,6 +53,7 @@
 		public static readonly string NoRegExRules = "No RegEx rules were applied";
 		public static readonly string QAChekerExecuted = "Verification message reported";
 		public static readonly string NoQAChekerExecuted = "No verification message reported";
+		public static readonly string NoQAVerificationSettings = "No QA Verification Settings enabled";
 		public static readonly string NoPhaseAssigned = "No phase assigned";
 		public static readonly string NoUserAssigned = "No user(s) assigned";
 		public static readonly string False = "False";
