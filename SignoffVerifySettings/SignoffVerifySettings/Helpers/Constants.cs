@@ -58,6 +58,9 @@
 		public static readonly string NoUserAssigned = "No user(s) assigned";
 		public static readonly string False = "False";
 		public static readonly string True = "True";
+		public static readonly string Enabled = "Enabled";
+		public static readonly string Disabled = "Disabled";
+
 		public static readonly string NoNumberVerifierExecuted = "Number Verifier did not executed";
 	}
 }

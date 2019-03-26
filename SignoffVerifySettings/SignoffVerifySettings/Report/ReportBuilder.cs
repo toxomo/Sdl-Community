@@ -88,9 +88,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 				}
 			}
 
-			var regExRulesValue = !string.IsNullOrEmpty(projectInfoReportModel.RegexRules) ? Constants.RegExRulesApplied : Constants.NoRegExRules;
-			parent.Add(new XElement(Constants.RegExRules, regExRulesValue));
-			var checkRegExValue = !string.IsNullOrEmpty(projectInfoReportModel.CheckRegexRules) ? Constants.True : Constants.False;
+			var checkRegExValue = !string.IsNullOrEmpty(projectInfoReportModel.CheckRegexRules) ? Constants.Enabled : Constants.Disabled;
 			parent.Add(new XElement(Constants.CheckRegEx, checkRegExValue));
 
 			parent.Add(new XElement(Constants.QAChecker, projectInfoReportModel.QACheckerRanResult));

@@ -85,10 +85,7 @@
 					<br></br>	
 					</xsl:for-each>
 					
-					<b><xsl:text disable-output-escaping="yes">RegEx rules: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/RegExRules"/>				
-				  <br></br>
-					
-					<b><xsl:text disable-output-escaping="yes">Check RegEx: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/CheckRegEx"/>		
+					<b><xsl:text disable-output-escaping="yes">Search regular expression: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/CheckRegEx"/>		
 				  <br></br>
 					
 					<b><xsl:text disable-output-escaping="yes">QA Checker: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/QAChecker"/>
@@ -120,7 +117,6 @@
 							<th>Target language</th>
 							<th>Run at</th>
 							<th>Phase</th>
-							<th>Is phase currently assigned</th>
 							<th>Number of assignees</th>
 							<th>Number Verifier</th>
 						</tr>
@@ -137,9 +133,6 @@
 								</td>
 								<td>
 									<xsl:value-of select="Phase/@AssignedPhase"/>
-								</td>
-								<td>
-									<xsl:value-of select="Phase/@IsCurrentAssignment"/>
 								</td>
 								<td>
 									<xsl:value-of select="Phase/@AssigneesNumber"/>
