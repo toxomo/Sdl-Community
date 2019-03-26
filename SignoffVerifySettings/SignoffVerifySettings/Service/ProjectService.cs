@@ -259,16 +259,18 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 							var targetFileSettingsNode = numberVerSettingsGroupNode.SelectSingleNode("Setting[@Id='TargetFileSettings']");
 							if (targetFileSettingsNode != null)
 							{
-								//the FirstChild("ArrayOfTargetFileSetting") is taken because it always will exist only one child node on the TargetFileSettings node
+								// the FirstChild("ArrayOfTargetFileSetting") is taken because int the xml structure it will always exist only one
+								// "ArrayOfTargetFileSetting" child node on the TargetFileSettings node, and the child node will contain the 'TargetFileSetting' nodes
 								if (targetFileSettingsNode.FirstChild != null)
 								{
+									// iterate each TargetFileSetting node
 									foreach (XmlElement targetFileChildNode in targetFileSettingsNode.FirstChild.ChildNodes)
 									{
 										var numberVeriferModel = new NumberVerifierSettingsModel();
 
 										if (targetFileChildNode.ChildNodes != null)
 										{
-											// take the value for each child from the TargetFile Node
+											// take the value for each child from the TargetFileSettig node
 											foreach(XmlNode child in targetFileChildNode.ChildNodes)
 											{
 												if(child.Name.Equals(Constants.FileName))
