@@ -5,5 +5,6 @@
 		public string FileName { get; set; }
 		public string ExecutedDateTime { get; set; }
 		public string TargetLanguageCode { get; set; }
+		public string ApplicationVersion { get; set; }
 	}
 }

@@ -149,7 +149,8 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 						.Where(n => n.FileName.Equals(file.FileName) && n.TargetLanguageCode.Equals(file.LanguageCode)).FirstOrDefault();
 					if (numberVerifierInfo != null)
 					{
-						numberVerifier.Add(new XAttribute(Constants.ExecutedDate, numberVerifierInfo.ExecutedDateTime));
+						var value = $"Number Verifier, version {numberVerifierInfo.ApplicationVersion} run at: {numberVerifierInfo.ExecutedDateTime}";
+						numberVerifier.Add(new XAttribute(Constants.ExecutedDate, value));
 					}
 					else
 					{

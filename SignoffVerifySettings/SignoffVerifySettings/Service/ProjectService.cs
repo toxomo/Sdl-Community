@@ -267,13 +267,14 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 										if (targetFileChildNode.ChildNodes != null)
 										{
 											// get the values from the ChildNodes only for the target file on which the batch task is running
-											if (targetFile.FileName.Equals(targetFileChildNode.ChildNodes[1].InnerXml))
+											if (targetFile.FileName.Equals(targetFileChildNode.ChildNodes[2].InnerXml))
 											{
 												// take the values by index, because the Node structure will not change(this is how is defined in NumberVerifier app) 
 												var numberVeriferModel = new NumberVerifierSettingsModel
 												{
-													ExecutedDateTime = targetFileChildNode.ChildNodes[0].InnerXml,
-													FileName = targetFileChildNode.ChildNodes[1].InnerXml,
+													ExecutedDateTime = targetFileChildNode.ChildNodes[1].InnerXml,
+													FileName = targetFileChildNode.ChildNodes[2].InnerXml,
+													ApplicationVersion = targetFileChildNode.ChildNodes[0].InnerXml,
 													TargetLanguageCode = fileLanguageDirection.TargetLanguageCode
 												};
 												numberVerifierModels.Add(numberVeriferModel);
