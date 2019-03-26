@@ -264,21 +264,28 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 								{
 									foreach (XmlElement targetFileChildNode in targetFileSettingsNode.FirstChild.ChildNodes)
 									{
+										var numberVeriferModel = new NumberVerifierSettingsModel();
+
 										if (targetFileChildNode.ChildNodes != null)
 										{
-											// get the values from the ChildNodes only for the target file on which the batch task is running
-											if (targetFile.FileName.Equals(targetFileChildNode.ChildNodes[2].InnerXml))
+											// take the value for each child from the TargetFile Node
+											foreach(XmlNode child in targetFileChildNode.ChildNodes)
 											{
-												// take the values by index, because the Node structure will not change(this is how is defined in NumberVerifier app) 
-												var numberVeriferModel = new NumberVerifierSettingsModel
+												if(child.Name.Equals(Constants.FileName))
 												{
-													ExecutedDateTime = targetFileChildNode.ChildNodes[1].InnerXml,
-													FileName = targetFileChildNode.ChildNodes[2].InnerXml,
-													ApplicationVersion = targetFileChildNode.ChildNodes[0].InnerXml,
-													TargetLanguageCode = fileLanguageDirection.TargetLanguageCode
-												};
-												numberVerifierModels.Add(numberVeriferModel);
+													numberVeriferModel.FileName = child.InnerXml;
+												}
+												if (child.Name.Equals(Constants.ApplicationVersion))
+												{
+													numberVeriferModel.ApplicationVersion = child.InnerXml;
+												}
+												if (child.Name.Equals(Constants.ExecutedDateTime))
+												{
+													numberVeriferModel.ExecutedDateTime = child.InnerXml;
+												}
 											}
+											numberVeriferModel.TargetLanguageCode = fileLanguageDirection.TargetLanguageCode;
+											numberVerifierModels.Add(numberVeriferModel);
 										}
 									}
 									projectInfoReportModel.NumberVerifierSettingsModels = numberVerifierModels;

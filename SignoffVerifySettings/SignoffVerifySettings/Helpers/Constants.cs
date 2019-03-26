@@ -43,6 +43,9 @@
 		public static readonly string ExecutedDate = "ExecutedDate";
 		public static readonly string VerificationSettings = "VerificationSettings";
 		public static readonly string VerificationSetting = "VerificationSetting";
+		public static readonly string FileName = "FileName";
+		public static readonly string ApplicationVersion = "ApplicationVersion";
+		public static readonly string ExecutedDateTime = "ExecutedDateTime";
 
 
 		// Report messages
