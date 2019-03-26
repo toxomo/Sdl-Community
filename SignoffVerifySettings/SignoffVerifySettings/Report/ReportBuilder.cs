@@ -9,14 +9,19 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 {
 	public class ReportBuilder
 	{
+		#region Private Fields
 		private readonly XElement _root = new XElement("Report");
 		private readonly Utils _utils;
+		#endregion
 
+		#region Constructor
 		public ReportBuilder()
 		{
 			_utils = new Utils();
 		}
+		#endregion
 
+		#region Public Methods
 		public string GetReport()
 		{
 			return _root.ToString();
@@ -35,7 +40,9 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 
 			_root.Add(parent);
 		}
+		#endregion
 
+		#region Private Methods
 		/// <summary>
 		/// Generate the xml for the .xsl report which contains the project information
 		/// </summary>
@@ -211,5 +218,6 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			qaVerSettingElement.Add(new XAttribute(Constants.QASettingName, Constants.NoQAVerificationSettings));
 			qaVerSettingsElement.Add(qaVerSettingElement);
 		}
+		#endregion
 	}
 }
