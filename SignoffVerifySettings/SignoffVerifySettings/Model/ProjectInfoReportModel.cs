@@ -26,7 +26,6 @@ namespace Sdl.Community.SignoffVerifySettings.Model
 		// used to display the Materials information
 		public List<TranslationProviderCascadeEntry> TranslationMemories { get; set; }
 		public List<Termbase> Termbases { get; set; }
-		public string RegexRules { get; set; }
 		public string CheckRegexRules { get; set; }
 		public string QACheckerRanResult { get; set; }
 

@@ -212,11 +212,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		/// <param name="projectInfoReportModel">projectInfoReportModel used further to display the information into report</param>
 		private void GetMaterialsInfo(FileBasedProject currentProject, ProjectInfoReportModel projectInfoReportModel)
 		{
-			// get RegExRules & CheckRexEx values
-			projectInfoReportModel.RegexRules = _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='RegExRules']") != null
-				? _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='RegExRules']").FirstChild != null 
-				? _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='RegExRules']").FirstChild.Value 
-				: string.Empty : string.Empty;
+			// get CheckRexEx values
 			projectInfoReportModel.CheckRegexRules = _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='CheckRegEx']") != null
 				? _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='CheckRegEx']").FirstChild != null
 				? _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='CheckRegEx']").FirstChild.Value

@@ -85,7 +85,7 @@
 					<br></br>	
 					</xsl:for-each>
 					
-					<b><xsl:text disable-output-escaping="yes">Search regular expression: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/CheckRegEx"/>		
+					<b><xsl:text disable-output-escaping="yes">Regular expression: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/CheckRegEx"/>		
 				  <br></br>
 					
 					<b><xsl:text disable-output-escaping="yes">QA Checker: <![CDATA[&nbsp;]]> </xsl:text></b><xsl:value-of select="//ProjectInformation/QAChecker"/>

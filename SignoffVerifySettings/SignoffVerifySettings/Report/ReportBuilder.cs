@@ -96,7 +96,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 				}
 			}
 
-			var checkRegExValue = !string.IsNullOrEmpty(projectInfoReportModel.CheckRegexRules) ? Constants.Enabled : Constants.Disabled;
+			var checkRegExValue = projectInfoReportModel.CheckRegexRules.Equals(Constants.True) ? Constants.Enabled : Constants.Disabled;
 			parent.Add(new XElement(Constants.CheckRegEx, checkRegExValue));
 
 			parent.Add(new XElement(Constants.QAChecker, projectInfoReportModel.QACheckerRanResult));

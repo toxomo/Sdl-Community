@@ -49,8 +49,8 @@
 		public static readonly string Count = "Count";
 		public static readonly string False = "False";
 		public static readonly string True = "True";
-		public static readonly string Enabled = "Enabled";
-		public static readonly string Disabled = "Disabled";
+		public static readonly string Enabled = @"The ""Search regular expression"" option is enabled";
+		public static readonly string Disabled = @"The ""Search regular expression"" option is disabled";
 
 		// Report messages
 		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was run.";
