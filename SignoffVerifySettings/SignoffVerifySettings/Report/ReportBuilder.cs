@@ -189,8 +189,9 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 						var qaRules = new StringBuilder();
 						foreach (var res in result)
 						{
-							// do not add the duplicates and also those which contains the 'Count' word because it is represents the number of applied rules.
-							if (!qaRules.ToString().Contains(res.Name) && !res.Name.Contains(Constants.Count))
+							// Ignore the duplicates, ignore QA Verificaiton settings which contains 'Count' word (represents the number of applied rules).
+							// Ignore RegExRules because will be retrieved and displayed separatly.
+							if (!qaRules.ToString().Contains(res.Name) && !res.Name.Contains(Constants.Count) && !res.Name.Contains(Constants.RegExRules))
 							{
 								// use string builder because it is more faster inside of a foreach
 								qaRules.Append($"{res.Name}; ");
