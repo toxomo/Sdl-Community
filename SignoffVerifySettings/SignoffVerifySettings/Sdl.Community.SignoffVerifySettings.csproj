@@ -101,7 +101,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileConverter.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Model\LanguageDirectionModel.cs" />
     <Compile Include="Model\LanguageFileXmlNodeModel.cs" />

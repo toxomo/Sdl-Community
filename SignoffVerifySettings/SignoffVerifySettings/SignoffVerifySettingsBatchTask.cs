@@ -23,11 +23,9 @@ namespace Sdl.Community.SignoffVerifySettings
 				_projectInfoReportModel = projectService.GetCurrentProjectInformation(TaskFiles);
 			}
 		}
-
 		protected override void ConfigureConverter(ProjectFile projectFile, IMultiFileConverter multiFileConverter)
 		{
-			var fileConverter = new FileConverter();
-			multiFileConverter.AddBilingualProcessor(fileConverter);
+			// no implementation needed
 		}
 
 		public override void TaskComplete()
@@ -36,6 +34,6 @@ namespace Sdl.Community.SignoffVerifySettings
 
 			var report = ReportGenerator.CreateReport(_projectInfoReportModel);
 			CreateReport(Constants.ReportName, "Verification statistics", report);
-		} 
+		}		
 	}
 }

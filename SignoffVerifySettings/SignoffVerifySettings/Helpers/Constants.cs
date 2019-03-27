@@ -2,7 +2,7 @@
 {
 	public static class Constants
 	{
-		// file phases
+		// File phases
 		public static readonly string PreparationPhase = "LanguageFileServerAssignmentsSettings_Preparation";
 		public static readonly string TranslationPhase = "LanguageFileServerAssignmentsSettings_Translation";
 		public static readonly string ReviewPhase = "LanguageFileServerAssignmentsSettings_Review";
@@ -47,6 +47,10 @@
 		public static readonly string ApplicationVersion = "ApplicationVersion";
 		public static readonly string ExecutedDateTime = "ExecutedDateTime";
 		public static readonly string Count = "Count";
+		public static readonly string False = "False";
+		public static readonly string True = "True";
+		public static readonly string Enabled = "Enabled";
+		public static readonly string Disabled = "Disabled";
 
 		// Report messages
 		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was run.";
@@ -59,11 +63,6 @@
 		public static readonly string NoQAVerificationSettings = "No QA Verification Settings enabled";
 		public static readonly string NoPhaseAssigned = "No phase assigned";
 		public static readonly string NoUserAssigned = "No user(s) assigned";
-		public static readonly string False = "False";
-		public static readonly string True = "True";
-		public static readonly string Enabled = "Enabled";
-		public static readonly string Disabled = "Disabled";
-
 		public static readonly string NoNumberVerifierExecuted = "Number Verifier did not executed";
 	}
 }
