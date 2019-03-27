@@ -46,7 +46,7 @@
 		public static readonly string FileName = "FileName";
 		public static readonly string ApplicationVersion = "ApplicationVersion";
 		public static readonly string ExecutedDateTime = "ExecutedDateTime";
-
+		public static readonly string Count = "Count";
 
 		// Report messages
 		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was run.";

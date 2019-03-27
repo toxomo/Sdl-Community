@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using Sdl.Community.SignoffVerifySettings.Helpers;
 using Sdl.Community.SignoffVerifySettings.Model;
@@ -177,7 +178,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			if (projectInfoReportModel.QAVerificationSettingsModels != null)
 			{
 				var qaVerificationSettings = projectInfoReportModel
-					.QAVerificationSettingsModels.Where(q => q.Value == Constants.True || q.Value == Constants.Zero)
+					.QAVerificationSettingsModels.Where(q => q.Value != Constants.False)
 					.ToList();
 				if (qaVerificationSettings.Any())
 				{
@@ -185,15 +186,19 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 
 					foreach (var result in results)
 					{
-						var qaRules = string.Empty;
-
+						var qaRules = new StringBuilder();
 						foreach (var res in result)
 						{
-							qaRules += $"{res.Name}; ";
+							// do not add the duplicates and also those which contains the 'Count' word because it is represents the number of applied rules.
+							if (!qaRules.ToString().Contains(res.Name) && !res.Name.Contains(Constants.Count))
+							{
+								// use string builder because it is more faster inside of a foreach
+								qaRules.Append($"{res.Name}; ");
+							}
 						}
 						var qaVerSettingElement = new XElement(Constants.VerificationSetting);
 						qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, result.Key),
-												new XAttribute(Constants.QASettingName, qaRules.TrimEnd(' ').TrimEnd(';')));
+												new XAttribute(Constants.QASettingName, qaRules.ToString().TrimEnd(' ').TrimEnd(';')));
 						qaVerSettingsElement.Add(qaVerSettingElement);
 					}
 				}
