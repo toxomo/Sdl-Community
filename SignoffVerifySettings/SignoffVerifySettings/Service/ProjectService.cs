@@ -305,7 +305,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 									Name = qaVerificationSetting.Attributes.Count > 0 ? qaVerificationSetting.Attributes["Id"].Value : string.Empty,
 									Value = qaVerificationSetting.FirstChild != null ? qaVerificationSetting.FirstChild.Value : string.Empty,
 									FileName = targetFile.FileName,
-									LanguagePair = $"{sourceLanguage}-{targetLanguage}"
+									LanguagePair = $"{sourceLanguage} - {targetLanguage}"
 								};
 								qaVerificationSettingsModels.Add(qaVerificationSettingsModel);
 							}
