@@ -125,7 +125,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 				
 				// Set xml info for file phase
 				var phaseInfo = projectInfoReportModel.PhaseXmlNodeModels
-					.Where(p => p.TargetFileGuid.Equals(file.LanguageFileGUID) && p.IsCurrentAssignment.Equals(Constants.True)).FirstOrDefault();
+					.Where(p => p.TargetFileGuid.Equals(file.LanguageFileGuid) && p.IsCurrentAssignment.Equals(Constants.True)).FirstOrDefault();
 				var phase = new XElement(Constants.Phase);
 				languageFile.Add(phase);
 				if (phaseInfo != null)

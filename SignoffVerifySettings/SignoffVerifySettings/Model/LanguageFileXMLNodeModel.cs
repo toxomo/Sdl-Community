@@ -3,7 +3,7 @@
 	public class LanguageFileXmlNodeModel
 	{
 		// .sdlproj LanguageFile node properties
-		public string LanguageFileGUID { get; set; }
+		public string LanguageFileGuid { get; set; }
 		public string SettingsBundleGuid { get; set; }
 		public string LanguageCode { get; set; }
 

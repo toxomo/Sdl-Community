@@ -32,7 +32,7 @@ namespace Sdl.Community.SignoffVerifySettings.Helpers
 						phaseXmlNodeModel.PhaseName = phaseType;
 						phaseXmlNodeModel.TargetLanguageCode = targetFile.LanguageCode;
 						phaseXmlNodeModel.IsCurrentAssignment = node.InnerText;
-						phaseXmlNodeModel.TargetFileGuid = targetFile.LanguageFileGUID;
+						phaseXmlNodeModel.TargetFileGuid = targetFile.LanguageFileGuid;
 					}
 				}
 

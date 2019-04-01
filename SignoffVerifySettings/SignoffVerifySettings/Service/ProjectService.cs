@@ -97,7 +97,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 					{
 						var languageFileXmlNodeModel = new LanguageFileXmlNodeModel
 						{
-							LanguageFileGUID = languageFileNode.Attributes["Guid"].Value,
+							LanguageFileGuid = languageFileNode.Attributes["Guid"].Value,
 							SettingsBundleGuid = languageFileNode.Attributes["SettingsBundleGuid"].Value,
 							LanguageCode = languageFileNode.Attributes["LanguageCode"].Value,
 							FileName = Path.GetFileName(taskFile.LocalFilePath)
@@ -178,7 +178,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 							{
 								// get the info only for those target files on which the 'Verify Files' batch task has been run.
 								var reportFileGuid = fileNode.Attributes["guid"].Value;
-								if (targetFile.LanguageFileGUID.Equals(reportFileGuid))
+								if (targetFile.LanguageFileGuid.Equals(reportFileGuid))
 								{
 									targetFile.FileName = fileNode.Attributes["name"].Value;
 									targetFile.RunAt = _utils.GetRunAtValue(doc);
