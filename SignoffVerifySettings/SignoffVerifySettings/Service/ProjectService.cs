@@ -49,6 +49,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 				{
 					// Project Name
 					projectInfoReportModel.ProjectName = projectInfo.Name;
+					projectInfoReportModel.ProjectId = projectInfo.Id;
 					// Language Pairs
 					projectInfoReportModel.SourceLanguage = projectInfo.SourceLanguage;
 					projectInfoReportModel.TargetLanguages = projectInfo.TargetLanguages.ToList();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sdl.Core.Globalization;
 using Sdl.ProjectAutomation.Core;
 
@@ -6,6 +7,8 @@ namespace Sdl.Community.SignoffVerifySettings.Model
 {
 	public class ProjectInfoReportModel
 	{
+		public Guid ProjectId { get; set; }
+
 		public string ProjectName { get; set; }
 
 		public string StudioVersion { get; set; }
