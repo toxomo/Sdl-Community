@@ -157,49 +157,52 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 			var runAt = string.Empty;
 			var directoryInfo = new DirectoryInfo($@"{projectInfo.LocalProjectFolder}\Reports\");
 
-			//get report info for each targetFile
-			foreach (var targetFile in _targetFiles)
+			if (directoryInfo.Exists)
 			{
-				var fileInfo = directoryInfo
-					.GetFiles()
-					.OrderByDescending(f => f.LastWriteTime)
-					.FirstOrDefault(n => n.Name.StartsWith($@"Verify Files {projectInfo.SourceLanguage.CultureInfo.Name}_{targetFile.LanguageCode}"));
-
-				if (fileInfo != null)
+				//get report info for each targetFile
+				foreach (var targetFile in _targetFiles)
 				{
-					var reportPath = fileInfo.FullName;
-					if (File.Exists(reportPath))
+					var fileInfo = directoryInfo
+						.GetFiles()
+						.OrderByDescending(f => f.LastWriteTime)
+						.FirstOrDefault(n => n.Name.StartsWith($@"Verify Files {projectInfo.SourceLanguage.CultureInfo.Name}_{targetFile.LanguageCode}"));
+
+					if (fileInfo != null)
 					{
-						var doc = _utils.LoadXmlDocument(reportPath);
-						var fileNodes = doc.GetElementsByTagName("file");
-						foreach (XmlNode fileNode in fileNodes)
+						var reportPath = fileInfo.FullName;
+						if (File.Exists(reportPath))
 						{
-							if (fileNode.Attributes.Count > 0)
+							var doc = _utils.LoadXmlDocument(reportPath);
+							var fileNodes = doc.GetElementsByTagName("file");
+							foreach (XmlNode fileNode in fileNodes)
 							{
-								// get the info only for those target files on which the 'Verify Files' batch task has been run.
-								var reportFileGuid = fileNode.Attributes["guid"].Value;
-								if (targetFile.LanguageFileGuid.Equals(reportFileGuid))
+								if (fileNode.Attributes.Count > 0)
 								{
-									targetFile.FileName = fileNode.Attributes["name"].Value;
-									targetFile.RunAt = _utils.GetRunAtValue(doc);
+									// get the info only for those target files on which the 'Verify Files' batch task has been run.
+									var reportFileGuid = fileNode.Attributes["guid"].Value;
+									if (targetFile.LanguageFileGuid.Equals(reportFileGuid))
+									{
+										targetFile.FileName = fileNode.Attributes["name"].Value;
+										targetFile.RunAt = _utils.GetRunAtValue(doc);
+									}
 								}
 							}
 						}
 					}
 				}
-			}
 
-			// get "RunAt" info from the last "Verify Files" report which is generated after running the "Verify Files" batch task on all files
-			var allReportFilesInfo = directoryInfo.GetFiles()
-				.OrderByDescending(f => f.LastWriteTime)
-				.FirstOrDefault(n => n.Name.StartsWith("Verify Files (") || n.Name.StartsWith("Verify Files"));
-			if (allReportFilesInfo != null)
-			{
-				var reportPath = allReportFilesInfo.FullName;
-				if (File.Exists(reportPath))
+				// get "RunAt" info from the last "Verify Files" report which is generated after running the "Verify Files" batch task on all files
+				var allReportFilesInfo = directoryInfo.GetFiles()
+					.OrderByDescending(f => f.LastWriteTime)
+					.FirstOrDefault(n => n.Name.StartsWith("Verify Files (") || n.Name.StartsWith("Verify Files"));
+				if (allReportFilesInfo != null)
 				{
-					var doc = _utils.LoadXmlDocument(reportPath);
-					runAt = _utils.GetRunAtValue(doc);
+					var reportPath = allReportFilesInfo.FullName;
+					if (File.Exists(reportPath))
+					{
+						var doc = _utils.LoadXmlDocument(reportPath);
+						runAt = _utils.GetRunAtValue(doc);
+					}
 				}
 			}
 			return runAt;

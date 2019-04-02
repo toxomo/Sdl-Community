@@ -53,7 +53,7 @@
 		public static readonly string Disabled = @"The ""Search regular expression"" option is disabled";
 
 		// Report messages
-		public static readonly string NoVerificationRun = "No 'Verify Files' batch task was run.";
+		public static readonly string NoVerificationRun = "'Verify Files' batch task was not run.";
 		public static readonly string NoTranslationMemory = "No translation memory set";
 		public static readonly string NoTermbase = "No termbase set";
 		public static readonly string RegExRulesApplied = "RegEx rules were applied";
@@ -63,6 +63,6 @@
 		public static readonly string NoQAVerificationSettings = "No QA Verification Settings enabled";
 		public static readonly string NoPhaseAssigned = "No phase assigned";
 		public static readonly string NoUserAssigned = "No user(s) assigned";
-		public static readonly string NoNumberVerifierExecuted = "Number Verifier did not executed";
+		public static readonly string NoNumberVerifierExecuted = "Number Verifier was not run";
 	}
 }
