@@ -49,20 +49,20 @@
 		public static readonly string Count = "Count";
 		public static readonly string False = "False";
 		public static readonly string True = "True";
-		public static readonly string Enabled = @"The ""Search regular expression"" option is enabled";
-		public static readonly string Disabled = @"The ""Search regular expression"" option is disabled";
 
 		// Report messages
+		public static readonly string Enabled = @"The ""Search regular expression"" option is enabled.";
+		public static readonly string Disabled = @"The ""Search regular expression"" option is disabled.";
 		public static readonly string NoVerificationRun = "'Verify Files' batch task was not run.";
-		public static readonly string NoTranslationMemory = "No translation memory set";
-		public static readonly string NoTermbase = "No termbase set";
-		public static readonly string RegExRulesApplied = "RegEx rules were applied";
-		public static readonly string NoRegExRules = "No RegEx rules were applied";
-		public static readonly string QAChekerExecuted = "Verification message reported";
-		public static readonly string NoQAChekerExecuted = "No verification message reported";
-		public static readonly string NoQAVerificationSettings = "No QA Verification Settings enabled";
-		public static readonly string NoPhaseAssigned = "No phase assigned";
-		public static readonly string NoUserAssigned = "No user(s) assigned";
-		public static readonly string NoNumberVerifierExecuted = "Number Verifier was not run";
+		public static readonly string NoTranslationMemory = "No translation memory set.";
+		public static readonly string NoTermbase = "No termbase set.";
+		public static readonly string RegExRulesApplied = "RegEx rules were applied.";
+		public static readonly string NoRegExRules = "No RegEx rules were applied.";
+		public static readonly string QAChekerExecuted = "Verification message reported.";
+		public static readonly string NoQAChekerExecuted = "No verification message reported.";
+		public static readonly string NoQAVerificationSettings = "No QA Verification Settings enabled.";
+		public static readonly string NoPhaseAssigned = "No phase assigned.";
+		public static readonly string NoUserAssigned = "No user(s) assigned.";
+		public static readonly string NoNumberVerifierExecuted = "Number Verifier was not run.";
 	}
 }
