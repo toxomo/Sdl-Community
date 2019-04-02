@@ -26,10 +26,13 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		{
 			_utils = new Utils();
 			_projectsController = GetProjectController();
-			_document = _utils.LoadXmlDocument(_projectsController != null ? _projectsController.CurrentProject != null
-										? _projectsController.CurrentProject.FilePath
-										: null
-										: null);
+			if(_projectsController != null)
+			{
+				if(_projectsController.CurrentProject != null)
+				{
+					_document = _utils.LoadXmlDocument(_projectsController.CurrentProject.FilePath);
+				}
+			}			
 		}
 		#endregion
 
@@ -39,7 +42,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		/// </summary>
 		/// <param name="taskFiles">selected files from the project based on which the batch task is running</param>
 		public ProjectInfoReportModel GetCurrentProjectInformation(ProjectFile[] taskFiles)
-		{
+		{			
 			var projectInfoReportModel = new ProjectInfoReportModel();
 			var currentProject = GetProjectController().CurrentProject;
 			if (currentProject != null)
@@ -64,7 +67,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 				projectInfoReportModel.RunAt = runAt;
 				GetMaterialsInfo(currentProject, projectInfoReportModel);
 				GetVerificationSettings(projectInfoReportModel);
-			}
+			}			
 			return projectInfoReportModel;
 		}
 		#endregion
