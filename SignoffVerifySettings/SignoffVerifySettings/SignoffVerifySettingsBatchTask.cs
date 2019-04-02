@@ -47,7 +47,7 @@ namespace Sdl.Community.SignoffVerifySettings
 	/// The following class is used in case the project was finalized and the user wants to run the Signoff Verify Settings batch task
 	/// </summary>
 	[AutomaticTask("SignoffVerifySettingsFinalized",
-		"Signoff Verify Settings(finalized project)",
+		"Signoff Verify Settings (finalized project)",
 		"Signoff Verify Settings for finalized project",
 		GeneratedFileType = AutomaticTaskFileType.NativeTarget)]
 	[AutomaticTaskSupportedFileType(AutomaticTaskFileType.NativeTarget)]
