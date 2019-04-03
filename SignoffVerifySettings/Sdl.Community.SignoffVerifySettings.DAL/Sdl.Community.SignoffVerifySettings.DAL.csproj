@@ -125,5 +125,11 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sdl.Community.SignoffVerifySettings.Business\Sdl.Community.SignoffVerifySettings.Business.csproj">
+      <Project>{9d68f208-bd68-4e99-9ca4-c02710498a8b}</Project>
+      <Name>Sdl.Community.SignoffVerifySettings.Business</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
