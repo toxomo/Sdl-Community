@@ -19,7 +19,7 @@ namespace Sdl.Community.SignoffVerifySettings.DAL
             : base("name=SignoffVerifySettingsEntities")
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

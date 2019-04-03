@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Sdl.Community.SignoffVerifySettings.Business.Helpers;
+using Sdl.Community.SignoffVerifySettings.DAL;
 using Sdl.Community.SignoffVerifySettings.Model;
 using Sdl.Core.Globalization;
 
@@ -40,6 +41,9 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			BuildQAVerificationSettings(parent, projectInfoReportModel);
 
 			_root.Add(parent);
+
+			//var repository = new SignoffVerifySettingsRepository();
+			//repository.SaveProjectInformation(projectInfoReportModel);
 		}
 		#endregion
 
