@@ -42,6 +42,7 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 
 			_root.Add(parent);
 
+			// Save information to DB
 			//var repository = new SignoffVerifySettingsRepository();
 			//repository.SaveProjectInformation(projectInfoReportModel);
 		}

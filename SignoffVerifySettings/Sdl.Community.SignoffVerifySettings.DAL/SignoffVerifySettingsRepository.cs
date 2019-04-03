@@ -24,7 +24,7 @@ namespace Sdl.Community.SignoffVerifySettings.DAL
 					newProject.StudioVersion = projectInfoReportModel.StudioVersion;
 					newProject.RunAt = project.RunAt;
 					newProject.CheckRegExRules = projectInfoReportModel.CheckRegexRules;
-					// other properties to be set
+					// other properties values to be set
 					
 				
 				//dbContext.SaveChanges();
