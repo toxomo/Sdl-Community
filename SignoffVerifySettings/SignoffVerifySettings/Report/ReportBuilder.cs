@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Sdl.Community.SignoffVerifySettings.Business.Helpers;
-using Sdl.Community.SignoffVerifySettings.DAL;
+using Sdl.Community.SignoffVerifySettings.Helpers;
 using Sdl.Community.SignoffVerifySettings.Model;
 using Sdl.Core.Globalization;
 

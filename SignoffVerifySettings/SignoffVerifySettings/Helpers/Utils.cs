@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using Sdl.Community.SignoffVerifySettings.Business.Helpers;
 using Sdl.Community.SignoffVerifySettings.Model;
 using Sdl.Community.Toolkit.Core;
 
-namespace Sdl.Community.SignoffVerifySettings.Business.Helpers
+namespace Sdl.Community.SignoffVerifySettings.Helpers
 {
 	public class Utils
 	{
