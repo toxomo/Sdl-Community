@@ -31,6 +31,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SdlCommunity.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -107,6 +113,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SignoffVerifySettings.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="SdlCommunity.snk" />
     <None Include="SignoffVerifySettings.edmx.diagram">
       <DependentUpon>SignoffVerifySettings.edmx</DependentUpon>
     </None>
