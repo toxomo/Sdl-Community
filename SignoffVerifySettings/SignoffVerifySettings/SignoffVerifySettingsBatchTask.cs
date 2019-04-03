@@ -1,4 +1,4 @@
-﻿using Sdl.Community.SignoffVerifySettings.Helpers;
+﻿using Sdl.Community.SignoffVerifySettings.Business.Helpers;
 using Sdl.Community.SignoffVerifySettings.Model;
 using Sdl.Community.SignoffVerifySettings.Report;
 using Sdl.Community.SignoffVerifySettings.Service;

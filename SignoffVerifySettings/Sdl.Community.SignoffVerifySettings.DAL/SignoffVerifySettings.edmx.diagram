@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7de3934e73084a3e96dce7bf39c4fe42" Name="Diagram1">
+        <EntityTypeShape EntityType="SignoffVerifySettingsModel.LanguageFile" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SignoffVerifySettingsModel.NumberVerifierSetting" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SignoffVerifySettingsModel.Phase" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SignoffVerifySettingsModel.Project" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SignoffVerifySettingsModel.QAVerificationSetting" Width="1.5" PointX="3" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SignoffVerifySettingsModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SignoffVerifySettingsModel.TargetLanguage" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SignoffVerifySettingsModel.TranslationMemory" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SignoffVerifySettingsModel.Termbase" Width="1.5" PointX="3" PointY="19.375" IsExpanded="true" />
+        <AssociationConnector Association="SignoffVerifySettingsModel.FK_LanguageFile_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="SignoffVerifySettingsModel.FK_NumberVerifierSetting_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="SignoffVerifySettingsModel.FK_Phase_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="SignoffVerifySettingsModel.FK_QAVerificationSetting_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="SignoffVerifySettingsModel.FK_TargetLanguage_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="SignoffVerifySettingsModel.FK_Termbase_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="SignoffVerifySettingsModel.FK_TranslationMemory_Project" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

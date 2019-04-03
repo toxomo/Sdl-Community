@@ -1,4 +1,4 @@
-﻿namespace Sdl.Community.SignoffVerifySettings.Helpers
+﻿namespace Sdl.Community.SignoffVerifySettings.Business.Helpers
 {
 	public static class Constants
 	{

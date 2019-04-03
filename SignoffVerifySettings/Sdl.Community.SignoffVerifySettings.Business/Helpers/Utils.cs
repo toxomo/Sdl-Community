@@ -4,7 +4,7 @@ using System.Xml;
 using Sdl.Community.SignoffVerifySettings.Model;
 using Sdl.Community.Toolkit.Core;
 
-namespace Sdl.Community.SignoffVerifySettings.Helpers
+namespace Sdl.Community.SignoffVerifySettings.Business.Helpers
 {
 	public class Utils
 	{

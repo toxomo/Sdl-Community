@@ -6,7 +6,8 @@
 	<Author>SDL Community Developers</Author>
 	<RequiredProduct name="SDLTradosStudio" minversion="15.0"/>
 	<Include>
-		<File>Sdl.Community.Toolkit.Core.dll</File>
 		<File>Newtonsoft.Json.dll</File>
+		<File>Sdl.Community.SignoffVerifySettings.DAL.dll</File>
+		<File>Sdl.Community.SignoffVerifySettings.Business.dll</File>
 	</Include>
 </PluginPackage>

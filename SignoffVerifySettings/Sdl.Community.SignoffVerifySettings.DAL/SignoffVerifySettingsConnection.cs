@@ -1,4 +1,4 @@
-﻿using System.Data.Common;
+﻿using System.Configuration;
 
 namespace Sdl.Community.SignoffVerifySettings.DAL
 {
@@ -17,16 +17,19 @@ namespace Sdl.Community.SignoffVerifySettings.DAL
 
 		private static string GetConnectionString()
 		{
-			var builder = new DbConnectionStringBuilder();
+			return ConfigurationManager.ConnectionStrings["SignoffVerifySettingsEntities"].ConnectionString;
 
-			// Local path connection string
-			builder["Data Source"] = "cjsqlserver2016.development.sheffield.sdl.corp";
-			builder["integrated security"] = "True";
-			builder["initial catalog"] = "SignoffVerifySettings";
-			builder["MultipleActiveResultSets"] = "True";
-			builder["App"] = "EntityFramework";
+			//{
+			//	var builder = new DbConnectionStringBuilder();
 
-			return builder.ConnectionString;
+			//	// Local path connection string
+			//	builder["Data Source"] = "cjsqlserver2016.development.sheffield.sdl.corp";
+			//	builder["integrated security"] = "True";
+			//	builder["initial catalog"] = "SignoffVerifySettings";
+			//	builder["MultipleActiveResultSets"] = "True";
+			//	builder["App"] = "EntityFramework";
+
+			//	return builder.ConnectionString;
 		}
 	}
 }

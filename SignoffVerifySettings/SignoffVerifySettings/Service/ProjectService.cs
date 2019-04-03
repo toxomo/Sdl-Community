@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Xml;
-using Sdl.Community.SignoffVerifySettings.Helpers;
+using Sdl.Community.SignoffVerifySettings.Business.Helpers;
 using Sdl.Community.SignoffVerifySettings.Model;
 using Sdl.Core.Globalization;
 using Sdl.ProjectAutomation.Core;

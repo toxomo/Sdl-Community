@@ -1,0 +1,593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SignoffVerifySettingsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LanguageFile">
+          <Key>
+            <PropertyRef Name="LanguageFileId" />
+          </Key>
+          <Property Name="LanguageFileId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LanguageFileGuid" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SettingsBundleGuid" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LanguageCode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RunAt" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NumberVerifierSetting">
+          <Key>
+            <PropertyRef Name="NumberVerifierSettingsId" />
+          </Key>
+          <Property Name="NumberVerifierSettingsId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ExecutedDateTime" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TargetLanguageCode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ApplicationVersion" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phase">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TargetFileGuid" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PhaseName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AssigneesNumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TargetLanguageCode" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StudioVersion" Type="nvarchar(max)" />
+          <Property Name="RunAt" Type="nvarchar(max)" />
+          <Property Name="SourceLanguage" Type="nvarchar(max)" />
+          <Property Name="CheckRegExRules" Type="nvarchar(max)" />
+          <Property Name="QACheckerRanResult" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="QAVerificationSetting">
+          <Key>
+            <PropertyRef Name="QAVerificationSettingsId" />
+          </Key>
+          <Property Name="QAVerificationSettingsId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LanguagePair" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TargetLanguage">
+          <Key>
+            <PropertyRef Name="TargetLanguageId" />
+          </Key>
+          <Property Name="TargetLanguageId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SignoffVerifySettings.dbo.Termbase' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Termbase">
+          <Key>
+            <PropertyRef Name="TermbaseId" />
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="TermbaseId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TranslationMemory">
+          <Key>
+            <PropertyRef Name="TranslationMemoryId" />
+          </Key>
+          <Property Name="TranslationMemoryId" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_LanguageFile_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="LanguageFile" Type="Self.LanguageFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="LanguageFile">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NumberVerifierSetting_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="NumberVerifierSetting" Type="Self.NumberVerifierSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="NumberVerifierSetting">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phase_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Phase" Type="Self.Phase" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Phase">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QAVerificationSetting_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="QAVerificationSetting" Type="Self.QAVerificationSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="QAVerificationSetting">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TargetLanguage_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="TargetLanguage" Type="Self.TargetLanguage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="TargetLanguage">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termbase_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Termbase" Type="Self.Termbase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Termbase">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TranslationMemory_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="TranslationMemory" Type="Self.TranslationMemory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="TranslationMemory">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SignoffVerifySettingsModelStoreContainer">
+          <EntitySet Name="LanguageFile" EntityType="Self.LanguageFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NumberVerifierSetting" EntityType="Self.NumberVerifierSetting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phase" EntityType="Self.Phase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QAVerificationSetting" EntityType="Self.QAVerificationSetting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TargetLanguage" EntityType="Self.TargetLanguage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TranslationMemory" EntityType="Self.TranslationMemory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termbase" EntityType="Self.Termbase" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Termbase].[TermbaseId] AS [TermbaseId], 
+    [Termbase].[ProjectId] AS [ProjectId], 
+    [Termbase].[Name] AS [Name]
+    FROM [dbo].[Termbase] AS [Termbase]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_LanguageFile_Project" Association="Self.FK_LanguageFile_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="LanguageFile" EntitySet="LanguageFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NumberVerifierSetting_Project" Association="Self.FK_NumberVerifierSetting_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="NumberVerifierSetting" EntitySet="NumberVerifierSetting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phase_Project" Association="Self.FK_Phase_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Phase" EntitySet="Phase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QAVerificationSetting_Project" Association="Self.FK_QAVerificationSetting_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="QAVerificationSetting" EntitySet="QAVerificationSetting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TargetLanguage_Project" Association="Self.FK_TargetLanguage_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="TargetLanguage" EntitySet="TargetLanguage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termbase_Project" Association="Self.FK_Termbase_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Termbase" EntitySet="Termbase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TranslationMemory_Project" Association="Self.FK_TranslationMemory_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="TranslationMemory" EntitySet="TranslationMemory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SignoffVerifySettingsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LanguageFile">
+          <Key>
+            <PropertyRef Name="LanguageFileId" />
+          </Key>
+          <Property Name="LanguageFileId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="LanguageFileGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SettingsBundleGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LanguageCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RunAt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_LanguageFile_Project" FromRole="LanguageFile" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="NumberVerifierSetting">
+          <Key>
+            <PropertyRef Name="NumberVerifierSettingsId" />
+          </Key>
+          <Property Name="NumberVerifierSettingsId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ExecutedDateTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TargetLanguageCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApplicationVersion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_NumberVerifierSetting_Project" FromRole="NumberVerifierSetting" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="Phase">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="TargetFileGuid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhaseName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AssigneesNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TargetLanguageCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_Phase_Project" FromRole="Phase" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StudioVersion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RunAt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SourceLanguage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CheckRegExRules" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="QACheckerRanResult" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LanguageFiles" Relationship="Self.FK_LanguageFile_Project" FromRole="Project" ToRole="LanguageFile" />
+          <NavigationProperty Name="NumberVerifierSettings" Relationship="Self.FK_NumberVerifierSetting_Project" FromRole="Project" ToRole="NumberVerifierSetting" />
+          <NavigationProperty Name="Phase" Relationship="Self.FK_Phase_Project" FromRole="Project" ToRole="Phase" />
+          <NavigationProperty Name="QAVerificationSettings" Relationship="Self.FK_QAVerificationSetting_Project" FromRole="Project" ToRole="QAVerificationSetting" />
+          <NavigationProperty Name="TargetLanguages" Relationship="Self.FK_TargetLanguage_Project" FromRole="Project" ToRole="TargetLanguage" />
+          <NavigationProperty Name="Termbases" Relationship="Self.FK_Termbase_Project" FromRole="Project" ToRole="Termbase" />
+          <NavigationProperty Name="TranslationMemories" Relationship="Self.FK_TranslationMemory_Project" FromRole="Project" ToRole="TranslationMemory" />
+        </EntityType>
+        <EntityType Name="QAVerificationSetting">
+          <Key>
+            <PropertyRef Name="QAVerificationSettingsId" />
+          </Key>
+          <Property Name="QAVerificationSettingsId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LanguagePair" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_QAVerificationSetting_Project" FromRole="QAVerificationSetting" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TargetLanguage">
+          <Key>
+            <PropertyRef Name="TargetLanguageId" />
+          </Key>
+          <Property Name="TargetLanguageId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_TargetLanguage_Project" FromRole="TargetLanguage" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="TranslationMemory">
+          <Key>
+            <PropertyRef Name="TranslationMemoryId" />
+          </Key>
+          <Property Name="TranslationMemoryId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_TranslationMemory_Project" FromRole="TranslationMemory" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="Termbase">
+          <Key>
+            <PropertyRef Name="TermbaseId" />
+            <PropertyRef Name="ProjectId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="TermbaseId" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_Termbase_Project" FromRole="Termbase" ToRole="Project" />
+        </EntityType>
+        <Association Name="FK_LanguageFile_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="LanguageFile" Type="Self.LanguageFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="LanguageFile">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NumberVerifierSetting_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="NumberVerifierSetting" Type="Self.NumberVerifierSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="NumberVerifierSetting">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phase_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Phase" Type="Self.Phase" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Phase">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QAVerificationSetting_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="QAVerificationSetting" Type="Self.QAVerificationSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="QAVerificationSetting">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TargetLanguage_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="TargetLanguage" Type="Self.TargetLanguage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="TargetLanguage">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termbase_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Termbase" Type="Self.Termbase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Termbase">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TranslationMemory_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="TranslationMemory" Type="Self.TranslationMemory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="TranslationMemory">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SignoffVerifySettingsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LanguageFiles" EntityType="Self.LanguageFile" />
+          <EntitySet Name="NumberVerifierSettings" EntityType="Self.NumberVerifierSetting" />
+          <EntitySet Name="Phases" EntityType="Self.Phase" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="QAVerificationSettings" EntityType="Self.QAVerificationSetting" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TargetLanguages" EntityType="Self.TargetLanguage" />
+          <EntitySet Name="TranslationMemories" EntityType="Self.TranslationMemory" />
+          <EntitySet Name="Termbases" EntityType="Self.Termbase" />
+          <AssociationSet Name="FK_LanguageFile_Project" Association="Self.FK_LanguageFile_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="LanguageFile" EntitySet="LanguageFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NumberVerifierSetting_Project" Association="Self.FK_NumberVerifierSetting_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="NumberVerifierSetting" EntitySet="NumberVerifierSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phase_Project" Association="Self.FK_Phase_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Phase" EntitySet="Phases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QAVerificationSetting_Project" Association="Self.FK_QAVerificationSetting_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="QAVerificationSetting" EntitySet="QAVerificationSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TargetLanguage_Project" Association="Self.FK_TargetLanguage_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="TargetLanguage" EntitySet="TargetLanguages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termbase_Project" Association="Self.FK_Termbase_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Termbase" EntitySet="Termbases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TranslationMemory_Project" Association="Self.FK_TranslationMemory_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="TranslationMemory" EntitySet="TranslationMemories" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SignoffVerifySettingsModelStoreContainer" CdmEntityContainer="SignoffVerifySettingsEntities">
+          <EntitySetMapping Name="LanguageFiles">
+            <EntityTypeMapping TypeName="SignoffVerifySettingsModel.LanguageFile">
+              <MappingFragment StoreEntitySet="LanguageFile">
+                <ScalarProperty Name="LanguageFileId" ColumnName="LanguageFileId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="LanguageFileGuid" ColumnName="LanguageFileGuid" />
+                <ScalarProperty Name="SettingsBundleGuid" ColumnName="SettingsBundleGuid" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="RunAt" ColumnName="RunAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NumberVerifierSettings">
+            <EntityTypeMapping TypeName="SignoffVerifySettingsModel.NumberVerifierSetting">
+              <MappingFragment StoreEntitySet="NumberVerifierSetting">
+                <ScalarProperty Name="NumberVerifierSettingsId" ColumnName="NumberVerifierSettingsId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="ExecutedDateTime" ColumnName="ExecutedDateTime" />
+                <ScalarProperty Name="TargetLanguageCode" ColumnName="TargetLanguageCode" />
+                <ScalarProperty Name="ApplicationVersion" ColumnName="ApplicationVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phases">
+            <EntityTypeMapping TypeName="SignoffVerifySettingsModel.Phase">
+              <MappingFragment StoreEntitySet="Phase">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="TargetFileGuid" ColumnName="TargetFileGuid" />
+                <ScalarProperty Name="PhaseName" ColumnName="PhaseName" />
+                <ScalarProperty Name="AssigneesNumber" ColumnName="AssigneesNumber" />
+                <ScalarProperty Name="TargetLanguageCode" ColumnName="TargetLanguageCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="SignoffVerifySettingsModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="StudioVersion" ColumnName="StudioVersion" />
+                <ScalarProperty Name="RunAt" ColumnName="RunAt" />
+                <ScalarProperty Name="SourceLanguage" ColumnName="SourceLanguage" />
+                <ScalarProperty Name="CheckRegExRules" ColumnName="CheckRegExRules" />
+                <ScalarProperty Name="QACheckerRanResult" ColumnName="QACheckerRanResult" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QAVerificationSettings">
+            <EntityTypeMapping TypeName="SignoffVerifySettingsModel.QAVerificationSetting">
+              <MappingFragment StoreEntitySet="QAVerificationSetting">
+                <ScalarProperty Name="QAVerificationSettingsId" ColumnName="QAVerificationSettingsId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="LanguagePair" ColumnName="LanguagePair" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SignoffVerifySettingsModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TargetLanguages">
+            <EntityTypeMapping TypeName="SignoffVerifySettingsModel.TargetLanguage">
+              <MappingFragment StoreEntitySet="TargetLanguage">
+                <ScalarProperty Name="TargetLanguageId" ColumnName="TargetLanguageId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TranslationMemories">
+            <EntityTypeMapping TypeName="SignoffVerifySettingsModel.TranslationMemory">
+              <MappingFragment StoreEntitySet="TranslationMemory">
+                <ScalarProperty Name="TranslationMemoryId" ColumnName="TranslationMemoryId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Termbases">
+            <EntityTypeMapping TypeName="SignoffVerifySettingsModel.Termbase">
+              <MappingFragment StoreEntitySet="Termbase">
+                <ScalarProperty Name="TermbaseId" ColumnName="TermbaseId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

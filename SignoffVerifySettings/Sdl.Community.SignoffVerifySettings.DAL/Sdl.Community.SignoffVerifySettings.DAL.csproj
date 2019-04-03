@@ -39,7 +39,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,20 +51,79 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LanguageFile.cs">
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NumberVerifierSetting.cs">
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Phase.cs">
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Project.cs">
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QAVerificationSetting.cs">
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SignoffVerifySettings.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SignoffVerifySettings.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SignoffVerifySettings.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SignoffVerifySettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SignoffVerifySettings.edmx</DependentUpon>
+    </Compile>
     <Compile Include="SignoffVerifySettingsConnection.cs" />
     <Compile Include="SignoffVerifySettingsRepository.cs" />
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TargetLanguage.cs">
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Termbase.cs">
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TranslationMemory.cs">
+      <DependentUpon>SignoffVerifySettings.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+    <EntityDeploy Include="SignoffVerifySettings.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SignoffVerifySettings.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="SignoffVerifySettings.edmx.diagram">
+      <DependentUpon>SignoffVerifySettings.edmx</DependentUpon>
+    </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\SignoffVerifySettings\Sdl.Community.SignoffVerifySettings.csproj">
-      <Project>{68a60186-1cc5-47a7-991d-1bce274ffc8b}</Project>
-      <Name>Sdl.Community.SignoffVerifySettings</Name>
-    </ProjectReference>
+    <Content Include="SignoffVerifySettings.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SignoffVerifySettings.edmx</DependentUpon>
+      <LastGenOutput>SignoffVerifySettings.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="SignoffVerifySettings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SignoffVerifySettings.edmx</DependentUpon>
+      <LastGenOutput>SignoffVerifySettings.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
