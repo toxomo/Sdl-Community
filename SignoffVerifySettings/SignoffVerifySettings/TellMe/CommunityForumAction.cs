@@ -17,7 +17,7 @@ namespace Sdl.Community.SignoffVerifySettings.TellMe
 
 		public override void Execute()
 		{
-			Process.Start("http://community.sdl.com/appsupport");
+			Process.Start("https://community.sdl.com/appsupport");
 		}
 	}
 }
