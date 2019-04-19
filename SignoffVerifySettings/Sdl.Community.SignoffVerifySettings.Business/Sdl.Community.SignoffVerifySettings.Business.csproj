@@ -67,6 +67,7 @@
     <Compile Include="Model\PhaseXmlNodeModel.cs" />
     <Compile Include="Model\ProjectInfoReportModel.cs" />
     <Compile Include="Model\QAVerificationSettingsModel.cs" />
+    <Compile Include="Model\VerificationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using Sdl.Community.SignoffVerifySettings.Business.Helpers;
+using Sdl.Community.SignoffVerifySettings.Business.Model;
 using Sdl.Community.SignoffVerifySettings.Helpers;
 using Sdl.Community.SignoffVerifySettings.Model;
 using Sdl.Core.Globalization;
@@ -242,85 +243,117 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		/// </summary>
 		private void GetVerificationSettings(ProjectInfoReportModel projectInfoReportModel)
 		{
-			var numberVerifierModels = new List<NumberVerifierSettingsModel>();
-			var qaVerificationSettingsModels = new List<QAVerificationSettingsModel>();
+			var verificationModel = new VerificationModel
+			{
+				ProjectInfoReportModel = projectInfoReportModel
+			};
 
 			var languageDirections = GetLanguageDirections();
 			foreach(var targetFile in _targetFiles)
 			{
-				var fileLanguageDirection = languageDirections.Where(l => l.TargetLanguageCode.Equals(targetFile.LanguageCode)).FirstOrDefault();
-
+				var fileLanguageDirection = languageDirections.FirstOrDefault(l => l.TargetLanguageCode.Equals(targetFile.LanguageCode));
 				if (fileLanguageDirection != null)
 				{
 					var settingsBundleNode = _document.SelectSingleNode($"//SettingsBundle[@Guid='{fileLanguageDirection.SettingsBundleGuid}']");
 					if (settingsBundleNode != null)
 					{
-						var settingsBundleNodes = settingsBundleNode["SettingsBundle"];				
-						// Get the Number Verifier Settings
-						var numberVerSettingsGroupNode = settingsBundleNodes != null ? settingsBundleNodes.SelectSingleNode("SettingsGroup[@Id='NumberVerifierSettings']") : null;
-						if (numberVerSettingsGroupNode != null)
-						{
-							var targetFileSettingsNode = numberVerSettingsGroupNode.SelectSingleNode("Setting[@Id='TargetFileSettings']");
-							if (targetFileSettingsNode != null)
-							{
-								// the FirstChild("ArrayOfTargetFileSetting") is taken because int the xml structure it will always exist only one
-								// "ArrayOfTargetFileSetting" child node on the TargetFileSettings node, and the child node will contain the 'TargetFileSetting' nodes
-								if (targetFileSettingsNode.FirstChild != null)
-								{
-									// iterate each TargetFileSetting node
-									foreach (XmlElement targetFileChildNode in targetFileSettingsNode.FirstChild.ChildNodes)
-									{
-										var numberVeriferModel = new NumberVerifierSettingsModel();
+						var settingsNode = settingsBundleNode["SettingsBundle"];
+						verificationModel.SettingsBundleNode = settingsNode;
+						verificationModel.LanguageDirectionModel = fileLanguageDirection;
 
-										if (targetFileChildNode.ChildNodes != null)
-										{
-											// take the value for each child from the TargetFileSettig node
-											foreach(XmlNode child in targetFileChildNode.ChildNodes)
-											{
-												if(child.Name.Equals(Constants.FileName))
-												{
-													numberVeriferModel.FileName = child.InnerXml;
-												}
-												if (child.Name.Equals(Constants.ApplicationVersion))
-												{
-													numberVeriferModel.ApplicationVersion = child.InnerXml;
-												}
-												if (child.Name.Equals(Constants.ExecutedDateTime))
-												{
-													numberVeriferModel.ExecutedDateTime = child.InnerXml;
-												}
-											}
-											numberVeriferModel.TargetLanguageCode = fileLanguageDirection.TargetLanguageCode;
-											numberVerifierModels.Add(numberVeriferModel);
-										}
-									}
-									projectInfoReportModel.NumberVerifierSettingsModels = numberVerifierModels;
-								}
-							}
-						}
-
-						// Get the QA Verification Settings
-						var qaVerificationSettings = settingsBundleNodes.SelectSingleNode("SettingsGroup[@Id='QAVerificationSettings']");
-						if (qaVerificationSettings != null)
-						{
-							var sourceLanguage = projectInfoReportModel.SourceLanguage.DisplayName;
-							var targetLanguage = new Language(fileLanguageDirection.TargetLanguageCode).DisplayName;
-
-							foreach (XmlNode qaVerificationSetting in qaVerificationSettings)
-							{
-								var qaVerificationSettingsModel = new QAVerificationSettingsModel
-								{
-									Name = qaVerificationSetting.Attributes.Count > 0 ? qaVerificationSetting.Attributes["Id"].Value : string.Empty,
-									Value = qaVerificationSetting.FirstChild != null ? qaVerificationSetting.FirstChild.Value : string.Empty,
-									FileName = targetFile.FileName,
-									LanguagePair = $"{sourceLanguage} - {targetLanguage}"
-								};
-								qaVerificationSettingsModels.Add(qaVerificationSettingsModel);
-							}
-							projectInfoReportModel.QAVerificationSettingsModels = qaVerificationSettingsModels;
-						}
+						SetNumberVerifierSettings(verificationModel);					
+						SetQAVerificationSettings(verificationModel, targetFile);
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Set the Number Verifier Settings
+		/// </summary>
+		/// <param name="verificationModel"></param>
+		private void SetNumberVerifierSettings(VerificationModel verificationModel)
+		{
+			var numberVerifierModels = new List<NumberVerifierSettingsModel>();
+			var numberVerSettingsGroupNode = verificationModel.SettingsBundleNode?.SelectSingleNode("SettingsGroup[@Id='NumberVerifierSettings']");
+			if (numberVerSettingsGroupNode != null)
+			{
+				var targetFileSettingsNode = numberVerSettingsGroupNode.SelectSingleNode("Setting[@Id='TargetFileSettings']");
+				if (targetFileSettingsNode != null)
+				{
+					// the FirstChild("ArrayOfTargetFileSetting") is taken because int the xml structure it will always exist only one
+					// "ArrayOfTargetFileSetting" child node on the TargetFileSettings node, and the child node will contain the 'TargetFileSetting' nodes
+					if (targetFileSettingsNode.FirstChild != null)
+					{
+						// iterate each TargetFileSetting node
+						foreach (XmlElement targetFileChildNode in targetFileSettingsNode.FirstChild.ChildNodes)
+						{
+							var numberVerifierModel = new NumberVerifierSettingsModel();
+
+							if (targetFileChildNode.ChildNodes != null)
+							{
+								// take the value for each child from the TargetFileSettig node
+								foreach (XmlNode child in targetFileChildNode.ChildNodes)
+								{
+									SetNumberVerifierApp(child, numberVerifierModel);
+								}
+								numberVerifierModel.TargetLanguageCode = verificationModel.LanguageDirectionModel?.TargetLanguageCode;
+								numberVerifierModels.Add(numberVerifierModel);
+							}
+						}
+						verificationModel.ProjectInfoReportModel.NumberVerifierSettingsModels = numberVerifierModels;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Set the number verifier model values with the ones retrieved from settings group
+		/// </summary>
+		/// <param name="child"></param>
+		/// <param name="numberVerifierModel"></param>
+		private void SetNumberVerifierApp(XmlNode child, NumberVerifierSettingsModel numberVerifierModel)
+		{
+			if (child.Name.Equals(Constants.FileName))
+			{
+				numberVerifierModel.FileName = child.InnerXml;
+			}
+			if (child.Name.Equals(Constants.ApplicationVersion))
+			{
+				numberVerifierModel.ApplicationVersion = child.InnerXml;
+			}
+			if (child.Name.Equals(Constants.ExecutedDateTime))
+			{
+				numberVerifierModel.ExecutedDateTime = child.InnerXml;
+			}
+		}
+
+		/// <summary>
+		/// Set the QA Verification Settings
+		/// </summary>
+		/// <param name="verificationModel"></param>
+		/// <param name="targetFile"></param>
+		private void SetQAVerificationSettings(VerificationModel verificationModel,	LanguageFileXmlNodeModel targetFile)
+		{
+			var qaVerificationSettingsModels = new List<QAVerificationSettingsModel>();
+			var qaVerificationSettings = verificationModel.SettingsBundleNode.SelectSingleNode("SettingsGroup[@Id='QAVerificationSettings']");
+			if (qaVerificationSettings != null)
+			{
+				var sourceLanguage = verificationModel.ProjectInfoReportModel.SourceLanguage.DisplayName;
+				var targetLanguage = new Language(verificationModel.LanguageDirectionModel.TargetLanguageCode).DisplayName;
+
+				foreach (XmlNode qaVerificationSetting in qaVerificationSettings)
+				{
+					var qaVerificationSettingsModel = new QAVerificationSettingsModel
+					{
+						Name = qaVerificationSetting.Attributes.Count > 0 ? qaVerificationSetting.Attributes["Id"].Value : string.Empty,
+						Value = qaVerificationSetting.FirstChild != null ? qaVerificationSetting.FirstChild.Value : string.Empty,
+						FileName = targetFile.FileName,
+						LanguagePair = $"{sourceLanguage} - {targetLanguage}"
+					};
+					qaVerificationSettingsModels.Add(qaVerificationSettingsModel);
+				}
+				verificationModel.ProjectInfoReportModel.QAVerificationSettingsModels = qaVerificationSettingsModels;
 			}
 		}
 
