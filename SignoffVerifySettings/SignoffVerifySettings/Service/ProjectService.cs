@@ -159,58 +159,79 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		/// <param name="currentProject">current project selected</param>
 		private string GetQAVerificationInfo(ProjectInfo projectInfo)
 		{
-			var runAt = string.Empty;
 			var directoryInfo = new DirectoryInfo($@"{projectInfo.LocalProjectFolder}\Reports\");
-
-			if (directoryInfo.Exists)
+			if (!directoryInfo.Exists)
 			{
-				//get report info for each targetFile
-				foreach (var targetFile in _targetFiles)
-				{
-					var fileInfo = directoryInfo
-						.GetFiles()
-						.OrderByDescending(f => f.LastWriteTime)
-						.FirstOrDefault(n => n.Name.StartsWith($@"Verify Files {projectInfo.SourceLanguage.CultureInfo.Name}_{targetFile.LanguageCode}"));
+				return string.Empty;
+			}
+			//get report info for each targetFile
+			GetTargetReport(directoryInfo, projectInfo.SourceLanguage?.CultureInfo?.Name);
 
-					if (fileInfo != null)
+			// get "RunAt" info from the last "Verify Files" report which is generated after running the "Verify Files" batch task on all files
+			var runAt = GetProjectReport(directoryInfo);
+			return runAt;
+		}
+
+		/// <summary>
+		/// Get report info for each targetFile
+		/// </summary>
+		/// <param name="directoryInfo"></param>
+		/// <param name="sourceLanguage"></param>
+		private void GetTargetReport(DirectoryInfo directoryInfo, string sourceLanguage)
+		{
+			foreach (var targetFile in _targetFiles)
+			{
+				var fileInfo = directoryInfo
+					.GetFiles()
+					.OrderByDescending(f => f.LastWriteTime)
+					.FirstOrDefault(n => n.Name.StartsWith($@"Verify Files {sourceLanguage}_{targetFile.LanguageCode}"));
+
+				if (fileInfo != null)
+				{
+					var reportPath = fileInfo.FullName;
+					if (File.Exists(reportPath))
 					{
-						var reportPath = fileInfo.FullName;
-						if (File.Exists(reportPath))
+						var doc = _utils.LoadXmlDocument(reportPath);
+						var fileNodes = doc.GetElementsByTagName("file");
+						foreach (XmlNode fileNode in fileNodes)
 						{
-							var doc = _utils.LoadXmlDocument(reportPath);
-							var fileNodes = doc.GetElementsByTagName("file");
-							foreach (XmlNode fileNode in fileNodes)
+							if (fileNode.Attributes.Count > 0)
 							{
-								if (fileNode.Attributes.Count > 0)
+								// get the info only for those target files on which the 'Verify Files' batch task has been run.
+								var reportFileGuid = fileNode.Attributes["guid"].Value;
+								if (targetFile.LanguageFileGuid.Equals(reportFileGuid))
 								{
-									// get the info only for those target files on which the 'Verify Files' batch task has been run.
-									var reportFileGuid = fileNode.Attributes["guid"].Value;
-									if (targetFile.LanguageFileGuid.Equals(reportFileGuid))
-									{
-										targetFile.FileName = fileNode.Attributes["name"].Value;
-										targetFile.RunAt = _utils.GetRunAtValue(doc);
-									}
+									targetFile.FileName = fileNode.Attributes["name"].Value;
+									targetFile.RunAt = _utils.GetRunAtValue(doc);
 								}
 							}
 						}
 					}
 				}
+			}
+		}
 
-				// get "RunAt" info from the last "Verify Files" report which is generated after running the "Verify Files" batch task on all files
-				var allReportFilesInfo = directoryInfo.GetFiles()
-					.OrderByDescending(f => f.LastWriteTime)
-					.FirstOrDefault(n => n.Name.StartsWith("Verify Files (") || n.Name.StartsWith("Verify Files"));
-				if (allReportFilesInfo != null)
+		/// <summary>
+		/// Get "RunAt" info from the last "Verify Files" report which is generated after running the "Verify Files" batch task on all files
+		/// </summary>
+		/// <param name="directoryInfo"></param>
+		/// <returns>runAt value</returns>
+		private string GetProjectReport(DirectoryInfo directoryInfo)
+		{
+			// get "RunAt" info from the last "Verify Files" report which is generated after running the "Verify Files" batch task on all files
+			var allReportFilesInfo = directoryInfo.GetFiles()
+				.OrderByDescending(f => f.LastWriteTime)
+				.FirstOrDefault(n => n.Name.StartsWith("Verify Files (") || n.Name.StartsWith("Verify Files"));
+			if (allReportFilesInfo != null)
+			{
+				var reportPath = allReportFilesInfo.FullName;
+				if (File.Exists(reportPath))
 				{
-					var reportPath = allReportFilesInfo.FullName;
-					if (File.Exists(reportPath))
-					{
-						var doc = _utils.LoadXmlDocument(reportPath);
-						runAt = _utils.GetRunAtValue(doc);
-					}
+					var doc = _utils.LoadXmlDocument(reportPath);
+					return _utils.GetRunAtValue(doc);
 				}
 			}
-			return runAt;
+			return string.Empty;
 		}
 
 		/// <summary>
