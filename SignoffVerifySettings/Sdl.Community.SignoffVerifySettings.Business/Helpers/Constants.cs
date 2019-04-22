@@ -13,6 +13,7 @@
 		
 		// Report values
 		public static readonly string ReportName = "SignoffVerifySettings";
+		public static readonly string ReportDescription = "Verification statistics";
 		public static readonly string ProjectInformation = "ProjectInformation";
 		public static readonly string Project = "Project";
 		public static readonly string Name = "Name";
@@ -64,5 +65,24 @@
 		public static readonly string NoPhaseAssigned = "No phase assigned.";
 		public static readonly string NoUserAssigned = "No user(s) assigned.";
 		public static readonly string NoNumberVerifierExecuted = "Number Verifier was not run.";
+
+		// TellMe Actions values
+		public static readonly string CategoryName = "SignoffVerifySettings results";
+		public static readonly string ForumName = "SDL Community AppStore Forum";
+		public static readonly string AppSupportLink = "https://community.sdl.com/appsupport";
+		public static readonly string CommunityWikiName = "SDL Community Signoff Verify Settings plugin wiki";
+		public static readonly string CommunityWikiLink = "https://community.sdl.com/product-groups/translationproductivity/w/customer-experience/4568.signoff-verify-settings";
+		public static readonly string AppStoreName = "Download Signoff Verify Settings from AppStore";
+		public static readonly string AppStoreLink = ""; // AppStoreLink will be added once it's generated on the store
+
+		//TellMe Provider values
+		public static readonly string SignoffVerifySettings = "signoff verify settings";
+		public static readonly string SvsCommunity = "signoff verify settings community";
+		public static readonly string SvsSupport = "signoff verify settings support";
+		public static readonly string SvsStore = "signoff verify settings store";
+		public static readonly string SvsAppStore = "signoff verify settings appstore";
+		public static readonly string SvsWiki = "signoff verify settings wiki";
+		public static readonly string SvsForum = "signoff verify settings forum";
+		public static readonly string SvsDownload = "signoff verify settings download";
 	}
 }

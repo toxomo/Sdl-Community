@@ -38,7 +38,7 @@ namespace Sdl.Community.SignoffVerifySettings
 			if (!string.IsNullOrEmpty(_projectInfoReportModel.ProjectName))
 			{
 				var report = ReportGenerator.CreateReport(_projectInfoReportModel);
-				CreateReport(Constants.ReportName, "Verification statistics", report);
+				CreateReport(Constants.ReportName, Constants.ReportDescription, report);
 			}
 		}		
 	}
@@ -76,7 +76,7 @@ namespace Sdl.Community.SignoffVerifySettings
 			if (!string.IsNullOrEmpty(_projectInfoReportModel.ProjectName))
 			{
 				var report = ReportGenerator.CreateReport(_projectInfoReportModel);
-				CreateReport(Constants.ReportName, "Verification statistics", report);
+				CreateReport(Constants.ReportName, Constants.ReportDescription, report);
 			}
 		}
 	}

@@ -1,25 +1,26 @@
-﻿using Sdl.TellMe.ProviderApi;
+﻿using Sdl.Community.SignoffVerifySettings.Business.Helpers;
+using Sdl.TellMe.ProviderApi;
 
 namespace Sdl.Community.SignoffVerifySettings.TellMe
 {
 	[TellMeProvider]
 	public class SignoffVerifyettingsProvider : ITellMeProvider
 	{
-		public string Name => "Signoff Verify Settings";
+		public string Name => Constants.CategoryName;
 
 		public AbstractTellMeAction[] ProviderActions => new AbstractTellMeAction[]
 		{
 			new CommunityWikiAction
 			{
-				Keywords = new[] {"signoff verify settings", "signoff verify settings community", "signoff verify settings support", "signoff verify settings wiki" }
+				Keywords = new[] {Constants.SignoffVerifySettings, Constants.SvsCommunity, Constants.SvsSupport, Constants.SvsWiki }
 			},
 			new CommunityForumAction
 			{
-				Keywords = new[] { "signoff verify settings", "signoff verify settings community", "signoff verify settings support", "signoff verify settings forum" }
+				Keywords = new[] { Constants.SignoffVerifySettings, Constants.SvsCommunity, Constants.SvsSupport, Constants.SvsForum }
 			},
 			new StoreAction
 			{
-				Keywords = new[] { "signoff verify settings", "signoff verify settings store", "signoff verify settings download", "signoff verify settings appstore" }
+				Keywords = new[] { Constants.SignoffVerifySettings, Constants.SvsStore, Constants.SvsDownload, Constants.SvsAppStore }
 			}
 		};
 	}
