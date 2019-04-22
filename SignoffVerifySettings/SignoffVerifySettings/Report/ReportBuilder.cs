@@ -62,48 +62,15 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 				new XAttribute(Constants.StudioVersion, projectInfoReportModel.StudioVersion)));
 			parent.Add(new XElement(Constants.SourceLanguage, new XAttribute(Constants.DisplayName, projectInfoReportModel.SourceLanguage.DisplayName)));
 
-			var targetLanguages = new XElement(Constants.TargetLanguages);
-			parent.Add(targetLanguages);
-			foreach (var targetLanguage in projectInfoReportModel.TargetLanguages)
-			{
-				targetLanguages.Add(new XElement(Constants.TargetLanguage, new XElement(Constants.DisplayName, targetLanguage.DisplayName)));
-			}
+			SetTargetLanguages(parent, projectInfoReportModel);
+			SetTranslationMemories(parent, projectInfoReportModel);
+			SetTermbases(parent, projectInfoReportModel);
 
 			var runAtValue = !string.IsNullOrEmpty(projectInfoReportModel.RunAt) ? projectInfoReportModel.RunAt : Constants.NoVerificationRun;
 			parent.Add(new XElement(Constants.RunAt, runAtValue));
 
-			var translationMemories = new XElement(Constants.TranslationMemories);
-			parent.Add(translationMemories);
-			if (projectInfoReportModel.TranslationMemories.Count == 0)
-			{
-				translationMemories.Add(new XElement(Constants.TranslationMemory, new XElement(Constants.Name, Constants.NoTranslationMemory)));
-			}
-			else
-			{
-				foreach (var translationMemory in projectInfoReportModel.TranslationMemories)
-				{
-					var fileName = Path.GetFileName(translationMemory.MainTranslationProvider.Uri.LocalPath);
-					translationMemories.Add(new XElement(Constants.TranslationMemory, new XElement(Constants.Name, fileName)));
-				}
-			}
-
-			var termbases = new XElement(Constants.Termbases);
-			parent.Add(termbases);
-			if (projectInfoReportModel.Termbases.Count == 0)
-			{
-				termbases.Add(new XElement(Constants.Termbase, new XElement(Constants.Name, Constants.NoTermbase)));
-			}
-			else
-			{
-				foreach (var termbase in projectInfoReportModel.Termbases)
-				{
-					termbases.Add(new XElement(Constants.Termbase, new XElement(Constants.Name, termbase.Name)));
-				}
-			}
-
 			var checkRegExValue = projectInfoReportModel.CheckRegexRules.Equals(Constants.True) ? Constants.Enabled : Constants.Disabled;
 			parent.Add(new XElement(Constants.CheckRegEx, checkRegExValue));
-
 			parent.Add(new XElement(Constants.QAChecker, projectInfoReportModel.QACheckerRanResult));
 		}
 
@@ -180,15 +147,22 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 			var qaVerSettingsElement = new XElement(Constants.VerificationSettings);
 			parent.Add(qaVerSettingsElement);
 
-			if (projectInfoReportModel.QAVerificationSettingsModels != null)
+			if (projectInfoReportModel.QAVerificationSettingsModels == null)
 			{
-				var qaVerificationSettings = projectInfoReportModel
-					.QAVerificationSettingsModels.Where(q => q.Value != Constants.False)
+				SetEmtpyQASettings(qaVerSettingsElement);
+			}
+			else
+			{
+				var qaVerificationSettings = projectInfoReportModel.QAVerificationSettingsModels
+					.Where(q => q.Value != Constants.False)
 					.ToList();
-				if (qaVerificationSettings.Any())
+				if (!qaVerificationSettings.Any())
+				{
+					SetEmtpyQASettings(qaVerSettingsElement);
+				}
+				else
 				{
 					var results = qaVerificationSettings.GroupBy(q => q.LanguagePair).ToList();
-
 					foreach (var result in results)
 					{
 						var qaRules = new StringBuilder();
@@ -203,19 +177,10 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 							}
 						}
 						var qaVerSettingElement = new XElement(Constants.VerificationSetting);
-						qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, result.Key),
-												new XAttribute(Constants.QASettingName, qaRules.ToString().TrimEnd(' ').TrimEnd(';')));
+						qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, result.Key),	new XAttribute(Constants.QASettingName, qaRules.ToString().TrimEnd(' ').TrimEnd(';')));
 						qaVerSettingsElement.Add(qaVerSettingElement);
 					}
 				}
-				else
-				{
-					SetNoQAVerificationSettings(qaVerSettingsElement);
-				}
-			}
-			else
-			{
-				SetNoQAVerificationSettings(qaVerSettingsElement);
 			}
 		}
 
@@ -223,12 +188,72 @@ namespace Sdl.Community.SignoffVerifySettings.Report
 		/// Set the XML element when no QA Verification Settings are found
 		/// </summary>
 		/// <param name="qaVerSettingsElement"></param>
-		private void SetNoQAVerificationSettings(XElement qaVerSettingsElement)
+		private void SetEmtpyQASettings(XElement qaVerSettingsElement)
 		{
 			var qaVerSettingElement = new XElement(Constants.VerificationSetting);
 			qaVerSettingElement.Add(new XAttribute(Constants.LanguagePair, string.Empty));
 			qaVerSettingElement.Add(new XAttribute(Constants.QASettingName, Constants.NoQAVerificationSettings));
 			qaVerSettingsElement.Add(qaVerSettingElement);
+		}
+
+		/// <summary>
+		/// Set Target Languages to report parent
+		/// </summary>
+		/// <param name="parent">report parent</param>
+		/// <param name="projectInfoReportModel">projectInfoReportModel</param>
+		private void SetTargetLanguages(XElement parent, ProjectInfoReportModel projectInfoReportModel)
+		{
+			var targetLanguages = new XElement(Constants.TargetLanguages);
+			parent.Add(targetLanguages);
+			foreach (var targetLanguage in projectInfoReportModel.TargetLanguages)
+			{
+				targetLanguages.Add(new XElement(Constants.TargetLanguage, new XElement(Constants.DisplayName, targetLanguage.DisplayName)));
+			}
+		}
+
+		/// <summary>
+		/// Set Translation Memories to report parent
+		/// </summary>
+		/// <param name="parent">report parent</param>
+		/// <param name="projectInfoReportModel">projectInfoReportModel</param>
+		private void SetTranslationMemories(XElement parent, ProjectInfoReportModel projectInfoReportModel)
+		{
+			var translationMemories = new XElement(Constants.TranslationMemories);
+			parent.Add(translationMemories);
+			if (projectInfoReportModel.TranslationMemories.Count == 0)
+			{
+				translationMemories.Add(new XElement(Constants.TranslationMemory, new XElement(Constants.Name, Constants.NoTranslationMemory)));
+			}
+			else
+			{
+				foreach (var translationMemory in projectInfoReportModel.TranslationMemories)
+				{
+					var fileName = Path.GetFileName(translationMemory.MainTranslationProvider.Uri.LocalPath);
+					translationMemories.Add(new XElement(Constants.TranslationMemory, new XElement(Constants.Name, fileName)));
+				}
+			}
+		}
+
+		/// <summary>
+		/// Set Termbases to report parent
+		/// </summary>
+		/// <param name="parent">report parent</param>
+		/// <param name="projectInfoReportModel">projectInfoReportModel</param>
+		private void SetTermbases(XElement parent, ProjectInfoReportModel projectInfoReportModel)
+		{
+			var termbases = new XElement(Constants.Termbases);
+			parent.Add(termbases);
+			if (projectInfoReportModel.Termbases.Count == 0)
+			{
+				termbases.Add(new XElement(Constants.Termbase, new XElement(Constants.Name, Constants.NoTermbase)));
+			}
+			else
+			{
+				foreach (var termbase in projectInfoReportModel.Termbases)
+				{
+					termbases.Add(new XElement(Constants.Termbase, new XElement(Constants.Name, termbase.Name)));
+				}
+			}
 		}
 		#endregion
 	}
