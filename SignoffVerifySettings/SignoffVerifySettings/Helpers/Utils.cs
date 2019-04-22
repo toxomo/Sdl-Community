@@ -38,14 +38,8 @@ namespace Sdl.Community.SignoffVerifySettings.Helpers
 				}
 
 				// get the number of assignees
-				var assigneesNumber = childNode.LastChild != null
-					? childNode.LastChild != null
-					? childNode.LastChild.LastChild != null
-					? childNode.LastChild.LastChild.ChildNodes.Count > 0
-					? childNode.LastChild.LastChild.ChildNodes.Count
-					: 0 : 0 : 0 : 0;
-
-				phaseXmlNodeModel.AssigneesNumber = assigneesNumber;
+				var assigneesNumber = childNode.LastChild?.LastChild?.ChildNodes.Count;
+				phaseXmlNodeModel.AssigneesNumber = assigneesNumber.GetValueOrDefault();
 				phaseXmlNodeModels.Add(phaseXmlNodeModel);
 			}
 		}
@@ -57,14 +51,13 @@ namespace Sdl.Community.SignoffVerifySettings.Helpers
 		/// <returns>RunAt value</returns>
 		public string GetRunAtValue(XmlDocument document)
 		{
-			var runAt = string.Empty;
 			// the first element is selected, because there is only one 'task' tag defined in the report structure
 			var taskInfoNode = document.GetElementsByTagName("taskInfo")[0];
 			if (taskInfoNode.Attributes.Count > 0)
 			{
-				runAt = taskInfoNode.Attributes["runAt"].Value;
+				return taskInfoNode.Attributes["runAt"].Value;
 			}
-			return runAt;
+			return string.Empty;
 		}
 
 		/// <summary>
@@ -97,7 +90,7 @@ namespace Sdl.Community.SignoffVerifySettings.Helpers
 		public string GetImagesUrl()
 		{
 			var studioVer = new Studio().GetStudioVersion();
-			var path = studioVer != null ? studioVer.InstallPath : string.Empty;
+			var path = studioVer?.InstallPath;
 
 			if (!string.IsNullOrEmpty(path))
 			{
