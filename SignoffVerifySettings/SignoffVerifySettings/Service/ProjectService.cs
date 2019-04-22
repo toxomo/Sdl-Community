@@ -28,7 +28,8 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		{
 			_utils = new Utils();
 			_projectsController = GetProjectController();
-			if(_projectsController != null)
+
+			if (_projectsController != null)
 			{
 				if(_projectsController.CurrentProject != null)
 				{
@@ -111,10 +112,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 					}
 				}
 			}
-			var sourceLangauge = currentProject.GetProjectInfo() != null ? currentProject.GetProjectInfo().SourceLanguage != null
-					? currentProject.GetProjectInfo().SourceLanguage.CultureInfo != null
-					? currentProject.GetProjectInfo().SourceLanguage.CultureInfo.Name
-					: string.Empty : string.Empty : string.Empty;
+			var sourceLangauge = currentProject.GetProjectInfo()?.SourceLanguage?.CultureInfo?.Name;		
 			_targetFiles = langFileXMLNodeModels.Where(l => l.LanguageCode != sourceLangauge).ToList();
 
 			return _targetFiles;
@@ -243,10 +241,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 		private void GetMaterialsInfo(FileBasedProject currentProject, ProjectInfoReportModel projectInfoReportModel)
 		{
 			// get CheckRexEx values
-			projectInfoReportModel.CheckRegexRules = _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='CheckRegEx']") != null
-				? _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='CheckRegEx']").FirstChild != null
-				? _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='CheckRegEx']").FirstChild.Value
-				: string.Empty : string.Empty;
+			projectInfoReportModel.CheckRegexRules = _document.SelectSingleNode($"//SettingsGroup/Setting[@Id='CheckRegEx']")?.FirstChild?.Value; 
 
 			// get translation memories & termbases used
 			projectInfoReportModel.TranslationMemories = currentProject.GetTranslationProviderConfiguration().Entries;
@@ -368,7 +363,7 @@ namespace Sdl.Community.SignoffVerifySettings.Service
 					var qaVerificationSettingsModel = new QAVerificationSettingsModel
 					{
 						Name = qaVerificationSetting.Attributes.Count > 0 ? qaVerificationSetting.Attributes["Id"].Value : string.Empty,
-						Value = qaVerificationSetting.FirstChild != null ? qaVerificationSetting.FirstChild.Value : string.Empty,
+						Value = qaVerificationSetting.FirstChild?.Value,
 						FileName = targetFile.FileName,
 						LanguagePair = $"{sourceLanguage} - {targetLanguage}"
 					};
