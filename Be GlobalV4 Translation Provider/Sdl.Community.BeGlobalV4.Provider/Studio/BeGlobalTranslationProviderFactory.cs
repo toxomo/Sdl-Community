@@ -10,6 +10,7 @@ namespace Sdl.Community.BeGlobalV4.Provider.Studio
 	public class BeGlobalTranslationProviderFactory : ITranslationProviderFactory
 	{
 		private string _url = "https://translate-api.sdlbeglobal.com";
+
 		public ITranslationProvider CreateTranslationProvider(Uri translationProviderUri, string translationProviderState,
 			ITranslationProviderCredentialStore credentialStore)
 		{
@@ -24,23 +25,15 @@ namespace Sdl.Community.BeGlobalV4.Provider.Studio
 				options.ClientSecret = splitedCredentials[1];
 				if (options.BeGlobalService == null)
 				{
-					options.BeGlobalService = new BeGlobalV4Translator(_url, options.ClientId, options.ClientSecret, options.Model, options.UseClientAuthentication);
+					options.BeGlobalService = new BeGlobalV4Translator(_url, options.ClientId, options.ClientSecret, options.Model,
+						options.UseClientAuthentication);
 				}
 			}
 			else
 			{
 				credentialStore.AddCredential(originalUri, new TranslationProviderCredential(originalUri.ToString(), true));
 			}
-
-			int accountId;
-			if (options.UseClientAuthentication)
-			{
-				accountId = options.BeGlobalService.GetClientInformation();
-			}
-			else
-			{
-				accountId = options.BeGlobalService.GetUserInformation();
-			}
+			var accountId = options.BeGlobalService.GetUserInformation();
 
 			var subscriptionInfo = options.BeGlobalService.GetLanguagePairs(accountId.ToString());
 			options.SubscriptionInfo = subscriptionInfo;

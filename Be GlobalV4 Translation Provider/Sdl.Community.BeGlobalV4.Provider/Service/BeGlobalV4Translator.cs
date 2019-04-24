@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Text;
+using System.Windows;
 using Newtonsoft.Json;
 using RestSharp;
 using Sdl.Community.BeGlobalV4.Provider.Model;
+using Sdl.Community.BeGlobalV4.Provider.Studio;
+using DataFormat = RestSharp.DataFormat;
 
 namespace Sdl.Community.BeGlobalV4.Provider.Service
 {
@@ -10,6 +13,7 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 	{
 		private readonly IRestClient _client;
 		private readonly string _flavor;
+		private readonly string _url = "https://translate-api.sdlbeglobal.com";
 
 		public BeGlobalV4Translator(
 			string server,
@@ -49,24 +53,25 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 			_client.AddDefaultHeader("Authorization", $"Bearer {json.accessToken}");
 		}
 
-		public int GetClientInformation()
+		public BeGlobalV4Translator(string flavor)
 		{
-			var request = new RestRequest("/accounts/api-credentials/self")
+			_flavor = flavor;
+			var studioCredentials = new StudioCredentials();
+			var accessToken = string.Empty;
+
+			//Application.Current?.Dispatcher?.Invoke(() =>
+			//{
+			//	accessToken = studioCredentials.GetToken();
+			//});
+			//accessToken = studioCredentials.GetToken();
+
+
+			_client = new RestClient($"{_url}/v4");
+
+			if (!string.IsNullOrEmpty(accessToken))
 			{
-				RequestFormat = DataFormat.Json
-			};
-			AddTraceId(request);
-			var response = _client.Execute(request);
-			var user = JsonConvert.DeserializeObject<UserDetails>(response.Content);
-			if (!response.IsSuccessful)
-			{
-				ShowErrors(response);
+				_client.AddDefaultHeader("Authorization", $"Bearer {accessToken}");
 			}
-			if (user != null)
-			{
-				return user.AccountId;
-			}
-			return 0;
 		}
 
 		public string TranslateText(string text, string sourceLanguage, string targetLanguage)
@@ -179,10 +184,9 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 			var response = _client.Execute(request);
 			return response;
 		}
-
 		private void AddTraceId(IRestRequest request)
 		{
-			request.AddHeader("Trace-ID", $"Studio2017_{Guid.NewGuid().ToString()}");
+			request.AddHeader("Trace-ID", $"Studio2019_{Guid.NewGuid().ToString()}");
 		}
 
 		private void ShowErrors(IRestResponse response)
