@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Net;
 using System.Text;
+using System.Windows;
 using Newtonsoft.Json;
 using RestSharp;
+using Sdl.Community.BeGlobalV4.Provider.Helpers;
 using Sdl.Community.BeGlobalV4.Provider.Model;
+using Sdl.Community.BeGlobalV4.Provider.Studio;
+using DataFormat = RestSharp.DataFormat;
 
 namespace Sdl.Community.BeGlobalV4.Provider.Service
 {
@@ -10,64 +15,28 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 	{
 		private readonly IRestClient _client;
 		private readonly string _flavor;
+		private readonly string _url = "https://translate-api.sdlbeglobal.com";
+		public static readonly Log Log = Log.Instance;
 
-		public BeGlobalV4Translator(
-			string server,
-			string user,
-			string password,
-			string flavor,
-			bool useClientAuthentication)
+		public BeGlobalV4Translator(string flavor)
 		{
 			_flavor = flavor;
+			var studioCredentials = new StudioCredentials();
+			var accessToken = string.Empty;
 
-			_client = new RestClient(string.Format($"{server}/v4"));
-			IRestRequest request;
-			if (useClientAuthentication)
+			Application.Current?.Dispatcher?.Invoke(() =>
 			{
-				request = new RestRequest("/token", Method.POST)
-				{
-					RequestFormat = DataFormat.Json
-				};
-				request.AddBody(new { clientId = user, clientSecret = password });
-			}
-			else
-			{
-				request = new RestRequest("/token/user", Method.POST)
-				{
-					RequestFormat = DataFormat.Json
-				};
-				request.AddBody(new { username = user, password = password });
-			}
-			AddTraceId(request);
-			request.RequestFormat = DataFormat.Json;
-			var response = _client.Execute(request);
-			if (response.StatusCode != System.Net.HttpStatusCode.OK)
-			{
-				throw new Exception("Acquiring token failed: " + response.Content);
-			}
-			dynamic json = JsonConvert.DeserializeObject(response.Content);
-			_client.AddDefaultHeader("Authorization", $"Bearer {json.accessToken}");
-		}
+				accessToken = studioCredentials.GetToken();
+			});
+			accessToken = studioCredentials.GetToken();
 
-		public int GetClientInformation()
-		{
-			var request = new RestRequest("/accounts/api-credentials/self")
-			{
-				RequestFormat = DataFormat.Json
-			};
-			AddTraceId(request);
 
-			var response = _client.Execute(request);
-			var user = JsonConvert.DeserializeObject<UserDetails>(response.Content);
-			if (!response.IsSuccessful)
+			_client = new RestClient($"{_url}/v4");
+
+			if (!string.IsNullOrEmpty(accessToken))
 			{
-				ShowErrors(response);
+				_client.AddDefaultHeader("Authorization", $"Bearer {accessToken}");
 			}
-			if (user != null)
-			{
-				return user.AccountId;
-			}
-			return 0;
 		}
 
 		public string TranslateText(string text,string sourceLanguage, string targetLanguage)
@@ -88,7 +57,7 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 				inputFormat = "xliff"
 			});
 			var response = _client.Execute(request);
-			if (!response.IsSuccessful)
+			if (!response.IsSuccessful || response.StatusCode != HttpStatusCode.OK)
 			{
 				ShowErrors(response);
 			}
@@ -110,11 +79,11 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 
 			var response = _client.Execute(request);
 			var user = JsonConvert.DeserializeObject<UserDetails>(response.Content);
-			if (!response.IsSuccessful)
+			if (!response.IsSuccessful || response.StatusCode != HttpStatusCode.OK)
 			{
 				ShowErrors(response);
 			}
-			return user != null ? user.AccountId : 0;
+			return user?.AccountId ?? 0;
 		}
 
 		public SubscriptionInfo GetLanguagePairs(string accountId)
@@ -126,7 +95,7 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 			AddTraceId(request);
 
 			var response = _client.Execute(request);
-			if (!response.IsSuccessful)
+			if (!response.IsSuccessful || response.StatusCode != HttpStatusCode.OK)
 			{
 				ShowErrors(response);
 			}
@@ -136,37 +105,44 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 
 		private byte[] WaitForTranslation(string id)
 		{
-			IRestResponse response;
-			string status;
-			do
+			try
 			{
-				response = RestGet($"/mt/translations/async/{id}");
-				if (!response.IsSuccessful)
+				IRestResponse response;
+				string status;
+				do
+				{
+					response = RestGet($"/mt/translations/async/{id}");
+					if (!response.IsSuccessful || response.StatusCode != HttpStatusCode.OK)
+					{
+						ShowErrors(response);
+					}
+
+					dynamic json = JsonConvert.DeserializeObject(response.Content);
+					status = json.translationStatus;
+
+					if (!status.Equals("DONE", StringComparison.CurrentCultureIgnoreCase))
+					{
+						System.Threading.Thread.Sleep(300);
+					}
+					if (status.Equals("FAILED"))
+					{
+						ShowErrors(response);
+					}
+				} while (status.Equals("INIT", StringComparison.CurrentCultureIgnoreCase) ||
+				         status.Equals("TRANSLATING", StringComparison.CurrentCultureIgnoreCase));
+
+				response = RestGet($"/mt/translations/async/{id}/content");
+				if (!response.IsSuccessful || response.StatusCode != HttpStatusCode.OK)
 				{
 					ShowErrors(response);
 				}
-
-				dynamic json = JsonConvert.DeserializeObject(response.Content);
-				status = json.translationStatus;
-
-				if (!status.Equals("DONE", StringComparison.CurrentCultureIgnoreCase))
-				{
-					System.Threading.Thread.Sleep(300);
-				}
-				if (status.Equals("FAILED"))
-				{
-					ShowErrors(response);
-
-				}
-			} while (status.Equals("INIT", StringComparison.CurrentCultureIgnoreCase) ||
-			         status.Equals("TRANSLATING", StringComparison.CurrentCultureIgnoreCase));
-
-			response = RestGet($"/mt/translations/async/{id}/content");
-			if (!response.IsSuccessful)
-			{
-				ShowErrors(response);
+				return response.RawBytes;
 			}
-			return response.RawBytes;
+			catch (Exception e)
+			{
+				Log.Logger.Error($"Wait for translation method: {e.Message}\n {e.StackTrace}");
+			}
+			return new byte[1];
 		}
 
 		private IRestResponse RestGet(string command)
@@ -182,7 +158,7 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 		}
 		private void AddTraceId(IRestRequest request)
 		{
-			request.AddHeader("Trace-ID", $"Studio2019_{Guid.NewGuid().ToString()}");
+			request.AddHeader("Trace-ID", $"Studio2019.{Guid.NewGuid().ToString()}");
 		}
 
 		private void ShowErrors(IRestResponse response)
@@ -194,6 +170,11 @@ namespace Sdl.Community.BeGlobalV4.Provider.Service
 				{
 					throw new Exception($"Error code: {error.Code}, {error.Description}");
 				}
+			}
+			if (response.StatusCode == HttpStatusCode.Forbidden)
+			{
+				MessageBox.Show("Forbidden: Please check your license", string.Empty, MessageBoxButton.OK);
+				throw new Exception("Forbidden: Please check your license");
 			}
 		}
 	}

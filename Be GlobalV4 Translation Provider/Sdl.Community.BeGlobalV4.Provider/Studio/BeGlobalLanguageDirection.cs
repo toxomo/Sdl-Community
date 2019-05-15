@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Windows;
 using Sdl.Community.BeGlobalV4.Provider.Helpers;
 using Sdl.Community.Toolkit.LanguagePlatform.XliffConverter;
 using Sdl.Core.Globalization;
@@ -17,13 +19,13 @@ namespace Sdl.Community.BeGlobalV4.Provider.Studio
 		private readonly BeGlobalTranslationProvider _beGlobalTranslationProvider;
 		private readonly BeGlobalTranslationOptions _options;
 		private readonly LanguagePair _languageDirection;
-		private TranslationUnit _inputTu;
+		private List<TranslationUnit> _translationUnits;
 		private readonly NormalizeSourceTextHelper _normalizeSourceTextHelper;
-
 		public ITranslationProvider TranslationProvider => _beGlobalTranslationProvider;
 		public CultureInfo SourceLanguage { get; }
 		public CultureInfo TargetLanguage { get; }
 		public bool CanReverseLanguageDirection { get; }
+		private readonly StudioCredentials _studioCredentials = new StudioCredentials();
 
 		public BeGlobalLanguageDirection(BeGlobalTranslationProvider beGlobalTranslationProvider,LanguagePair languageDirection)
 		{
@@ -31,28 +33,23 @@ namespace Sdl.Community.BeGlobalV4.Provider.Studio
 			_languageDirection = languageDirection;
 			_options = beGlobalTranslationProvider.Options;
 			_normalizeSourceTextHelper = new NormalizeSourceTextHelper();
+			_translationUnits = new List<TranslationUnit>();
 		}
 
 		public SearchResults SearchSegment(SearchSettings settings, Segment segment)
 		{
-			var translation = TranslateSegments(new [] { segment }).First();
-			var results = new SearchResults();
-			if (!_options.ResendDrafts && _inputTu.ConfirmationLevel != ConfirmationLevel.Unspecified)
-			{
-				translation.Add(PluginResources.TranslationLookupDraftNotResentMessage);
-				//later get these strings from resource file
-				results.Add(CreateSearchResult(segment, translation));
-				return results;
-			}
-			if (translation == null) return new SearchResults();
-
-			results.SourceSegment = segment.Duplicate();
-			results.Add(CreateSearchResult(segment, translation));
-			return results;
+			return null;
 		}
 
 		private Segment[] TranslateSegments(Segment[] sourceSegments)
 		{
+			//maybe the user logged out since the provider was added or the token expired
+
+			Application.Current?.Dispatcher?.Invoke(() =>
+			{
+				_studioCredentials.GetToken();
+			});
+
 			var xliffDocument = CreateXliffFile(sourceSegments);
 
 			var sourceLanguage =
@@ -60,7 +57,9 @@ namespace Sdl.Community.BeGlobalV4.Provider.Studio
 			var targetLanguage =
 				_normalizeSourceTextHelper.GetCorespondingLangCode(_languageDirection.TargetCulture);
 
-			var translatedXliffText = WebUtility.UrlDecode(_options.BeGlobalService.TranslateText(xliffDocument.ToString(),sourceLanguage,targetLanguage));
+			var translatedXliffText =
+				WebUtility.UrlDecode(
+					_options.BeGlobalService.TranslateText(xliffDocument.ToString(), sourceLanguage, targetLanguage));
 
 			var translatedXliff = Converter.ParseXliffString(translatedXliffText);
 			if (translatedXliff != null)
@@ -152,7 +151,6 @@ namespace Sdl.Community.BeGlobalV4.Provider.Studio
 			// Need this vs having mask parameter default to null as inheritence doesn't allow default values to
 			// count as the same thing as having no parameter at all. IE, you can't have
 			// public string foo(string s = null) override public string foo().
-
 			return SearchSegments(settings, segments, null);
 		}
 
@@ -194,13 +192,14 @@ namespace Sdl.Community.BeGlobalV4.Provider.Studio
 
 		public SearchResults SearchTranslationUnit(SearchSettings settings, TranslationUnit translationUnit)
 		{
-			_inputTu = translationUnit;
 			return SearchSegment(settings, translationUnit.SourceSegment);
 		}
 
 		public SearchResults[] SearchTranslationUnits(SearchSettings settings, TranslationUnit[] translationUnits)
 		{
-			throw new NotImplementedException();
+			_translationUnits.Clear();
+			_translationUnits.AddRange(translationUnits);
+			return null;
 		}
 
 		public SearchResults[] SearchTranslationUnitsMasked(SearchSettings settings, TranslationUnit[] translationUnits,
