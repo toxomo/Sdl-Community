@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\CommandHandler.cs" />
+    <Compile Include="Model\ViewModelBase.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
