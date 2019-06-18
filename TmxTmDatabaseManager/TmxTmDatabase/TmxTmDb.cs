@@ -1,29 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace TmxTmDatabase
 {
-    public class TmxTmDb
+	public class TmxTmDb
     {
 		private string _url = "mongodb://localhost:27017";
+		public IGridFSBucket bucket;
 
 		/// <summary>
 		/// Insert TMX file to MongoDb TmxTmDatabase
 		/// </summary>
-		public void InsertFile(string filePath)
+		public async Task InsertFile(string filePath)
 		{
-			var client = new MongoDB.Driver.MongoClient(_url);
+			var client = new MongoClient(_url);
 			// If TmxTmDatabase does not exists, it is created automatically
 			var db = client.GetDatabase("TmxTmDatabase");
-			var mongoGridFS = new MongoGridFS(db);
 
-			//using (var fs = new FileStream(filePath, FileMode.Open))
-			//{
-			//	var gridFsInfo = db.
-			//}
+			var fileBytes = File.ReadAllBytes(filePath);
+			var fileName = Path.GetFileNameWithoutExtension(filePath);
+			var id = await bucket.UploadFromBytesAsync(fileName, fileBytes, null);
 		}
 
 		/// <summary>

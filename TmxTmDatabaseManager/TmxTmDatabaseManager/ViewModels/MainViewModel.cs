@@ -16,7 +16,7 @@ namespace TmxTmDatabaseManager.ViewModels
 
 		public ICommand OpenDialogCommand => _openDialogCommand ?? (_openDialogCommand = new CommandHandler(OpenDialog, true));
 
-		private void OpenDialog()
+		private async void OpenDialog()
 		{
 			var dlg = new OpenFileDialog();
 			dlg.DefaultExt = ".tmx";
@@ -27,7 +27,7 @@ namespace TmxTmDatabaseManager.ViewModels
 			{
 				foreach (var file in dlg.FileNames)
 				{
-					_tmxTmDb.InsertFile(file);
+					await _tmxTmDb.InsertFile(file);
 				}
 			}
 		}

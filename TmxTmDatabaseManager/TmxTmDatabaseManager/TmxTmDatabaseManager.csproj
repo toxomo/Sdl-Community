@@ -56,8 +56,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\CommandHandler.cs" />
-    <Compile Include="Helpers\FolderSelectDialog.cs" />
-    <Compile Include="Helpers\Reflector.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -103,6 +101,9 @@
       <Project>{53aaacab-d40e-45b7-b67d-7e9dc4dc5b9e}</Project>
       <Name>TmxTmDatabase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
