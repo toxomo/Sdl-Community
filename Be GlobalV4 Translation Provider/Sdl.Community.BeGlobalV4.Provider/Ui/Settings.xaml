@@ -9,9 +9,9 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="../UiHelpers/TextBlockStyle.xaml"></ResourceDictionary>
-				<ResourceDictionary Source="../UiHelpers/TextBoxStyle.xaml"></ResourceDictionary>
-				<ResourceDictionary Source="../UiHelpers/ButtonsStyle.xaml"></ResourceDictionary>
+				<ResourceDictionary Source="../UiHelpers/TextBlockStyle.xaml"/>
+				<ResourceDictionary Source="../UiHelpers/TextBoxStyle.xaml"/>
+				<ResourceDictionary Source="../UiHelpers/ButtonsStyle.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
@@ -23,15 +23,13 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<TextBlock  Margin="10,10,0,10"  Grid.Row="0" TextWrapping="WrapWithOverflow" Style="{DynamicResource TextBlockColor}">Please select
-			the settings you want to apply to the Translation Provider.	You must be logged in to make this selection.
-		</TextBlock>
-		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="DarkRed" Margin="10,0,0,0" Visibility="{Binding MessageVisibility}">Please verify your credentials </TextBlock>
+		<TextBlock  Margin="10,10,0,10"  Grid.Row="0" TextWrapping="WrapWithOverflow" Style="{DynamicResource TextBlockColor}" 
+					Text="Please select the settings you want to apply to the Translation Provider.	You must be logged in to make this selection."/>
+		<TextBlock Grid.Row="1" Grid.Column="0" Foreground="DarkRed" Margin="10,0,0,0" Visibility="{Binding MessageVisibility}" Text="Please verify your credentials"/>
 
-		<CheckBox Margin="10,10,0,10" Grid.Row="2" FontFamily="Segoe UI" IsChecked="{Binding ReSendChecked}">Re-send draft and translated segments</CheckBox>
-		<TextBlock  Margin="10,10,0,10"  Grid.Row="3" TextWrapping="WrapWithOverflow" Style="{DynamicResource TextBlockColor}">
-			Please select engine model : 
-		</TextBlock>
+		<CheckBox Margin="10,10,0,10" Grid.Row="2" FontFamily="Segoe UI" IsChecked="{Binding ReSendChecked}" Content="Re-send draft and translated segments"/>
+		<TextBlock  Margin="10,10,0,10"  Grid.Row="3" TextWrapping="WrapWithOverflow" Style="{DynamicResource TextBlockColor}" Text="Please select engine model :"/>
+		
 		<ComboBox 
 			Grid.Row="4"  HorizontalAlignment="Left"
 			Width="240"
