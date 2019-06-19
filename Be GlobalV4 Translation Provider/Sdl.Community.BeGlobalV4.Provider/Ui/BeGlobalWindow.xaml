@@ -23,9 +23,9 @@
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-				<ResourceDictionary Source="../UiHelpers/ButtonsStyle.xaml"></ResourceDictionary>
-				<ResourceDictionary Source="../UiHelpers/TextBlockStyle.xaml"></ResourceDictionary>
-				<ResourceDictionary Source="../UiHelpers/TextBoxStyle.xaml"></ResourceDictionary>
+				<ResourceDictionary Source="../UiHelpers/ButtonsStyle.xaml"/>
+				<ResourceDictionary Source="../UiHelpers/TextBlockStyle.xaml"/>
+				<ResourceDictionary Source="../UiHelpers/TextBoxStyle.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Window.Resources>
@@ -62,10 +62,10 @@
 		            controls:TabControlHelper.UnderlineMouseOverBrush="#0E202B" Foreground="#0E202B"
 		             >
 			<controls:MetroTabItem Header="Login" Margin="10,0,0,0" Width="100">
-				<views:Login x:Name="LoginTab" DataContext="{Binding LoginViewModel}" ></views:Login>
+				<views:Login x:Name="LoginTab" DataContext="{Binding LoginViewModel}" />
 			</controls:MetroTabItem>
 			<controls:MetroTabItem Header="Settings" Margin="25,0,0,0" Width="150">
-				<views:Settings DataContext="{Binding SettingsViewModel}" Height="300"></views:Settings>
+				<views:Settings DataContext="{Binding SettingsViewModel}" Height="300"/>
 			</controls:MetroTabItem>
 		</TabControl>
 
