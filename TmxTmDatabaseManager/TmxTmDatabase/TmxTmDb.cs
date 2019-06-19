@@ -9,7 +9,6 @@ namespace TmxTmDatabase
 	public class TmxTmDb
     {
 		private string _url = "mongodb://localhost:27017";
-		public IGridFSBucket bucket;
 
 		/// <summary>
 		/// Insert TMX file to MongoDb TmxTmDatabase
@@ -19,6 +18,7 @@ namespace TmxTmDatabase
 			var client = new MongoClient(_url);
 			// If TmxTmDatabase does not exists, it is created automatically
 			var db = client.GetDatabase("TmxTmDatabase");
+			var bucket = new GridFSBucket(db);
 
 			var fileBytes = File.ReadAllBytes(filePath);
 			var fileName = Path.GetFileNameWithoutExtension(filePath);
