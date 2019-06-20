@@ -59,7 +59,7 @@ namespace TmxTmDatabaseManager.ViewModels
 		private async void InsertFile()
 		{
 			var filePaths = SelectedFilePaths.Split(';');
-			foreach(var filePath in filePaths)
+			foreach (var filePath in filePaths)
 			{
 				await _tmxTmDb.InsertFile(filePath);
 			}
