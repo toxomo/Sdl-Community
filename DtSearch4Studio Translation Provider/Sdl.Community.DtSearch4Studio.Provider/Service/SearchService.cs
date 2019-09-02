@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using dtSearch.Engine;
@@ -70,7 +71,8 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 				    searchJob.Execute(searchResults);
 				
 					searchResults.GetNthDoc(searchResults.CurrentItem.DocId);
-					word.DocumentName = searchResults.CurrentItem?.DisplayName;					
+					word.DocumentName = searchResults.CurrentItem?.DisplayName;
+					word.IndexName = Path.GetFileName(indexPath);
 				}
 			}
 		}
@@ -81,7 +83,7 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 			searchSegment.Add(sourceSegmentText);
 			var translationSegment = new Segment(_targetLanguage);
 			// this will be changed when the word.DocumentName will be added into a separate column to Translation Memory results window
-			translationSegment.Add($"{word.Word} found in: {word.DocumentName}");
+			translationSegment.Add($"Translation: {word.Word}; File name: {word.DocumentName}, Index name: {word.IndexName}");
 
 			var unit = new TranslationUnit
 			{

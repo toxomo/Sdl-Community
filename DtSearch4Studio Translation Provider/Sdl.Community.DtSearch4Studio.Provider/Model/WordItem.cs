@@ -8,6 +8,7 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Model
 		public string Word { get; set; }
 		public string Detail { get; set; }
 		public string DocumentName { get; set; }
+		public string IndexName { get; set; }
 
 		//HitCount represents how many times the word was used
 		public int HitCount { get; set; }
