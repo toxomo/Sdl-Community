@@ -42,7 +42,7 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 		{
 			var wordListBuilder = new WordListBuilder();
 			wordListBuilder.OpenIndex(indexPath);
-			wordListBuilder.ListWords(segment, 6);
+			wordListBuilder.ListWords(segment, 5);
 
 			var words = new List<WordItem>();
 			for (int i = 0; i < wordListBuilder.Count; ++i)
@@ -76,6 +76,7 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 				    searchJob.Execute(searchResults);
 				
 					searchResults.GetNthDoc(searchResults.CurrentItem.DocId);
+					// the below values will be used to display in separate columns to Translation Results window
 					word.DocumentName = searchResults.CurrentItem?.DisplayName;
 					word.IndexName = Path.GetFileName(indexPath);
 				}
@@ -87,8 +88,7 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 			var searchSegment = new Segment(_sourceLanguage);
 			searchSegment.Add(sourceSegmentText);
 			var translationSegment = new Segment(_targetLanguage);
-			// this will be changed when the word.DocumentName will be added into a separate column to Translation Memory results window
-			translationSegment.Add($"Translation: {word.Word}; File name: {word.DocumentName}, Index name: {word.IndexName}");
+			translationSegment.Add(word.Word);
 
 			var unit = new TranslationUnit
 			{
