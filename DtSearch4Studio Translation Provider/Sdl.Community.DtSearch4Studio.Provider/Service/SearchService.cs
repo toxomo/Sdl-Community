@@ -25,6 +25,11 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 		#endregion
 
 		#region Constructors
+		public SearchService()
+		{
+
+		}
+
 		public SearchService(CultureInfo sourceLanguage, CultureInfo targetLanguage)
 		{
 			_sourceLanguage = sourceLanguage;
