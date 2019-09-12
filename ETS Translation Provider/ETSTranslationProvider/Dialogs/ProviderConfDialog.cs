@@ -72,7 +72,7 @@ namespace ETSTranslationProvider
 
 		private void PopulateCredentials()
 		{
-			var uri = BuildUri();
+			var uri = GetUri();
 			if (uri == null)
 			{
 				return;
@@ -97,8 +97,18 @@ namespace ETSTranslationProvider
 			}
 		}
 
-		private Uri BuildUri()
+		private Uri GetUri()
 		{
+            //try to take the credentials from the project if there are any
+			try
+			{
+				return Options.Uri;
+			}
+			catch (Exception e)
+			{
+				Log.Logger.Error(e);
+			}
+
 			// If the port is not a number or out of port range, don't build the URI
 			int? port = GetPort();
 			if (!port.HasValue)
