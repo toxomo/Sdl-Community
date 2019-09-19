@@ -70,6 +70,14 @@
       <HintPath>..\packages\Sdl.Core.PluginFramework.1.8.0\lib\net45\Sdl.Core.PluginFramework.PackageSupport.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Sdl.Desktop.IntegrationApi">
+      <HintPath>$(ProgramFiles)\SDL\SDL Trados Studio\Studio15\Sdl.Desktop.IntegrationApi.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sdl.Desktop.IntegrationApi.Extensions">
+      <HintPath>$(ProgramFiles)\SDL\SDL Trados Studio\Studio15\Sdl.Desktop.IntegrationApi.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Sdl.Desktop.Platform.Styles">
       <HintPath>$(ProgramFiles)\SDL\SDL Trados Studio\Studio15\Sdl.Desktop.Platform.Styles.dll</HintPath>
       <Private>False</Private>
@@ -89,6 +97,10 @@
     <Reference Include="Sdl.LanguagePlatform.TranslationMemoryApi">
       <Private>False</Private>
       <HintPath>$(ProgramFiles)\SDL\SDL Trados Studio\Studio15\Sdl.LanguagePlatform.TranslationMemoryApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Sdl.TranslationStudioAutomation.IntegrationApi">
+      <HintPath>$(ProgramFiles)\SDL\SDL Trados Studio\Studio15\Sdl.TranslationStudioAutomation.IntegrationApi.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -130,6 +142,7 @@
     <Compile Include="Service\MessageBoxService.cs" />
     <Compile Include="Service\PersistenceService.cs" />
     <Compile Include="Service\SearchService.cs" />
+    <Compile Include="Studio\dtSearch4StudioProviderAction.cs" />
     <Compile Include="Studio\DtSearch4StudioWinFormsUI.cs" />
     <Compile Include="Studio\DtSearch4StudioLanguageDirection.cs" />
     <Compile Include="Studio\DtSearch4StudioProvider.cs" />

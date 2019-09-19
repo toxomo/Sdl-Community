@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using dtSearch.Engine;
 using Sdl.Community.DtSearch4Studio.Provider.Helpers;
 using Sdl.Community.DtSearch4Studio.Provider.Model;
@@ -38,50 +39,79 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 		#endregion
 
 		#region Public Methods		
-		public List<WordItem> GetResults(string indexPath, string segment)
-		{
-			var wordListBuilder = new WordListBuilder();
-			wordListBuilder.OpenIndex(indexPath);
-			wordListBuilder.ListWords(segment, 5);
+		//public List<WordItem> GetResults(string indexPath, string segment)
+		//{
+		//	var wordListBuilder = new WordListBuilder();
+		//	wordListBuilder.OpenIndex(indexPath);
+		//	wordListBuilder.ListWords(segment, 5);
 
+		//	var words = new List<WordItem>();
+		//	for (int i = 0; i < wordListBuilder.Count; ++i)
+		//	{
+		//		var item = new WordItem();
+		//		item.MakeFromWordListBuilder(wordListBuilder, i);
+		//		if (item.HitCount > 0)
+		//		{
+		//			words.Add(item);
+		//		}
+		//	}
+
+		//	foreach (var word in words)
+		//	{
+		//		AddWordDetails(word, indexPath);
+		//	}
+		//	return words;
+		//}
+
+		//public void AddWordDetails(WordItem word, string indexPath)
+		//{
+		//	using (var searchResults = new dtSearch.Engine.SearchResults())
+		//	{
+		//		using (var searchJob = new SearchJob())
+		//		{
+		//			searchJob.IndexesToSearch.Add(indexPath);
+		//			searchJob.Request = word.Word;
+		//			searchJob.MaxFilesToRetrieve = 100;
+		//			searchJob.AutoStopLimit = 100000;
+		//			searchJob.SearchFlags = SearchFlags.dtsSearchTypeAllWords;
+		//		    searchJob.Execute(searchResults);
+
+		//			searchResults.GetNthDoc(searchResults.CurrentItem.DocId);
+		//			// the below values will be used to display in separate columns to Translation Results window
+		//			word.DocumentName = searchResults.CurrentItem?.DisplayName;
+		//			word.IndexName = Path.GetFileName(indexPath);
+		//		}
+		//	}
+		//}
+
+		public List<WordItem> GetResults(string indexPath, string text)
+		{
 			var words = new List<WordItem>();
-			for (int i = 0; i < wordListBuilder.Count; ++i)
-			{
-				var item = new WordItem();
-				item.MakeFromWordListBuilder(wordListBuilder, i);
-				if (item.HitCount > 0)
-				{
-					words.Add(item);
-				}
-			}
-
-			foreach (var word in words)
-			{
-				AddWordDetails(word, indexPath);
-			}
-			return words;
-		}
-
-		public void AddWordDetails(WordItem word, string indexPath)
-		{
 			using (var searchResults = new dtSearch.Engine.SearchResults())
 			{
 				using (var searchJob = new SearchJob())
 				{
 					searchJob.IndexesToSearch.Add(indexPath);
-					searchJob.Request = word.Word;
+					searchJob.Request = text;
 					searchJob.MaxFilesToRetrieve = 100;
 					searchJob.AutoStopLimit = 100000;
-					searchJob.SearchFlags = SearchFlags.dtsSearchTypeAllWords;
-				    searchJob.Execute(searchResults);
-				
-					searchResults.GetNthDoc(searchResults.CurrentItem.DocId);
-					// the below values will be used to display in separate columns to Translation Results window
-					word.DocumentName = searchResults.CurrentItem?.DisplayName;
-					word.IndexName = Path.GetFileName(indexPath);
+					// dtSearch UI options/settings can be set like this-> 	searchJob.SearchFlags |= SearchFlags.dtsSearchStemming;
+
+					var ok = searchJob.Execute(searchResults);
+					if(ok)
+					{
+						var hasResults = searchResults.GetNthDoc(0);
+						//to do: use the currentItem to set the add in words, each wordTranslation which will be returned from the dtSearch SearchJob
+					}
+					else
+					{
+						MessageBox.Show($"No results found for searched text: {text}", string.Empty, MessageBoxButton.OK, MessageBoxImage.Information);
+					}					
 				}
 			}
+			return words;
 		}
+
 
 		public SearchResult CreateSearchResult(WordItem word, string sourceSegmentText)
 		{
