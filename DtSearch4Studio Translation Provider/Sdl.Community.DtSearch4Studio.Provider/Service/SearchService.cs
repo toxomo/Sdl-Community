@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using dtSearch.Engine;
 using Sdl.Community.DtSearch4Studio.Provider.Helpers;
@@ -100,7 +97,8 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 					var ok = searchJob.Execute(searchResults);
 					if(ok)
 					{
-						var hasResults = searchResults.GetNthDoc(0);
+						var result = ProcessSearchResults(searchResults);
+						//var hasResults = searchResults.GetNthDoc(0);
 						//to do: use the currentItem to set the add in words, each wordTranslation which will be returned from the dtSearch SearchJob
 					}
 					else
@@ -111,8 +109,7 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 			}
 			return words;
 		}
-
-
+		
 		public SearchResult CreateSearchResult(WordItem word, string sourceSegmentText)
 		{
 			var searchSegment = new Segment(_sourceLanguage);
@@ -135,7 +132,52 @@ namespace Sdl.Community.DtSearch4Studio.Provider.Service
 
 			return searchResult;		
 		}
+		#endregion
 
+		#region Private Methods
+		private string ProcessSearchResults(dtSearch.Engine.SearchResults searchResults)
+		{
+			//using (var fc = new FileConverter())
+			//{
+			//	if (SetupFileConverter(fc, searchResults, 0))
+			//	{
+			//		fc.Execute();
+			//		if (!fc.Failed())
+			//		{
+			//			return fc.OutputString;
+			//		}
+			//	}
+			//}
+			return string.Empty;
+		}
+
+		//private bool SetupFileConverter(FileConverter fc, dtSearch.Engine.SearchResults results, int ordinalInResults)
+		//{
+		//	if (!fc.SetInputItem(results, ordinalInResults))
+		//	{
+		//		return false;
+		//	}
+		//	fc.DocTypeTag = "<!DOCTYPE html>";
+		//	fc.Footer = string.Empty;
+		//	//fc.Footer = "<hr><i>" + fc.InputFile + "</i>";
+		//	// DocScript is used to implement hit navigation, and DocStyles defines certain
+		//	// standard CSS styles to format the output.
+		//	string script = Constants.DocScript.Replace("%HITCOUNT%", fc.Hits.Length.ToString());
+		//	fc.HtmlHead = script + Constants.DocStyles;
+		//	string baseRef = fc.InputFile;
+		//	fc.BaseHRef = baseRef;
+		//	fc.BeforeHit = "<span id=\"hit%%ThisHit%%\" style=\"background-color: #FFFF00;\">";
+		//	fc.AfterHit = "</span>";
+		//	fc.OutputToString = true;
+		//	// Use the styles in DocStyles to format output
+		//	fc.Flags = fc.Flags | ConvertFlags.dtsConvertUseStyles |
+		//			// Update search hits if the index is out of date
+		//			ConvertFlags.dtsConvertAutoUpdateSearch |
+		//			// Disable JavaScript in input HTML
+		//			ConvertFlags.dtsConvertRemoveScripts;
+		//	fc.OutputFormat = OutputFormat.itHTML;
+		//	return true;
+		//}
 		#endregion
 	}
 }
